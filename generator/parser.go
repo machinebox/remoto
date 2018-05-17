@@ -1,4 +1,4 @@
-package parser
+package generator
 
 import (
 	"fmt"
@@ -62,6 +62,12 @@ func Parse(dir string) (Definition, error) {
 		case *types.Interface:
 			service, err := parseService(fset, pkg.Scope(), &def, obj, v)
 			if err != nil {
+				for sub, tip := range tips {
+					if strings.Contains(err.Error(), sub) {
+						err = errors.New(err.Error() + ": " + tip)
+						break
+					}
+				}
 				return def, err
 			}
 			def.Services = append(def.Services, service)
@@ -74,6 +80,14 @@ func Parse(dir string) (Definition, error) {
 type Definition struct {
 	Services []Service
 	comments map[string]string
+}
+
+func (d Definition) String() string {
+	var s string
+	for i := range d.Services {
+		s += d.Services[i].String() + "\n"
+	}
+	return s
 }
 
 // Service describes a logically grouped set of endpoints.
@@ -100,11 +114,11 @@ func (s Service) String() string {
 	if s.Comment != "" {
 		str += "// " + s.Comment
 	}
-	str += "type " + s.Name + " struct {\n"
+	str += "type " + s.Name + " interface {\n"
 	for i := range s.Methods {
 		str += "\t" + s.Methods[i].String() + "\n"
 	}
-	str += "}\n"
+	str += "}\n\n"
 	for i := range s.Structures {
 		str += s.Structures[i].String()
 	}
@@ -122,7 +136,7 @@ type Method struct {
 func (m Method) String() string {
 	var str string
 	if m.Comment != "" {
-		str += "// " + m.Comment
+		str += "// " + m.Comment + "/n"
 	}
 	str += m.Name + "(context.Context, *" + m.Request + ") (*" + m.Response + ", error)\n"
 	return str
@@ -144,18 +158,33 @@ func (s Structure) String() string {
 	for i := range s.Fields {
 		str += "\t" + s.Fields[i].String() + "\n"
 	}
-	str += "}\n"
+	str += "}\n\n"
 	return str
 }
 
 // Field describes a structure field.
 type Field struct {
 	Name string
-	Type string
+	Type Type
 }
 
 func (f Field) String() string {
-	return fmt.Sprintf("%s %s", f.Name, f.Type)
+	return fmt.Sprintf("%s %s", f.Name, f.Type.code())
+}
+
+// Type describes the type of a Field.
+type Type struct {
+	Name     string
+	IsSlice  bool
+	IsStruct bool
+}
+
+func (t Type) code() string {
+	str := t.Name
+	if t.IsSlice {
+		str = "[]" + str
+	}
+	return str
 }
 
 func parseService(fset *token.FileSet, scope *types.Scope, def *Definition, obj types.Object, v *types.Interface) (Service, error) {
@@ -179,7 +208,13 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 		Name:    m.Name(),
 		Comment: def.comments[m.Name()],
 	}
+	if !m.Exported() {
+		return method, newErr(fset, m.Pos(), "method "+m.Name()+": must be exported")
+	}
 	sig := m.Type().(*types.Signature)
+	if sig.Variadic() {
+		return method, newErr(fset, m.Pos(), "service methods must have signature (context.Context, *Request) (*Response, error)")
+	}
 	params := sig.Params()
 	// process input arguments
 	if params.Len() != 2 || params.At(0).Type().String() != "context.Context" {
@@ -236,7 +271,7 @@ func parseStructure(fset *token.FileSet, scope *types.Scope, def *Definition, sr
 	structure.Comment = def.comments[structure.Name]
 	st, ok := obj.Type().Underlying().(*types.Struct)
 	if !ok {
-		return structure, newErr(fset, obj.Pos(), obj.Type().String()+" object must be a pointer to a struct")
+		return structure, newErr(fset, obj.Pos(), obj.Type().String()+" field must be a pointer to a struct")
 	}
 	for i := 0; i < st.NumFields(); i++ {
 		field, err := parseField(fset, scope, def, srv, st.Field(i))
@@ -253,14 +288,17 @@ func parseField(fset *token.FileSet, scope *types.Scope, def *Definition, srv *S
 	if !v.IsField() {
 		return field, newErr(fset, v.Pos(), v.Name()+" not a field")
 	}
-	typeName, isStruct, err := resolveTypeName(v.Type())
+	if !v.Exported() {
+		return field, newErr(fset, v.Pos(), "field "+v.Name()+": must be exported")
+	}
+	typ, err := resolveTypeName(v.Type())
 	if err != nil {
 		return field, newErr(fset, v.Pos(), err.Error())
 	}
 	field.Name = v.Name()
-	field.Type = typeName
-	if isStruct {
-		obj := scope.Lookup(typeName)
+	field.Type = typ
+	if typ.IsStruct {
+		obj := scope.Lookup(typ.Name)
 		structure, err := parseStructure(fset, scope, def, srv, obj)
 		if err != nil {
 			return field, err
@@ -280,14 +318,25 @@ func nakedType(other *types.Package) string {
 	return ""
 }
 
-func resolveTypeName(typ types.Type) (string, bool, error) {
-	typeName := types.TypeString(typ, nakedType)
+func resolveTypeName(typ types.Type) (Type, error) {
+	var ty Type
+	slice, ok := typ.(*types.Slice)
+	if ok {
+		ty.IsSlice = true
+		typ = slice.Elem()
+	}
+	ty.Name = types.TypeString(typ, nakedType)
 	if _, ok := typ.Underlying().(*types.Struct); ok {
-		return typeName, true, nil
+		ty.IsStruct = true
+		return ty, nil
 	}
-	switch typeName {
-	case "string", "float64", "int64", "bool":
-		return typeName, false, nil
+	switch ty.Name {
+	case "string", "float64", "int32", "int64", "bool":
+		return ty, nil
 	}
-	return "", false, errors.New("type " + typeName + " not supported")
+	return ty, errors.New("type " + ty.Name + " not supported")
+}
+
+var tips = map[string]string{
+	" int ": "use explicitly sized types int32 or int64",
 }

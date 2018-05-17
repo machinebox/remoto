@@ -4,8 +4,8 @@ import "context"
 
 // Greeter provides greeting services.
 type Greeter interface {
-	// Greet generates a greeting.
-	Greet(context.Context, *GreetRequest) (*GreetResponse, error)
+	// greet generates a greeting.
+	greet(context.Context, *GreetRequest) (*GreetResponse, error)
 }
 
 // GreetRequest is the request for Greeter.GreetRequest.
