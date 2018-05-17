@@ -18,7 +18,7 @@ func TestParser(t *testing.T) {
 
 }
 
-func XTestErrors(t *testing.T) {
+func TestErrors(t *testing.T) {
 	is := is.New(t)
 	tests := map[string]string{
 		"testdata/errors/too-many-args":        "greeter.rpc.go:6:2: service methods must have signature (context.Context, *Request) (*Response, error)",
