@@ -1,21 +1,22 @@
 package generator
 
 import (
+	"log"
 	"os"
 	"testing"
 
 	"github.com/matryer/is"
 )
 
-// func TestParser(t *testing.T) {
-// 	is := is.New(t)
+func TestParser(t *testing.T) {
+	is := is.New(t)
 
-// 	def, err := Parse("testdata")
-// 	is.NoErr(err)
+	def, err := Parse("testdata")
+	is.NoErr(err)
 
-// 	log.Println(def)
+	log.Println(def)
 
-// }
+}
 
 func TestErrors(t *testing.T) {
 	is := is.New(t)
