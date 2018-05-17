@@ -70,11 +70,13 @@ func Parse(dir string) (Definition, error) {
 	return def, nil
 }
 
+// Definition is the definition of one or more services.
 type Definition struct {
 	Services []Service
 	comments map[string]string
 }
 
+// Service describes a logically grouped set of endpoints.
 type Service struct {
 	Name       string
 	Comment    string
@@ -109,6 +111,7 @@ func (s Service) String() string {
 	return str
 }
 
+// Method is a single method.
 type Method struct {
 	Name     string
 	Comment  string
@@ -125,6 +128,7 @@ func (m Method) String() string {
 	return str
 }
 
+// Structure describes a data structure.
 type Structure struct {
 	Name    string
 	Comment string
@@ -144,6 +148,7 @@ func (s Structure) String() string {
 	return str
 }
 
+// Field describes a structure field.
 type Field struct {
 	Name string
 	Type string
