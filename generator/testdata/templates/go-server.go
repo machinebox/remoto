@@ -1,2 +1,0 @@
-pacakge {{ .Package }}
-
