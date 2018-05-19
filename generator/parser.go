@@ -35,6 +35,7 @@ func Parse(dir string) (Definition, error) {
 		return def, errors.New("multiple packages found: " + strings.Join(pkgNames, ", "))
 	}
 	firstPkg := pkgs[pkgNames[0]]
+	def.PackageName = pkgNames[0]
 	files := make([]*ast.File, 0, len(firstPkg.Files))
 	for _, file := range firstPkg.Files {
 		files = append(files, file)
@@ -47,6 +48,7 @@ func Parse(dir string) (Definition, error) {
 	}
 	for _, f := range files {
 		for _, comment := range f.Comments {
+			// TODO(matryer): use a technique that can get comments for methods too.
 			pos := comment.Pos()
 			name := strings.TrimSpace(comment.Text())
 			name = strings.Split(name, " ")[0]
@@ -78,14 +80,15 @@ func Parse(dir string) (Definition, error) {
 
 // Definition is the definition of one or more services.
 type Definition struct {
-	Services []Service
-	comments map[string]string
+	Services    []Service
+	PackageName string
+	comments    map[string]string
 }
 
 func (d Definition) String() string {
-	var s string
+	s := "package " + d.PackageName + "\n\n"
 	for i := range d.Services {
-		s += d.Services[i].String() + "\n"
+		s += d.Services[i].String()
 	}
 	return s
 }
@@ -116,7 +119,7 @@ func (s Service) String() string {
 	}
 	str += "type " + s.Name + " interface {\n"
 	for i := range s.Methods {
-		str += "\t" + s.Methods[i].String() + "\n"
+		str += "\t" + s.Methods[i].String()
 	}
 	str += "}\n\n"
 	for i := range s.Structures {
