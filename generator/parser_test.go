@@ -13,10 +13,27 @@ func TestParser(t *testing.T) {
 	def, err := Parse("testdata/rpc/example")
 	is.NoErr(err)
 
-	is.Equal(len(def.Services), 1)
+	is.Equal(len(def.Services), 2)
 	is.Equal(def.PackageName, "greeter")
 	out := def.String()
 	is.Equal(out, `package greeter
+
+// GreetFormatter provides formattable greeting services.
+type GreetFormatter interface {
+	Greet(context.Context, *GreetFormatRequest) (*GreetResponse, error)
+}
+
+// GreetFormatRequest is the request for Greeter.GreetRequest.
+type GreetFormatRequest struct {
+	Format string
+	Name string
+}
+
+// GreetResponse is the response for Greeter.GreetRequest.
+type GreetResponse struct {
+	Greeting string
+	Error string
+}
 
 // Greeter provides greeting services.
 type Greeter interface {
@@ -25,16 +42,26 @@ type Greeter interface {
 
 // GreetRequest is the request for Greeter.GreetRequest.
 type GreetRequest struct {
-	Names []string
+	Name string
 }
 
 // GreetResponse is the response for Greeter.GreetRequest.
 type GreetResponse struct {
-	Greetings []string
+	Greeting string
+	Error string
 }
 
 `)
 
+	is.Equal(def.PackageName, "greeter")
+	is.Equal(def.Services[0].Name, "GreetFormatter")
+	is.Equal(def.Services[0].Comment, "GreetFormatter provides formattable greeting services.")
+	is.Equal(def.Services[0].Structures[0].Name, "GreetFormatRequest")
+	is.Equal(def.Services[0].Structures[1].Name, "GreetResponse")
+	is.Equal(def.Services[1].Name, "Greeter")
+	is.Equal(def.Services[1].Comment, "Greeter provides greeting services.")
+	is.Equal(def.Services[1].Structures[0].Name, "GreetRequest")
+	is.Equal(def.Services[1].Structures[1].Name, "GreetResponse")
 }
 
 func TestErrors(t *testing.T) {

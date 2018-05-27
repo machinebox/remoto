@@ -8,12 +8,24 @@ type Greeter interface {
 	Greet(context.Context, *GreetRequest) (*GreetResponse, error)
 }
 
+// GreetFormatter provides formattable greeting services.
+type GreetFormatter interface {
+	// Greet generates a greeting.
+	Greet(context.Context, *GreetFormatRequest) (*GreetResponse, error)
+}
+
 // GreetRequest is the request for Greeter.GreetRequest.
 type GreetRequest struct {
-	Names []string
+	Name string
 }
 
 // GreetResponse is the response for Greeter.GreetRequest.
 type GreetResponse struct {
-	Greetings []string
+	Greeting string
+}
+
+// GreetFormatRequest is the request for Greeter.GreetRequest.
+type GreetFormatRequest struct {
+	Format string
+	Name   string
 }

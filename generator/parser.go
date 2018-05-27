@@ -50,7 +50,7 @@ func (s *Service) EnsureStructure(structure Structure) {
 func (s Service) String() string {
 	var str string
 	if s.Comment != "" {
-		str += "// " + s.Comment
+		str += "// " + s.Comment + "\n"
 	}
 	str += "type " + s.Name + " interface {\n"
 	for i := range s.Methods {
@@ -90,7 +90,7 @@ type Structure struct {
 func (s Structure) String() string {
 	var str string
 	if s.Comment != "" {
-		str += "// " + s.Comment
+		str += "// " + s.Comment + "\n"
 	}
 	str += "type " + s.Name + " struct {\n"
 	for i := range s.Fields {
@@ -102,8 +102,9 @@ func (s Structure) String() string {
 
 // Field describes a structure field.
 type Field struct {
-	Name string
-	Type Type
+	Name    string
+	Comment string
+	Type    Type
 }
 
 func (f Field) String() string {
@@ -112,14 +113,14 @@ func (f Field) String() string {
 
 // Type describes the type of a Field.
 type Type struct {
-	Name     string
-	IsSlice  bool
-	IsStruct bool
+	Name       string
+	IsMultiple bool
+	IsStruct   bool
 }
 
 func (t Type) code() string {
 	str := t.Name
-	if t.IsSlice {
+	if t.IsMultiple {
 		str = "[]" + str
 	}
 	return str
@@ -162,11 +163,11 @@ func Parse(dir string) (Definition, error) {
 		for _, comment := range f.Comments {
 			// TODO(matryer): use a technique that can get comments for methods too.
 			pos := comment.Pos()
-			name := strings.TrimSpace(comment.Text())
-			name = strings.Split(name, " ")[0]
+			trimmedComment := strings.TrimSpace(comment.Text())
+			name := strings.Split(trimmedComment, " ")[0]
 			inner := pkg.Scope().Innermost(pos)
 			if _, obj := inner.LookupParent(name, pos); obj != nil {
-				def.comments[obj.Name()] = comment.Text()
+				def.comments[obj.Name()] = trimmedComment
 			}
 		}
 	}
@@ -228,6 +229,9 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 	if err != nil {
 		return method, err
 	}
+	if !strings.HasSuffix(requestStructure.Name, "Request") {
+		return method, newErr(fset, m.Pos(), "request object should end with \"Request\"")
+	}
 	method.RequestType = requestStructure.Name
 	srv.EnsureStructure(requestStructure)
 	// process return arguments
@@ -240,9 +244,23 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 	if err != nil {
 		return method, err
 	}
+	if !strings.HasSuffix(responseStructure.Name, "Response") {
+		return method, newErr(fset, m.Pos(), "response object should end with \"Response\"")
+	}
+	addDefaultResponseFields(&responseStructure)
 	method.ResponseType = responseStructure.Name
 	srv.EnsureStructure(responseStructure)
 	return method, nil
+}
+
+func addDefaultResponseFields(structure *Structure) {
+	structure.Fields = append(structure.Fields, Field{
+		Comment: "Error is an error message if one occurred.",
+		Name:    "Error",
+		Type: Type{
+			Name: "string",
+		},
+	})
 }
 
 func parseStructureFromParam(fset *token.FileSet, scope *types.Scope, def *Definition, srv *Service, structureKind string, v *types.Var) (Structure, error) {
@@ -325,7 +343,7 @@ func resolveTypeName(typ types.Type) (Type, error) {
 	var ty Type
 	slice, ok := typ.(*types.Slice)
 	if ok {
-		ty.IsSlice = true
+		ty.IsMultiple = true
 		typ = slice.Elem()
 	}
 	ty.Name = types.TypeString(typ, nakedType)

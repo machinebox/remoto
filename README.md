@@ -1,5 +1,5 @@
 # remoto
-Simple binary RPC ecosystem.
+Simple RPC ecosystem.
 
 ## Definition
 

@@ -2,7 +2,6 @@ package generator
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"testing"
 
@@ -13,11 +12,28 @@ func TestRender(t *testing.T) {
 	is := is.New(t)
 	def, err := Parse("testdata/rpc/example")
 	is.NoErr(err)
-	b, err := ioutil.ReadFile("testdata/templates/go-json-server.plush.go")
+	b, err := ioutil.ReadFile("testdata/templates/list.txt")
 	is.NoErr(err)
 	var buf bytes.Buffer
 	err = Render(&buf, string(b), def)
 	is.NoErr(err)
-	fmt.Println(buf.String())
-	is.Fail()
+	is.Equal(buf.String(), `package: greeter
+	service: GreetFormatter
+		structure: GreetFormatRequest
+		method: Greet
+			field: Format string
+			field: Name string
+		structure: GreetResponse
+		method: Greet
+			field: Greeting string
+			field: Error string
+	service: Greeter
+		structure: GreetRequest
+		method: Greet
+			field: Name string
+		structure: GreetResponse
+		method: Greet
+			field: Greeting string
+			field: Error string
+`)
 }
