@@ -1,9 +1,9 @@
 # remoto
-Simple RPC ecosystem.
+Ultra-simple but complete RPC ecosystem.
 
 ## Definition
 
-Definition files are Go source with `.rpc.go` file extension.
+Definition files are Go source with `.remoto.go` file extension.
 
 An example definition looks like this:
 
@@ -36,4 +36,9 @@ type GreetResponse struct {
 * Methods must take `context.Context` as first argument, and pointer to request object as second argument
 * Methods must return a pointer to the response object as the first argument, and an error as the second
 * Only a subset of Go types are supported: `string`, `float64`, `int64`, `bool`, and `struct` types
+* Any slices (boundless arrays) of the supported types are also allowed (e.g. `[]string`, `[]bool`, etc.)
 * Comments describe the service
+
+### Tips
+
+* For simplicity, don't import common types - just describe all the requireds types in a single file

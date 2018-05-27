@@ -126,13 +126,13 @@ func (t Type) code() string {
 	return str
 }
 
-// Parse parses a package of .rpc.go files.
+// Parse parses a package of .remoto.go files.
 func Parse(dir string) (Definition, error) {
 	var def Definition
 	def.comments = make(map[string]string)
 	fset := token.NewFileSet()
 	pkgs, err := parser.ParseDir(fset, dir, func(info os.FileInfo) bool {
-		return strings.HasSuffix(info.Name(), ".rpc.go")
+		return strings.HasSuffix(info.Name(), ".remoto.go")
 	}, parser.ParseComments)
 	if err != nil {
 		return def, errors.Wrap(err, "parser.ParseDir")
