@@ -48,15 +48,6 @@ func New(
 	return server
 }
 
-// GreetFormatRequest is the request for Greeter.GreetRequest.
-type GreetFormatRequest struct {
-	// 
-	Format string `json:"format"`
-	// 
-	Name string `json:"name"`
-	
-}
-
 // GreetResponse is the response for Greeter.GreetRequest.
 type GreetResponse struct {
 	// 
@@ -68,6 +59,15 @@ type GreetResponse struct {
 
 // GreetRequest is the request for Greeter.GreetRequest.
 type GreetRequest struct {
+	// 
+	Name string `json:"name"`
+	
+}
+
+// GreetFormatRequest is the request for Greeter.GreetRequest.
+type GreetFormatRequest struct {
+	// 
+	Format string `json:"format"`
 	// 
 	Name string `json:"name"`
 	

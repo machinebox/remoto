@@ -75,7 +75,7 @@ type <%= structure.Name %> struct {
 <%= for (service) in def.Services { %><%= comment(service.Comment) %>
 type <%= service.Name %> interface {
 	<%= for (method) in service.Methods { %><%= comment(method.Comment) %>
-	<%= method.Name %>(context.Context, *<%= method.RequestType %>) (*<%= method.ResponseType %>, error)
+	<%= method.Name %>(context.Context, *<%= method.RequestType.Name %>) (*<%= method.ResponseType.Name %>, error)
 <% } %>
 }
 
@@ -94,7 +94,7 @@ type httpjson<%= service.Name %>Server struct {
 <%= for (method) in service.Methods { %>
 // <%= method.Name %> is a remotohttpjson.HandlerFunc wrapper for <%= service.Name %>.<%= method.Name %>.
 func (srv *httpjson<%= service.Name %>Server) <%= method.Name %>(ctx context.Context, w io.Writer, r io.Reader) error {
-	var reqs []*<%= method.RequestType %>
+	var reqs []*<%= method.RequestType.Name %>
 	b, err := ioutil.ReadAll(r)
 	if err != nil {
 		return errors.Wrap(err, "read request")
@@ -102,7 +102,7 @@ func (srv *httpjson<%= service.Name %>Server) <%= method.Name %>(ctx context.Con
 	if err = json.Unmarshal(b, &reqs); err != nil {
 		return errors.Wrap(err, "decode request")
 	}
-	resps := make([]<%= method.ResponseType %>, len(reqs))
+	resps := make([]<%= method.ResponseType.Name %>, len(reqs))
 	for i := range reqs {
 		resp, err := srv.service.<%= method.Name %>(ctx, reqs[i])
 		if err != nil {

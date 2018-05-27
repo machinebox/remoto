@@ -67,8 +67,8 @@ func (s Service) String() string {
 type Method struct {
 	Name         string
 	Comment      string
-	RequestType  string
-	ResponseType string
+	RequestType  Structure
+	ResponseType Structure
 }
 
 func (m Method) String() string {
@@ -76,7 +76,7 @@ func (m Method) String() string {
 	if m.Comment != "" {
 		str += "// " + m.Comment + "/n"
 	}
-	str += m.Name + "(context.Context, *" + m.RequestType + ") (*" + m.ResponseType + ", error)\n"
+	str += m.Name + "(context.Context, *" + m.RequestType.Name + ") (*" + m.ResponseType.Name + ", error)\n"
 	return str
 }
 
@@ -232,7 +232,7 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 	if !strings.HasSuffix(requestStructure.Name, "Request") {
 		return method, newErr(fset, m.Pos(), "request object should end with \"Request\"")
 	}
-	method.RequestType = requestStructure.Name
+	method.RequestType = requestStructure
 	srv.EnsureStructure(requestStructure)
 	// process return arguments
 	returns := sig.Results()
@@ -248,7 +248,7 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 		return method, newErr(fset, m.Pos(), "response object should end with \"Response\"")
 	}
 	addDefaultResponseFields(&responseStructure)
-	method.ResponseType = responseStructure.Name
+	method.ResponseType = responseStructure
 	srv.EnsureStructure(responseStructure)
 	return method, nil
 }

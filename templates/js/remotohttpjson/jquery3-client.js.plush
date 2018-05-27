@@ -1,0 +1,33 @@
+(function($){
+    <%= for (service) in def.Services { %>
+    // new $.<%= service.Name %> creates a jQuery client.
+    // <%= service.Comment %>
+    // Usage:
+    //     var remote<%= service.Name %> = new $.<%= service.Name %>("https://example.machinebox.io/remoto")
+    $.<%= service.Name %> = function(endpoint) {
+        this.endpoint = endpoint
+    }
+    <%= for (method) in service.Methods { %>
+    // <%= method.Comment %>
+    // Usage:
+    //     remote<%= service.Name %>.<%= method.Name %>([{
+    // <%= for (field) in method.RequestType.Fields { %>        <%= camelize_down_first(field.Name) %>: null,
+    // <% } %>    }])
+    //       .done(function(responses) { /* called on success */ })
+    //       .fail(function(){ /* called on failure */ })
+    //       .always(function(){ /* always gets called */ })
+    $.<%= service.Name %>.prototype.<%= method.Name %> = function(requests) {
+        if (!Array.isArray(requests)) {
+            throw '<%= service.Name %>.<%= method.Name %>: first argument must be Array'
+        }
+        return $.ajax({
+            method: 'post', url: this.endpoint + '/remoto/<%= service.Name %>.<%= method.Name %>',
+            data: JSON.stringify(requests),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+    <% } %><% } %>
+})(jQuery)
