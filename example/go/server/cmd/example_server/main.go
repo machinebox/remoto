@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	example "github.com/matryer/remoto/example/go/server"
+	example "github.com/machinebox/remoto/example/go/server"
 )
 
 func main() {

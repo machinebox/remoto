@@ -1,37 +1,55 @@
 package remotohttp
 
 import (
-	"context"
+	"io"
 	"net/http"
 	"sync"
 )
 
-// Handler handles requests.
-type Handler func(ctx context.Context) error
-
-// Server is a Remoto HTTP server.
+// Server is an HTTP server for serving Remoto requests.
 type Server struct {
 	handlers sync.Map
+
+	// NotFound handles 404 responses.
+	NotFound http.Handler
+
+	// OnErr is called when there has been a system level error,
+	// like encoding/decoding.
+	OnErr func(w http.ResponseWriter, r *http.Request, err error)
 }
 
-// NewContext makes a new Context for the specified request.
-func NewContext(ctx context.Context, w http.ResponseWriter, r *http.Request) context.Context {
-	return context.WithValue(ctx, contextKeyRemotoRequest, &remotoRequest{w: w, r: r})
+// Register registers the path with the http.Handler.
+func (s *Server) Register(path string, fn http.Handler) {
+	s.handlers.Store(path, fn)
 }
 
-// remotoRequest holds contextual information about the HTTP request.
-type remotoRequest struct {
-	w http.ResponseWriter
-	r *http.Request
+// ServeHTTP calls the registered handler
+func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	h, ok := s.handlers.Load(r.URL.Path)
+	if !ok {
+		s.NotFound.ServeHTTP(w, r)
+		return
+	}
+	handler, ok := h.(http.Handler)
+	if !ok {
+		panic("remotohttp: handler is the wrong type")
+	}
+	handler.ServeHTTP(w, r)
 }
 
-var (
-	// contextKeyRemotoRequest is the context key for a Remoto HTTP request.
-	contextKeyRemotoRequest = contextKey("contextKeyRemotoRequest")
-)
+// Describe an overview of the endpoints to the specified io.Writer.
+func (s *Server) Describe(w io.Writer) error {
+	var err error
+	s.handlers.Range(func(k, v interface{}) bool {
+		if _, err = io.WriteString(w, "endpoint: "+k.(string)+"\n"); err != nil {
+			return false
+		}
+		return true
+	})
+	return err
+}
 
-type contextKey string
-
-func (c contextKey) String() string {
-	return "remoto context key: " + string(c)
+// Error is an error wrapper for repsonses.
+type Error struct {
+	Err error `json:"error"`
 }

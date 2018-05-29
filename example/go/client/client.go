@@ -2,16 +2,6 @@
 
 package example
 
-import (
-	"bytes"
-	"context"
-	"encoding/json"
-	"io/ioutil"
-	"net/http"
-
-	"github.com/pkg/errors"
-)
-
 // GreetFormatterClient accesses remote GreetFormatter services.
 type GreetFormatterClient struct {
     // endpoint is the HTTP endpoint of the remote server.
@@ -30,50 +20,14 @@ func NewGreetFormatterClient(endpoint string, client *http.Client) *GreetFormatt
 }
 
 // 
-func (c *GreetFormatterClient) Greet(ctx context.Context, request *GreetFormatRequest) (*GreetResponse, error) {
-    resp, err := c.GreetMulti(ctx, request)
-    if err != nil {
-        return nil, err
-    }
-    if len(resp) != 1 {
-        return nil, errors.Errorf("expected 1 response object, got %d", len(resp))
-    }
-    if resp[0].Error != "" {
-        return nil, errors.New(resp[0].Error)
-    }
-    return resp[0], nil
-}
-
-// GreetMulti is a batch version of Greet.
-func (c *GreetFormatterClient) GreetMulti(ctx context.Context, requests ...*GreetFormatRequest) ([]*GreetResponse, error) {
-    b, err := json.Marshal(requests)
+func (c *GreetFormatterClient) GreetMulti(ctx context.Context, requests ...*GreetFormatRequest) (*GreetResponse, error) {
+	b, err := json.Marshal(requests)
     if err != nil {
         return nil, errors.Wrap(err, "encode request")
     }
-    r, err := http.NewRequest(http.MethodPost, c.endpoint + "/remoto/GreetFormatter.Greet", bytes.NewReader(b))
-    if err != nil {
-        return nil, errors.Wrap(err, "make request")
-    }
-    r = r.WithContext(ctx)
-    r.Header.Set("Content-Type", "application/json; charset=utf-8")
-    resp, err := c.httpclient.Do(r)
-    if err != nil {
-        return nil, errors.Wrap(err, "do")
-    }
-    defer resp.Body.Close()
-    if resp.StatusCode != http.StatusOK {
-        return nil, errors.Errorf("got %d from remote server", resp.StatusCode)
-    }
-    b, err = ioutil.ReadAll(resp.Body)
-    if err != nil {
-        return nil, errors.Wrap(err, "read response body")
-    }
-    var responses []*GreetResponse
-    if err := json.Unmarshal(b, &responses); err != nil {
-        return nil, errors.Wrap(err, "decode response")
-    }
-    return responses, nil
+
 }
+
 
 // GreeterClient accesses remote Greeter services.
 type GreeterClient struct {
@@ -93,50 +47,14 @@ func NewGreeterClient(endpoint string, client *http.Client) *GreeterClient {
 }
 
 // 
-func (c *GreeterClient) Greet(ctx context.Context, request *GreetRequest) (*GreetResponse, error) {
-    resp, err := c.GreetMulti(ctx, request)
-    if err != nil {
-        return nil, err
-    }
-    if len(resp) != 1 {
-        return nil, errors.Errorf("expected 1 response object, got %d", len(resp))
-    }
-    if resp[0].Error != "" {
-        return nil, errors.New(resp[0].Error)
-    }
-    return resp[0], nil
-}
-
-// GreetMulti is a batch version of Greet.
-func (c *GreeterClient) GreetMulti(ctx context.Context, requests ...*GreetRequest) ([]*GreetResponse, error) {
-    b, err := json.Marshal(requests)
+func (c *GreeterClient) GreetMulti(ctx context.Context, requests ...*GreetRequest) (*GreetResponse, error) {
+	b, err := json.Marshal(requests)
     if err != nil {
         return nil, errors.Wrap(err, "encode request")
     }
-    r, err := http.NewRequest(http.MethodPost, c.endpoint + "/remoto/Greeter.Greet", bytes.NewReader(b))
-    if err != nil {
-        return nil, errors.Wrap(err, "make request")
-    }
-    r = r.WithContext(ctx)
-    r.Header.Set("Content-Type", "application/json; charset=utf-8")
-    resp, err := c.httpclient.Do(r)
-    if err != nil {
-        return nil, errors.Wrap(err, "do")
-    }
-    defer resp.Body.Close()
-    if resp.StatusCode != http.StatusOK {
-        return nil, errors.Errorf("got %d from remote server", resp.StatusCode)
-    }
-    b, err = ioutil.ReadAll(resp.Body)
-    if err != nil {
-        return nil, errors.Wrap(err, "read response body")
-    }
-    var responses []*GreetResponse
-    if err := json.Unmarshal(b, &responses); err != nil {
-        return nil, errors.Wrap(err, "decode response")
-    }
-    return responses, nil
+
 }
+
 
 
 // GreetFormatRequest is the request for GreetFormatter.Greet.

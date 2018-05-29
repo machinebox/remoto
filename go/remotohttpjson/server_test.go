@@ -12,8 +12,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/machinebox/remoto/go/remotohttpjson"
 	"github.com/matryer/is"
-	"github.com/matryer/remoto/go/remotohttpjson"
 	"github.com/pkg/errors"
 )
 

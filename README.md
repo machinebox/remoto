@@ -39,6 +39,12 @@ type GreetResponse struct {
 * Any slices (boundless arrays) of the supported types are also allowed (e.g. `[]string`, `[]bool`, etc.)
 * Comments describe the service
 
+### Special types
+
+Remoto provides the following special types:
+
+* `remototypes.File` - A local or remote file
+
 ### Tips
 
 * For simplicity, don't import common types - just describe all the requireds types in a single file

@@ -91,3 +91,15 @@ func TestErrors(t *testing.T) {
 		})
 	}
 }
+
+func TestParserImports(t *testing.T) {
+	is := is.New(t)
+
+	def, err := Parse("testdata/rpc/import")
+	is.NoErr(err)
+
+	is.Equal(len(def.Services), 1)
+	is.Equal(def.PackageName, "greeter")
+	out := def.String()
+	is.Equal(out, "")
+}

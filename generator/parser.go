@@ -264,6 +264,12 @@ func addDefaultResponseFields(structure *Structure) {
 }
 
 func parseStructureFromParam(fset *token.FileSet, scope *types.Scope, def *Definition, srv *Service, structureKind string, v *types.Var) (Structure, error) {
+	resolver := func(other *types.Package) string {
+		if other.Name() != def.PackageName {
+			return other.Name()
+		}
+		return ""
+	}
 	var structure Structure
 	p, ok := v.Type().(*types.Pointer)
 	if !ok {
@@ -273,7 +279,7 @@ func parseStructureFromParam(fset *token.FileSet, scope *types.Scope, def *Defin
 	if !ok {
 		return structure, newErr(fset, v.Pos(), structureKind+" object must be a pointer to a struct")
 	}
-	structure.Name = types.TypeString(v.Type(), nakedType)[1:]
+	structure.Name = types.TypeString(v.Type(), resolver)[1:]
 	structure.Comment = def.comments[structure.Name]
 	for i := 0; i < st.NumFields(); i++ {
 		field, err := parseField(fset, scope, def, srv, st.Field(i))
@@ -312,7 +318,7 @@ func parseField(fset *token.FileSet, scope *types.Scope, def *Definition, srv *S
 	if !v.Exported() {
 		return field, newErr(fset, v.Pos(), "field "+v.Name()+": must be exported")
 	}
-	typ, err := resolveTypeName(v.Type())
+	typ, err := resolveTypeName(def, v.Type())
 	if err != nil {
 		return field, newErr(fset, v.Pos(), err.Error())
 	}
@@ -334,25 +340,27 @@ func newErr(fset *token.FileSet, pos token.Pos, err string) error {
 	return errors.New(position.String() + ": " + err)
 }
 
-// nakedType doesn't prefix the type name, regardless.
-func nakedType(other *types.Package) string {
-	return ""
-}
-
-func resolveTypeName(typ types.Type) (Type, error) {
+func resolveTypeName(def *Definition, typ types.Type) (Type, error) {
+	resolver := func(other *types.Package) string {
+		if other.Name() != def.PackageName {
+			return other.Name()
+		}
+		return ""
+	}
 	var ty Type
 	slice, ok := typ.(*types.Slice)
 	if ok {
 		ty.IsMultiple = true
 		typ = slice.Elem()
 	}
-	ty.Name = types.TypeString(typ, nakedType)
+	ty.Name = types.TypeString(typ, resolver)
 	if _, ok := typ.Underlying().(*types.Struct); ok {
 		ty.IsStruct = true
 		return ty, nil
 	}
 	switch ty.Name {
-	case "string", "float64", "int32", "int64", "bool":
+	case "string", "float64", "int32", "int64", "bool",
+		"remototypes.File":
 		return ty, nil
 	}
 	return ty, errors.New("type " + ty.Name + " not supported")

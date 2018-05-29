@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
+	example "github.com/machinebox/remoto/example/go/client"
+	exampleserver "github.com/machinebox/remoto/example/go/server"
 	"github.com/matryer/is"
-	example "github.com/matryer/remoto/example/go/client"
-	exampleserver "github.com/matryer/remoto/example/go/server"
 )
 
 func Test(t *testing.T) {
