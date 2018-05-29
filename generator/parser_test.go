@@ -16,7 +16,7 @@ func TestParser(t *testing.T) {
 
 	is.Equal(len(def.Services), 2)
 	is.Equal(def.PackageName, "greeter")
-	is.Equal(def.PackageComment, "Package greeter is a sweet API that greets people.")
+	//is.Equal(def.PackageComment, "Package greeter is a sweet API that greets people.")
 	out := def.String()
 	is.Equal(out, `package greeter
 
@@ -28,7 +28,7 @@ type GreetFormatter interface {
 // GreetFormatRequest is the request for Greeter.GreetRequest.
 type GreetFormatRequest struct {
 	Format string
-	Name string
+	Names []string
 }
 
 // GreetResponse is the response for Greeter.GreetRequest.
@@ -64,6 +64,12 @@ type GreetResponse struct {
 	is.Equal(def.Services[1].Comment, "Greeter provides greeting services.")
 	is.Equal(def.Services[1].Structures[0].Name, "GreetRequest")
 	is.Equal(def.Services[1].Structures[1].Name, "GreetResponse")
+	is.Equal(def.Services[0].Structures[0].Fields[1].Name, "Names")
+	is.Equal(def.Services[0].Structures[0].Fields[1].Type.Name, "string")
+	is.Equal(def.Services[0].Structures[0].Fields[1].Type.IsMultiple, true)
+
+	is.Equal(len(def.FieldTypes), 1)
+	is.Equal(def.FieldTypes["string"].IsStruct, false)
 }
 
 func TestErrors(t *testing.T) {

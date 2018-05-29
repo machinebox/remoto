@@ -64,8 +64,6 @@ func New<%= service.Name %>Client(endpoint string, client *http.Client) *<%= ser
     }
 }
 
-
-
 <%= for (method) in service.Methods { %><%= comment(method.Comment) %>
 func (c *<%= service.Name %>Client) <%= method.Name %>(ctx context.Context, request *<%= method.RequestType.Name %>) (*<%= method.ResponseType.Name %>, error) {
 	resp, err := c.<%= method.Name %>Multi(ctx, []*<%= method.RequestType.Name %>{request})
@@ -92,7 +90,7 @@ func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context,
 	for i := range requests {<%= for (field) in method.RequestType.Fields { %><%= if (field.Type.Name == "remototypes.File") { %>
 		if requests[i].file<%= field.Name %> != nil {
 			fieldName := "_files["+strconv.Itoa(files)+"]"
-			requests[i].Photo = remototypes.NewFile(fieldName)
+			requests[i].Image = remototypes.NewFile(fieldName)
 			f, err := w.CreateFormFile(fieldName, "todo.dat")
 			if err != nil {
 				return nil, errors.Wrap(err, "<%= service.Name %>.<%= method.Name %>: create form file")
@@ -143,11 +141,7 @@ func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context,
 <%= for (structure) in unique_structures(def) { %><%= comment(structure.Comment) %>
 type <%= structure.Name %> struct {
     <%= for (field) in structure.Fields { %><%= comment(field.Comment) %>
-    <%= field.Name %> <%= field.Type.Name %>
-	<%= if (field.Type.Name == "remototypes.File") { %>
-	file<%= field.Name %> io.Reader
-	filename<%= field.Name %> string
-	<% } %>
+    <%= field.Name %> <%= typeString(field.Type) %>
     <% } %>
 }
 

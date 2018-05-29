@@ -11,9 +11,8 @@ import (
 
 	"github.com/machinebox/remoto/go/remotohttp"
 	"github.com/pkg/errors"
-	
-	"github.com/machinebox/remoto/remototypes"	
-	
+
+	"github.com/machinebox/remoto/remototypes"
 )
 
 // Run is the simplest way to run the services.
@@ -43,81 +42,72 @@ func New(
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		},
 	}
-	
+
 	RegisterFaceboxServer(server, facebox)
 	return server
 }
 
-// 
+//
+type TeachRequest struct {
+	//
+	Name string `json:"name"`
+	//
+	TeachFiles TeachFile `json:"teach_files"`
+}
+
+//
 type TeachResponse struct {
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
-	
 }
 
-// 
+//
 type CheckRequest struct {
-	// 
+	//
 	Image remototypes.File `json:"image"`
-	
 }
 
-// 
+//
 type Faces struct {
-	// 
+	//
 	Name string `json:"name"`
-	// 
+	//
 	Matched bool `json:"matched"`
-	
 }
 
-// 
+//
 type CheckResponse struct {
-	// 
+	//
 	Faces Faces `json:"faces"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
-	
 }
 
-// 
+//
 type TeachFile struct {
-	// 
+	//
 	Image remototypes.File `json:"image"`
-	
 }
-
-// 
-type TeachRequest struct {
-	// 
-	Name string `json:"name"`
-	// 
-	TeachFiles TeachFile `json:"teach_files"`
-	
-}
-
-
 
 // Facebox provides facial detection and recognition capabilities.
 type Facebox interface {
-	// 
+	//
 	Check(context.Context, *CheckRequest) (*CheckResponse, error)
-// 
+	//
 	Teach(context.Context, *TeachRequest) (*TeachResponse, error)
-
 }
 
 // RegisterFaceboxServer registers a Facebox with a remotohttp.Server.
 func RegisterFaceboxServer(server *remotohttp.Server, service Facebox) {
 	srv := &httpFaceboxServer{
 		service: service,
-		server: server,
+		server:  server,
 	}
-	
+
 	server.Register("/remoto/Facebox.Check", http.HandlerFunc(srv.Check))
-	
+
 	server.Register("/remoto/Facebox.Teach", http.HandlerFunc(srv.Teach))
-	
+
 }
 
 type httpFaceboxServer struct {
@@ -128,7 +118,6 @@ type httpFaceboxServer struct {
 	// registered with.
 	server *remotohttp.Server
 }
-
 
 // Check is an http.Handler wrapper for Facebox.Check.
 func (srv *httpFaceboxServer) Check(w http.ResponseWriter, r *http.Request) {
@@ -151,6 +140,7 @@ func (srv *httpFaceboxServer) Check(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
 // Teach is an http.Handler wrapper for Facebox.Teach.
 func (srv *httpFaceboxServer) Teach(w http.ResponseWriter, r *http.Request) {
 	var reqs []*TeachRequest
@@ -171,5 +161,4 @@ func (srv *httpFaceboxServer) Teach(w http.ResponseWriter, r *http.Request) {
 		srv.server.OnErr(w, r, err)
 		return
 	}
-} 
-
+}

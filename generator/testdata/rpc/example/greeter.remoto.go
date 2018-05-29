@@ -28,5 +28,5 @@ type GreetResponse struct {
 // GreetFormatRequest is the request for Greeter.GreetRequest.
 type GreetFormatRequest struct {
 	Format string
-	Name   string
+	Names  []string
 }

@@ -51,8 +51,8 @@ func hasFieldType(typ interface{}, typename string) bool {
 			}
 		}
 	case Definition:
-		for _, structure := range uniqueStructures(v) {
-			if hasFieldType(structure, typename) {
+		for typ := range v.FieldTypes {
+			if typ == typename {
 				return true
 			}
 		}
