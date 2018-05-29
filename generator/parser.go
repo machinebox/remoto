@@ -15,9 +15,10 @@ import (
 
 // Definition is the definition of one or more services.
 type Definition struct {
-	Services    []Service
-	PackageName string
-	comments    map[string]string
+	Services       []Service
+	PackageName    string
+	PackageComment string
+	comments       map[string]string
 }
 
 func (d Definition) String() string {

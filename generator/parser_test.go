@@ -16,6 +16,7 @@ func TestParser(t *testing.T) {
 
 	is.Equal(len(def.Services), 2)
 	is.Equal(def.PackageName, "greeter")
+	is.Equal(def.PackageComment, "Package greeter is a sweet API that greets people.")
 	out := def.String()
 	is.Equal(out, `package greeter
 

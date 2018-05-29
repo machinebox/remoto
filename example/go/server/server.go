@@ -52,24 +52,6 @@ func New(
 	return server
 }
 
-// GreetFormatRequest is the request for GreetFormatter.Greet.
-type GreetFormatRequest struct {
-	// 
-	Format string `json:"format"`
-	// 
-	Name string `json:"name"`
-	
-}
-
-// GreetResponse is the response for Greeter.Greet and GreetFormatter.Greet.
-type GreetResponse struct {
-	// 
-	Greeting string `json:"greeting"`
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-	
-}
-
 // GreetRequest is the request for Greeter.Greet.
 type GreetRequest struct {
 	// 
@@ -88,6 +70,24 @@ type GreetPhotoRequest struct {
 
 // 
 type GreetPhotoResponse struct {
+	// 
+	Greeting string `json:"greeting"`
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+	
+}
+
+// GreetFormatRequest is the request for GreetFormatter.Greet.
+type GreetFormatRequest struct {
+	// 
+	Format string `json:"format"`
+	// 
+	Name string `json:"name"`
+	
+}
+
+// GreetResponse is the response for Greeter.Greet and GreetFormatter.Greet.
+type GreetResponse struct {
 	// 
 	Greeting string `json:"greeting"`
 	// Error is an error message if one occurred.

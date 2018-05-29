@@ -1,3 +1,4 @@
+// Package greeter is a sweet API that greets people.
 package greeter
 
 import "context"
