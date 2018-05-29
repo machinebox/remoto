@@ -1,11 +1,15 @@
 (function($){
+
+    // $.remoto is the default namespace for Remoto services.
+    $.remoto = $.remoto || {}
     
     // new $.GreetFormatter creates a jQuery client.
     // GreetFormatter provides formattable greeting services.
     // Usage:
-    //     var remoteGreetFormatter = new $.GreetFormatter("https://example.machinebox.io/remoto")
-    $.GreetFormatter = function(endpoint) {
-        this.endpoint = endpoint
+    //     var remoteGreetFormatter = new $.GreetFormatter({endpoint: "https://example.machinebox.io/remoto"})
+    $.remoto.GreetFormatter = function(options) {
+        options = options || {}
+        this.endpoint = options.endpoint || "http://localhost:8080"
     }
     
     // 
@@ -17,7 +21,7 @@
     //       .done(function(responses) { /* called on success */ })
     //       .fail(function(){ /* called on failure */ })
     //       .always(function(){ /* always gets called */ })
-    $.GreetFormatter.prototype.Greet = function(requests) {
+    $.remoto.GreetFormatter.prototype.Greet = function(requests) {
         if (!Array.isArray(requests)) {
             throw 'GreetFormatter.Greet: first argument must be Array'
         }
@@ -34,9 +38,10 @@
     // new $.Greeter creates a jQuery client.
     // Greeter provides greeting services.
     // Usage:
-    //     var remoteGreeter = new $.Greeter("https://example.machinebox.io/remoto")
-    $.Greeter = function(endpoint) {
-        this.endpoint = endpoint
+    //     var remoteGreeter = new $.Greeter({endpoint: "https://example.machinebox.io/remoto"})
+    $.remoto.Greeter = function(options) {
+        options = options || {}
+        this.endpoint = options.endpoint || "http://localhost:8080"
     }
     
     // 
@@ -47,7 +52,7 @@
     //       .done(function(responses) { /* called on success */ })
     //       .fail(function(){ /* called on failure */ })
     //       .always(function(){ /* always gets called */ })
-    $.Greeter.prototype.Greet = function(requests) {
+    $.remoto.Greeter.prototype.Greet = function(requests) {
         if (!Array.isArray(requests)) {
             throw 'Greeter.Greet: first argument must be Array'
         }

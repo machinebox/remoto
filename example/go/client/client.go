@@ -139,7 +139,7 @@ func (c *GreeterClient) GreetMulti(ctx context.Context, requests ...*GreetReques
 }
 
 
-// GreetFormatRequest is the request for Greeter.GreetRequest.
+// GreetFormatRequest is the request for GreetFormatter.Greet.
 type GreetFormatRequest struct {
     // 
     Format string
@@ -148,7 +148,7 @@ type GreetFormatRequest struct {
     
 }
 
-// GreetResponse is the response for Greeter.GreetRequest.
+// GreetResponse is the response for Greeter.Greet and GreetFormatter.Greet.
 type GreetResponse struct {
     // 
     Greeting string
@@ -157,7 +157,7 @@ type GreetResponse struct {
     
 }
 
-// GreetRequest is the request for Greeter.GreetRequest.
+// GreetRequest is the request for Greeter.Greet.
 type GreetRequest struct {
     // 
     Name string
