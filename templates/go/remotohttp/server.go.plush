@@ -33,6 +33,9 @@ import (
 
 	"github.com/machinebox/remoto/go/remotohttp"
 	"github.com/pkg/errors"
+	<%= if (has_field_type(def, "remototypes.File")) { %>
+	"github.com/machinebox/remoto/remototypes"	
+	<% } %>
 )
 
 // Run is the simplest way to run the services.

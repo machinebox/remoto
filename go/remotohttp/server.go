@@ -25,6 +25,10 @@ func (s *Server) Register(path string, fn http.Handler) {
 
 // ServeHTTP calls the registered handler
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		s.NotFound.ServeHTTP(w, r)
+		return
+	}
 	h, ok := s.handlers.Load(r.URL.Path)
 	if !ok {
 		s.NotFound.ServeHTTP(w, r)

@@ -4,9 +4,11 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
 
 	example "github.com/machinebox/remoto/example/go/server"
+	"github.com/pkg/errors"
 )
 
 func main() {
@@ -26,6 +28,22 @@ type greeter struct{}
 
 func (greeter) Greet(ctx context.Context, req *example.GreetRequest) (*example.GreetResponse, error) {
 	resp := &example.GreetResponse{
+		Greeting: "Hello " + req.Name,
+	}
+	return resp, nil
+}
+
+func (greeter) GreetPhoto(ctx context.Context, req *example.GreetPhotoRequest) (*example.GreetPhotoResponse, error) {
+	f, err := req.Photo.Open(ctx)
+	if err != nil {
+		return nil, errors.Wrap(err, "open file")
+	}
+	defer f.Close()
+	b, err := ioutil.ReadAll(f)
+	if err != nil {
+		return nil, errors.Wrap(err, "read file")
+	}
+	resp := &example.GreetPhotoResponse{
 		Greeting: "Hello " + req.Name,
 	}
 	return resp, nil

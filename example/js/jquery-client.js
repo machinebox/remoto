@@ -66,4 +66,27 @@
         })
     }
     
+    // 
+    // Usage:
+    //     remoteGreeter.GreetPhoto([{
+    //         photo: null,
+    //         name: null,
+    //     }])
+    //       .done(function(responses) { /* called on success */ })
+    //       .fail(function(){ /* called on failure */ })
+    //       .always(function(){ /* always gets called */ })
+    $.remoto.Greeter.prototype.GreetPhoto = function(requests) {
+        if (!Array.isArray(requests)) {
+            throw 'Greeter.GreetPhoto: first argument must be Array'
+        }
+        return $.ajax({
+            method: 'post', url: this.endpoint + '/remoto/Greeter.GreetPhoto',
+            data: JSON.stringify(requests),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+    
 })(jQuery)

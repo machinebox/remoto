@@ -96,6 +96,34 @@
 					</div>
 				
 					
+					<h3>GreetPhoto</h3>
+					<div class='columns'>
+						<div class='column'>
+							<form data-action='Greeter.GreetPhoto'>
+								
+									<div class='field'>
+										<label class='label'>Photo</label>
+										<input name='Photo' class='input' placeholder=''>
+									</div>
+								
+									<div class='field'>
+										<label class='label'>Name</label>
+										<input name='Name' class='input' placeholder=''>
+									</div>
+								
+								<div class='field is-grouped is-grouped-right'>
+									<div class='control'>
+										<button class='is-primary button'>Greeter.GreetPhoto</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class='column'>
+							
+						</div>
+					</div>
+				
+					
 				</div>
 				
 			</div>
@@ -157,6 +185,26 @@
 				
 				// call greeter.Greet
 				greeter.Greet([req])
+					.then(function(){  })
+			})
+			
+			$('form[data-action="Greeter.GreetPhoto"]').submit(function(e){
+				e.preventDefault();
+
+				// Create a service using the endpoint.
+				// In production code, you would likely only do this once, with the endpoint
+				// preconfigured.
+				var greeter = new $.remoto.Greeter({
+					endpoint: $('input[name="greeterEndpoint"]').val()
+				})
+
+				var $this = $(this)
+				var req = {}
+				req['photo'] = $this.find('input[name="Photo"]').val()
+				req['name'] = $this.find('input[name="Name"]').val()
+				
+				// call greeter.GreetPhoto
+				greeter.GreetPhoto([req])
 					.then(function(){  })
 			})
 			
