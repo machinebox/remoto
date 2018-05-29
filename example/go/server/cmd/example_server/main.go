@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 
 	example "github.com/machinebox/remoto/example/go/server"
@@ -43,6 +44,7 @@ func (greeter) GreetPhoto(ctx context.Context, req *example.GreetPhotoRequest) (
 	if err != nil {
 		return nil, errors.Wrap(err, "read file")
 	}
+	log.Println(string(b))
 	resp := &example.GreetPhotoResponse{
 		Greeting: "Hello " + req.Name,
 	}

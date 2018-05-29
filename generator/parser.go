@@ -253,6 +253,8 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 	return method, nil
 }
 
+// addDefaultResponseFields adds the built-in remoto fields to the
+// response structure.
 func addDefaultResponseFields(structure *Structure) {
 	structure.Fields = append(structure.Fields, Field{
 		Comment: "Error is an error message if one occurred.",

@@ -6,8 +6,10 @@ import (
 	"context"
 	"encoding/json"
 	"io"
+	"io/ioutil"
 	"mime/multipart"
 	"net/http"
+	"strconv"
 
 	"github.com/oxtoacart/bpool"
 	"github.com/pkg/errors"
@@ -60,7 +62,7 @@ func (c *GreetFormatterClient) GreetMulti(ctx context.Context, requests []*Greet
 	if err := w.Close(); err != nil {
 		return nil, errors.Wrap(err, "GreetFormatter.Greet: write")
 	}
-	req, err := http.NewRequest(http.MethodPost, "/remoto/GreetFormatter.Greet", buf)
+	req, err := http.NewRequest(http.MethodPost, c.endpoint+"/remoto/GreetFormatter.Greet", buf)
 	if err != nil {
 		return nil, errors.Wrap(err, "GreetFormatter.Greet: new request")
 	}
@@ -131,7 +133,7 @@ func (c *GreeterClient) GreetMulti(ctx context.Context, requests []*GreetRequest
 	if err := w.Close(); err != nil {
 		return nil, errors.Wrap(err, "Greeter.Greet: write")
 	}
-	req, err := http.NewRequest(http.MethodPost, "/remoto/Greeter.Greet", buf)
+	req, err := http.NewRequest(http.MethodPost, c.endpoint+"/remoto/Greeter.Greet", buf)
 	if err != nil {
 		return nil, errors.Wrap(err, "Greeter.Greet: new request")
 	}
@@ -203,7 +205,7 @@ func (c *GreeterClient) GreetPhotoMulti(ctx context.Context, requests []*GreetPh
 	if err := w.Close(); err != nil {
 		return nil, errors.Wrap(err, "Greeter.GreetPhoto: write")
 	}
-	req, err := http.NewRequest(http.MethodPost, "/remoto/Greeter.GreetPhoto", buf)
+	req, err := http.NewRequest(http.MethodPost, c.endpoint+"/remoto/Greeter.GreetPhoto", buf)
 	if err != nil {
 		return nil, errors.Wrap(err, "Greeter.GreetPhoto: new request")
 	}

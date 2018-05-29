@@ -31,8 +31,10 @@ import (
 	"context"
 	"encoding/json"
 	"io"
+	"io/ioutil"
 	"mime/multipart"
 	"net/http"
+	"strconv"
 
 	"github.com/oxtoacart/bpool"
 	"github.com/pkg/errors"
@@ -110,7 +112,7 @@ func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context,
 	if err := w.Close(); err != nil {
 		return nil, errors.Wrap(err, "<%= service.Name %>.<%= method.Name %>: write")
 	}
-	req, err := http.NewRequest(http.MethodPost, "/remoto/<%= service.Name %>.<%= method.Name %>", buf)
+	req, err := http.NewRequest(http.MethodPost, c.endpoint + "/remoto/<%= service.Name %>.<%= method.Name %>", buf)
 	if err != nil {
 		return nil, errors.Wrap(err, "<%= service.Name %>.<%= method.Name %>: new request")
 	}

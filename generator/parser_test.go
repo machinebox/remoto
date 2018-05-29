@@ -2,6 +2,7 @@ package generator
 
 import (
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/matryer/is"
@@ -101,5 +102,5 @@ func TestParserImports(t *testing.T) {
 	is.Equal(len(def.Services), 1)
 	is.Equal(def.PackageName, "greeter")
 	out := def.String()
-	is.Equal(out, "")
+	is.True(strings.Contains(out, `Photo remototypes.File`))
 }

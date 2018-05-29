@@ -3,6 +3,7 @@ package remotohttp_test
 import (
 	"bytes"
 	"context"
+	"io"
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
@@ -123,7 +124,11 @@ func TestDecodeFile(t *testing.T) {
 	is.Equal(requestObjects[0].Name, "Mat")
 	is.Equal(requestObjects[1].Name, "David")
 	is.Equal(requestObjects[2].Name, "Aaron")
-	f, err := requestObjects[0].Photo.Open(context.Background(), req, http.DefaultClient)
+	ctx := context.Background()
+	ctx = remototypes.WithFileOpenContext(ctx, func(remototypes.File) (io.ReadCloser, error) {
+		return ioutil.NopCloser(strings.NewReader(`mat-photo-binary-data`)), nil
+	})
+	f, err := requestObjects[0].Photo.Open(ctx)
 	is.NoErr(err)
 	defer f.Close()
 	matPhotoData, err := ioutil.ReadAll(f)

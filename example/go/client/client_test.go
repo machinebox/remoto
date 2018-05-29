@@ -3,6 +3,8 @@ package example_test
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -11,6 +13,7 @@ import (
 	example "github.com/machinebox/remoto/example/go/client"
 	exampleserver "github.com/machinebox/remoto/example/go/server"
 	"github.com/matryer/is"
+	"github.com/pkg/errors"
 )
 
 func Test(t *testing.T) {
@@ -46,7 +49,7 @@ func TestMulti(t *testing.T) {
 	req3 := &example.GreetRequest{
 		Name: "Aaron",
 	}
-	resps, err := c.GreetMulti(ctx, req1, req2, req3)
+	resps, err := c.GreetMulti(ctx, []*example.GreetRequest{req1, req2, req3})
 	is.NoErr(err)
 	is.Equal(len(resps), 3)
 	is.Equal(resps[0].Greeting, "Hello Mat")
@@ -58,6 +61,23 @@ type greeter struct{}
 
 func (greeter) Greet(ctx context.Context, req *exampleserver.GreetRequest) (*exampleserver.GreetResponse, error) {
 	resp := &exampleserver.GreetResponse{
+		Greeting: "Hello " + req.Name,
+	}
+	return resp, nil
+}
+
+func (greeter) GreetPhoto(ctx context.Context, req *exampleserver.GreetPhotoRequest) (*exampleserver.GreetPhotoResponse, error) {
+	f, err := req.Photo.Open(ctx)
+	if err != nil {
+		return nil, errors.Wrap(err, "open file")
+	}
+	defer f.Close()
+	b, err := ioutil.ReadAll(f)
+	if err != nil {
+		return nil, errors.Wrap(err, "read file")
+	}
+	log.Println(string(b))
+	resp := &exampleserver.GreetPhotoResponse{
 		Greeting: "Hello " + req.Name,
 	}
 	return resp, nil

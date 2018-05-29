@@ -11,8 +11,9 @@ import (
 
 	"github.com/machinebox/remoto/go/remotohttp"
 	"github.com/pkg/errors"
-
-	"github.com/machinebox/remoto/remototypes"
+	
+	"github.com/machinebox/remoto/remototypes"	
+	
 )
 
 // Run is the simplest way to run the services.
@@ -45,65 +46,73 @@ func New(
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		},
 	}
-
+	
 	RegisterGreetFormatterServer(server, greetFormatter)
 	RegisterGreeterServer(server, greeter)
 	return server
 }
 
-//
-type GreetPhotoRequest struct {
-	//
-	Photo remototypes.File `json:"photo"`
-	//
-	Name string `json:"name"`
-}
-
-//
-type GreetPhotoResponse struct {
-	//
-	Greeting string `json:"greeting"`
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
 // GreetFormatRequest is the request for GreetFormatter.Greet.
 type GreetFormatRequest struct {
-	//
+	// 
 	Format string `json:"format"`
-	//
+	// 
 	Name string `json:"name"`
+	
 }
 
 // GreetResponse is the response for Greeter.Greet and GreetFormatter.Greet.
 type GreetResponse struct {
-	//
+	// 
 	Greeting string `json:"greeting"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
+	
 }
 
 // GreetRequest is the request for Greeter.Greet.
 type GreetRequest struct {
-	//
+	// 
 	Name string `json:"name"`
+	
 }
+
+// 
+type GreetPhotoRequest struct {
+	// 
+	Photo remototypes.File `json:"photo"`
+	// 
+	Name string `json:"name"`
+	
+}
+
+// 
+type GreetPhotoResponse struct {
+	// 
+	Greeting string `json:"greeting"`
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+	
+}
+
+
 
 // GreetFormatter provides formattable greeting services.
 type GreetFormatter interface {
-	//
+	// 
 	Greet(context.Context, *GreetFormatRequest) (*GreetResponse, error)
+
 }
 
 // RegisterGreetFormatterServer registers a GreetFormatter with a remotohttp.Server.
 func RegisterGreetFormatterServer(server *remotohttp.Server, service GreetFormatter) {
 	srv := &httpGreetFormatterServer{
 		service: service,
-		server:  server,
+		server: server,
 	}
-
+	
 	server.Register("/remoto/GreetFormatter.Greet", http.HandlerFunc(srv.Greet))
-
+	
 }
 
 type httpGreetFormatterServer struct {
@@ -114,6 +123,7 @@ type httpGreetFormatterServer struct {
 	// registered with.
 	server *remotohttp.Server
 }
+
 
 // Greet is an http.Handler wrapper for GreetFormatter.Greet.
 func (srv *httpGreetFormatterServer) Greet(w http.ResponseWriter, r *http.Request) {
@@ -135,27 +145,28 @@ func (srv *httpGreetFormatterServer) Greet(w http.ResponseWriter, r *http.Reques
 		srv.server.OnErr(w, r, err)
 		return
 	}
-}
+} 
 
 // Greeter provides greeting services.
 type Greeter interface {
-	//
+	// 
 	Greet(context.Context, *GreetRequest) (*GreetResponse, error)
-	//
+// 
 	GreetPhoto(context.Context, *GreetPhotoRequest) (*GreetPhotoResponse, error)
+
 }
 
 // RegisterGreeterServer registers a Greeter with a remotohttp.Server.
 func RegisterGreeterServer(server *remotohttp.Server, service Greeter) {
 	srv := &httpGreeterServer{
 		service: service,
-		server:  server,
+		server: server,
 	}
-
+	
 	server.Register("/remoto/Greeter.Greet", http.HandlerFunc(srv.Greet))
-
+	
 	server.Register("/remoto/Greeter.GreetPhoto", http.HandlerFunc(srv.GreetPhoto))
-
+	
 }
 
 type httpGreeterServer struct {
@@ -166,6 +177,7 @@ type httpGreeterServer struct {
 	// registered with.
 	server *remotohttp.Server
 }
+
 
 // Greet is an http.Handler wrapper for Greeter.Greet.
 func (srv *httpGreeterServer) Greet(w http.ResponseWriter, r *http.Request) {
@@ -188,7 +200,6 @@ func (srv *httpGreeterServer) Greet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
-
 // GreetPhoto is an http.Handler wrapper for Greeter.GreetPhoto.
 func (srv *httpGreeterServer) GreetPhoto(w http.ResponseWriter, r *http.Request) {
 	var reqs []*GreetPhotoRequest
@@ -209,4 +220,5 @@ func (srv *httpGreeterServer) GreetPhoto(w http.ResponseWriter, r *http.Request)
 		srv.server.OnErr(w, r, err)
 		return
 	}
-}
+} 
+
