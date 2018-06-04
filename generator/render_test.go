@@ -19,20 +19,18 @@ func TestRender(t *testing.T) {
 	is.NoErr(err)
 	is.Equal(buf.String(), `package: greeter
 	service: GreetFormatter
+		method: Greet
 		structure: GreetFormatRequest
-		method: Greet
 			field: Format string
-			field: Name string
+			field: Names string
 		structure: GreetResponse
-		method: Greet
 			field: Greeting string
 			field: Error string
 	service: Greeter
-		structure: GreetRequest
 		method: Greet
+		structure: GreetRequest
 			field: Name string
 		structure: GreetResponse
-		method: Greet
 			field: Greeting string
 			field: Error string
 `)

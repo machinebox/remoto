@@ -38,9 +38,6 @@ import (
 
 	"github.com/oxtoacart/bpool"
 	"github.com/pkg/errors"
-	<%= if (has_field_type(def, "remototypes.File")) { %>
-	"github.com/machinebox/remoto/remototypes"	
-	<% } %>
 )
 
 <%= for (service) in def.Services { %>

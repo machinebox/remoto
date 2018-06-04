@@ -39,9 +39,9 @@ type Service struct {
 	Structures []Structure
 }
 
-// EnsureStructure adds the Structure to the service if it isn't
+// ensureStructure adds the Structure to the service if it isn't
 // already there.
-func (s *Service) EnsureStructure(structure Structure) {
+func (s *Service) ensureStructure(structure Structure) {
 	for i := range s.Structures {
 		if s.Structures[i].Name == structure.Name {
 			return
@@ -237,7 +237,7 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 		return method, newErr(fset, m.Pos(), "request object should end with \"Request\"")
 	}
 	method.RequestType = requestStructure
-	srv.EnsureStructure(requestStructure)
+	srv.ensureStructure(requestStructure)
 	// process return arguments
 	returns := sig.Results()
 	if returns.Len() != 2 || returns.At(1).Type().String() != "error" {
@@ -253,7 +253,7 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 	}
 	addDefaultResponseFields(&responseStructure)
 	method.ResponseType = responseStructure
-	srv.EnsureStructure(responseStructure)
+	srv.ensureStructure(responseStructure)
 	return method, nil
 }
 
@@ -337,7 +337,7 @@ func parseField(fset *token.FileSet, scope *types.Scope, def *Definition, srv *S
 		if err != nil {
 			return field, err
 		}
-		srv.EnsureStructure(structure)
+		srv.ensureStructure(structure)
 	}
 	return field, nil
 }
