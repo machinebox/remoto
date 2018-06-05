@@ -18,6 +18,8 @@ func TestAddHelpers(t *testing.T) {
 	addHelpers(s)
 	m := map[string]interface{}(*s)
 	is.Equal(m["unique_structures"], uniqueStructures)
+	is.Equal(m["print_comment"], printComment)
+	is.Equal(m["go_type_string"], goTypeString)
 }
 
 func TestHelperComment(t *testing.T) {
@@ -60,4 +62,20 @@ func TestHelperUniqueStructures(t *testing.T) {
 	def.Services = append(def.Services, srv1, srv2)
 	structs := uniqueStructures(def)
 	is.Equal(len(structs), 3)
+}
+
+func TestGoTypeString(t *testing.T) {
+	is := is.New(t)
+	typ := Type{
+		Name:       "string",
+		IsMultiple: false,
+		IsStruct:   false,
+	}
+	is.Equal(goTypeString(typ), "string")
+	typ = Type{
+		Name:       "string",
+		IsMultiple: true,
+		IsStruct:   false,
+	}
+	is.Equal(goTypeString(typ), "[]string")
 }

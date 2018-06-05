@@ -8,6 +8,7 @@ type setter interface {
 func addHelpers(s setter) {
 	s.Set("unique_structures", uniqueStructures)
 	s.Set("print_comment", printComment)
+	s.Set("go_type_string", goTypeString)
 }
 
 // uniqueStructures gets all unique Structure types from all services.
@@ -35,4 +36,13 @@ func printComment(comment string) string {
 		return ""
 	}
 	return "// " + comment + "\n"
+}
+
+// goTypeString gets the Type as a Go string.
+// Use go_type_string(type) in templates.
+func goTypeString(typ Type) string {
+	if typ.IsMultiple {
+		return "[]" + typ.Name
+	}
+	return typ.Name
 }

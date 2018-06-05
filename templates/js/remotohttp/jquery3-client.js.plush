@@ -12,8 +12,7 @@
         this.endpoint = options.endpoint || "http://localhost:8080"
     }
     <%= for (method) in service.Methods { %>
-    // <%= method.Comment %>
-    // Usage:
+    <%= print_comment(method.Comment) %>// Usage:
     //     remote<%= service.Name %>.<%= method.Name %>([{
     // <%= for (field) in method.RequestType.Fields { %>        <%= camelize_down_first(field.Name) %>: null,
     // <% } %>    }])
