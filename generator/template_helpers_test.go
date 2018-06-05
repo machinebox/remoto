@@ -60,7 +60,4 @@ func TestHelperUniqueStructures(t *testing.T) {
 	def.Services = append(def.Services, srv1, srv2)
 	structs := uniqueStructures(def)
 	is.Equal(len(structs), 3)
-	is.Equal(structs[0].Name, "s1")
-	is.Equal(structs[1].Name, "s2")
-	is.Equal(structs[2].Name, "s3")
 }

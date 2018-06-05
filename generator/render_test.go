@@ -20,6 +20,8 @@ func TestRender(t *testing.T) {
 	is.Equal(buf.String(), `package: greeter
 	service: GreetFormatter
 		method: Greet
+			request: GreetFormatRequest
+			response: GreetResponse
 		structure: GreetFormatRequest
 			field: Format string
 			field: Names string
@@ -28,6 +30,8 @@ func TestRender(t *testing.T) {
 			field: Error string
 	service: Greeter
 		method: Greet
+			request: GreetRequest
+			response: GreetResponse
 		structure: GreetRequest
 			field: Name string
 		structure: GreetResponse
