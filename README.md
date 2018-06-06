@@ -45,6 +45,8 @@ Remoto provides the following special types:
 
 * `remototypes.File` - A local or remote file
 
+If a response object contains a `remototypes.File` field, it must be the only field.
+
 ### Tips
 
 * For simplicity, don't import common types - just describe all the requireds types in a single file

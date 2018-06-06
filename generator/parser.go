@@ -254,6 +254,13 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 	if !strings.HasSuffix(responseStructure.Name, "Response") {
 		return method, newErr(fset, m.Pos(), "response object should end with \"Response\"")
 	}
+	for _, field := range responseStructure.Fields {
+		if field.Type.Name == "remototypes.File" {
+			if len(responseStructure.Fields) > 1 {
+				return method, newErr(fset, m.Pos(), "response object may contain a single remototypes.File field only")
+			}
+		}
+	}
 	addDefaultResponseFields(&responseStructure)
 	method.ResponseType = responseStructure
 	srv.ensureStructure(responseStructure)
