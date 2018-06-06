@@ -46,8 +46,8 @@ func New(
 	return server
 }
 
-type PredictResponse struct {
-	Choices []PredictedChoice `json:"choices"`
+type ListModelsResponse struct {
+	Models []Model `json:"models"`
 
 	// Error is an error message if one occurred.
 
@@ -61,26 +61,34 @@ type PutStateResponse struct {
 	Error string `json:"error"`
 }
 
+type Feature struct {
+	Key string `json:"key"`
+
+	Type string `json:"type"`
+
+	Value string `json:"value"`
+
+	File remototypes.File `json:"file"`
+}
+
 type Choice struct {
 	ID string `json:"id"`
 
 	Features []Feature `json:"features"`
 }
 
+type CreateModelRequest struct {
+	Model Model `json:"model"`
+}
+
 type DeleteModelRequest struct {
 	ModelID string `json:"model_id"`
 }
 
-type PredictRequest struct {
-	ModelID string `json:"model_id"`
-
-	Limit int `json:"limit"`
-
-	Inputs []Feature `json:"inputs"`
+type GetStateRequest struct {
 }
 
-type PutStateRequest struct {
-	StateFile remototypes.File `json:"state_file"`
+type ListModelsRequest struct {
 }
 
 type RewardRequest struct {
@@ -98,6 +106,48 @@ type RewardResponse struct {
 	Error string `json:"error"`
 }
 
+type CreateModelResponse struct {
+
+	// Error is an error message if one occurred.
+
+	Error string `json:"error"`
+}
+
+type DeleteModelResponse struct {
+
+	// Error is an error message if one occurred.
+
+	Error string `json:"error"`
+}
+
+type PredictRequest struct {
+	ModelID string `json:"model_id"`
+
+	Limit int `json:"limit"`
+
+	Inputs []Feature `json:"inputs"`
+}
+
+type PredictedChoice struct {
+	ID string `json:"id"`
+
+	Features []Feature `json:"features"`
+
+	RewardID string `json:"reward_id"`
+}
+
+type PredictResponse struct {
+	Choices []PredictedChoice `json:"choices"`
+
+	// Error is an error message if one occurred.
+
+	Error string `json:"error"`
+}
+
+type PutStateRequest struct {
+	StateFile remototypes.File `json:"state_file"`
+}
+
 type ModelOptions struct {
 	RewardExpirationSeconds int `json:"reward_expiration_seconds"`
 
@@ -112,57 +162,6 @@ type ModelOptions struct {
 	Cover float64 `json:"cover"`
 }
 
-type CreateModelRequest struct {
-	Model Model `json:"model"`
-}
-
-type DeleteModelResponse struct {
-
-	// Error is an error message if one occurred.
-
-	Error string `json:"error"`
-}
-
-type GetStateRequest struct {
-}
-
-type GetStateResponse struct {
-	StateFile remototypes.File `json:"state_file"`
-
-	// Error is an error message if one occurred.
-
-	Error string `json:"error"`
-}
-
-type ListModelsRequest struct {
-}
-
-type ListModelsResponse struct {
-	Models []Model `json:"models"`
-
-	// Error is an error message if one occurred.
-
-	Error string `json:"error"`
-}
-
-type PredictedChoice struct {
-	ID string `json:"id"`
-
-	Features []Feature `json:"features"`
-
-	RewardID string `json:"reward_id"`
-}
-
-type Feature struct {
-	Key string `json:"key"`
-
-	Type string `json:"type"`
-
-	Value string `json:"value"`
-
-	File remototypes.File `json:"file"`
-}
-
 type Model struct {
 	ID string `json:"id"`
 
@@ -173,7 +172,8 @@ type Model struct {
 	Choices []Choice `json:"choices"`
 }
 
-type CreateModelResponse struct {
+type GetStateResponse struct {
+	StateFile remototypes.File `json:"state_file"`
 
 	// Error is an error message if one occurred.
 

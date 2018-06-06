@@ -87,7 +87,7 @@ func (c *SuggestionboxClient) CreateModelMulti(ctx context.Context, requests []*
 	}
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
-		return nil, errors.Errorf("SuggestionboxClient.CreateModel: remote service returned %d", resp.Status)
+		return nil, errors.Errorf("SuggestionboxClient.CreateModel: remote service returned %s", resp.Status)
 	}
 	b, err = ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
@@ -152,7 +152,7 @@ func (c *SuggestionboxClient) DeleteModelMulti(ctx context.Context, requests []*
 	}
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
-		return nil, errors.Errorf("SuggestionboxClient.DeleteModel: remote service returned %d", resp.Status)
+		return nil, errors.Errorf("SuggestionboxClient.DeleteModel: remote service returned %s", resp.Status)
 	}
 	b, err = ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
@@ -217,7 +217,7 @@ func (c *SuggestionboxClient) GetStateMulti(ctx context.Context, requests []*Get
 	}
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
-		return nil, errors.Errorf("SuggestionboxClient.GetState: remote service returned %d", resp.Status)
+		return nil, errors.Errorf("SuggestionboxClient.GetState: remote service returned %s", resp.Status)
 	}
 	b, err = ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
@@ -282,7 +282,7 @@ func (c *SuggestionboxClient) ListModelsMulti(ctx context.Context, requests []*L
 	}
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
-		return nil, errors.Errorf("SuggestionboxClient.ListModels: remote service returned %d", resp.Status)
+		return nil, errors.Errorf("SuggestionboxClient.ListModels: remote service returned %s", resp.Status)
 	}
 	b, err = ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
@@ -347,7 +347,7 @@ func (c *SuggestionboxClient) PredictMulti(ctx context.Context, requests []*Pred
 	}
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
-		return nil, errors.Errorf("SuggestionboxClient.Predict: remote service returned %d", resp.Status)
+		return nil, errors.Errorf("SuggestionboxClient.Predict: remote service returned %s", resp.Status)
 	}
 	b, err = ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
@@ -412,7 +412,7 @@ func (c *SuggestionboxClient) PutStateMulti(ctx context.Context, requests []*Put
 	}
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
-		return nil, errors.Errorf("SuggestionboxClient.PutState: remote service returned %d", resp.Status)
+		return nil, errors.Errorf("SuggestionboxClient.PutState: remote service returned %s", resp.Status)
 	}
 	b, err = ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
@@ -477,7 +477,7 @@ func (c *SuggestionboxClient) RewardMulti(ctx context.Context, requests []*Rewar
 	}
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
-		return nil, errors.Errorf("SuggestionboxClient.Reward: remote service returned %d", resp.Status)
+		return nil, errors.Errorf("SuggestionboxClient.Reward: remote service returned %s", resp.Status)
 	}
 	b, err = ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
@@ -491,62 +491,36 @@ func (c *SuggestionboxClient) RewardMulti(ctx context.Context, requests []*Rewar
 	return resps, nil
 }
 
-type ListModelsResponse struct {
-	Models []Model
-
-	// Error is an error message if one occurred.
-	Error string
-}
-
-type PredictResponse struct {
-	Choices []PredictedChoice
-
-	// Error is an error message if one occurred.
-	Error string
-}
-
-type RewardResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string
-}
-
-type CreateModelRequest struct {
-	Model Model
-}
-
-type CreateModelResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string
-}
-
 type DeleteModelRequest struct {
-	ModelID string
+	ModelID string `json:"model_id"`
 }
 
 type DeleteModelResponse struct {
 
 	// Error is an error message if one occurred.
-	Error string
+	Error string `json:"error"`
 }
 
-type PredictedChoice struct {
-	ID string
+type GetStateRequest struct {
+}
 
-	Features []Feature
+type PutStateResponse struct {
 
-	RewardID string
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type RewardResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
 }
 
 type Feature struct {
-	Key string
-
-	Type string
-
-	Value string
-
-	File remototypes.File
+	Key   string           `json:"key"`
+	Type  string           `json:"type"`
+	Value string           `json:"value"`
+	File  remototypes.File `json:"file"`
 }
 
 // SetFile puts a file into the context ready for the request.
@@ -562,56 +536,59 @@ func (s *Feature) SetFile(ctx context.Context, filename string, r io.Reader) con
 	return ctx
 }
 
-type Choice struct {
-	ID string
-
-	Features []Feature
-}
-
-type PredictRequest struct {
-	ModelID string
-
-	Limit int
-
-	Inputs []Feature
-}
-
-type RewardRequest struct {
-	ModelID string
-
-	RewardID string
-
-	Value int
-}
-
-type GetStateResponse struct {
-	StateFile remototypes.File
+type CreateModelResponse struct {
 
 	// Error is an error message if one occurred.
-	Error string
+	Error string `json:"error"`
 }
 
-// SetStateFile puts a file into the context ready for the request.
-func (s *GetStateResponse) SetStateFile(ctx context.Context, filename string, r io.Reader) context.Context {
-	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
-	if !ok {
-		files = make(map[string]file)
-	}
-	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
-	files[fieldname] = file{r: r, filename: filename}
-	ctx = context.WithValue(ctx, contextKeyFiles, files)
-	s.StateFile = remototypes.NewFile(fieldname)
-	return ctx
+type CreateModelRequest struct {
+	Model Model `json:"model"`
 }
 
 type ListModelsRequest struct {
 }
 
-type GetStateRequest struct {
+type PredictRequest struct {
+	ModelID string    `json:"model_id"`
+	Limit   int       `json:"limit"`
+	Inputs  []Feature `json:"inputs"`
+}
+
+type PredictResponse struct {
+	Choices []PredictedChoice `json:"choices"`
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type ModelOptions struct {
+	RewardExpirationSeconds int     `json:"reward_expiration_seconds"`
+	Ngrams                  int     `json:"ngrams"`
+	Skipgrams               int     `json:"skipgrams"`
+	Mode                    string  `json:"mode"`
+	Epsilon                 float64 `json:"epsilon"`
+	Cover                   float64 `json:"cover"`
+}
+
+type Choice struct {
+	ID       string    `json:"id"`
+	Features []Feature `json:"features"`
+}
+
+type PredictedChoice struct {
+	ID       string    `json:"id"`
+	Features []Feature `json:"features"`
+	RewardID string    `json:"reward_id"`
+}
+
+type ListModelsResponse struct {
+	Models []Model `json:"models"`
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
 }
 
 type PutStateRequest struct {
-	StateFile remototypes.File
+	StateFile remototypes.File `json:"state_file"`
 }
 
 // SetStateFile puts a file into the context ready for the request.
@@ -627,34 +604,36 @@ func (s *PutStateRequest) SetStateFile(ctx context.Context, filename string, r i
 	return ctx
 }
 
-type PutStateResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string
-}
-
-type ModelOptions struct {
-	RewardExpirationSeconds int
-
-	Ngrams int
-
-	Skipgrams int
-
-	Mode string
-
-	Epsilon float64
-
-	Cover float64
+type RewardRequest struct {
+	ModelID  string `json:"model_id"`
+	RewardID string `json:"reward_id"`
+	Value    int    `json:"value"`
 }
 
 type Model struct {
-	ID string
+	ID      string       `json:"id"`
+	Name    string       `json:"name"`
+	Options ModelOptions `json:"options"`
+	Choices []Choice     `json:"choices"`
+}
 
-	Name string
+type GetStateResponse struct {
+	StateFile remototypes.File `json:"state_file"`
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
 
-	Options ModelOptions
-
-	Choices []Choice
+// SetStateFile puts a file into the context ready for the request.
+func (s *GetStateResponse) SetStateFile(ctx context.Context, filename string, r io.Reader) context.Context {
+	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
+	if !ok {
+		files = make(map[string]file)
+	}
+	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
+	files[fieldname] = file{r: r, filename: filename}
+	ctx = context.WithValue(ctx, contextKeyFiles, files)
+	s.StateFile = remototypes.NewFile(fieldname)
+	return ctx
 }
 
 type contextKey string

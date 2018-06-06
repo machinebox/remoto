@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
+	"strconv"
 
 	"github.com/machinebox/remoto/remototypes"
 	"github.com/oxtoacart/bpool"
@@ -86,7 +87,7 @@ func (c *GreeterClient) GreetMulti(ctx context.Context, requests []*GreetRequest
 	}
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
-		return nil, errors.Errorf("GreeterClient.Greet: remote service returned %d", resp.Status)
+		return nil, errors.Errorf("GreeterClient.Greet: remote service returned %s", resp.Status)
 	}
 	b, err = ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
@@ -101,14 +102,13 @@ func (c *GreeterClient) GreetMulti(ctx context.Context, requests []*GreetRequest
 }
 
 type GreetRequest struct {
-	Name string
+	Name string `json:"name"`
 }
 
 type GreetResponse struct {
-	Greeting string
-
+	Greeting string `json:"greeting"`
 	// Error is an error message if one occurred.
-	Error string
+	Error string `json:"error"`
 }
 
 type contextKey string

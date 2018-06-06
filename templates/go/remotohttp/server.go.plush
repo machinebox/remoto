@@ -57,18 +57,17 @@ func New(
 	return server
 }
 
-<%= for (structure) in unique_structures(def) { %><%= print_comment(structure.Comment) %>
-type <%= structure.Name %> struct {
+<%= for (structure) in unique_structures(def) { %>
+<%= print_comment(structure.Comment) %>type <%= structure.Name %> struct {
 	<%= for (field) in structure.Fields { %>
-	<%= print_comment(field.Comment) %>
-	<%= field.Name %> <%= go_type_string(field.Type) %> `json:"<%= underscore(field.Name) %>"`
+	<%= print_comment(field.Comment) %><%= field.Name %> <%= go_type_string(field.Type) %> `json:"<%= underscore(field.Name) %>"`
 	<% } %>
 }
 
 <% } %>
 
-<%= for (service) in def.Services { %><%= print_comment(service.Comment) %>
-type <%= service.Name %> interface {
+<%= for (service) in def.Services { %>
+<%= print_comment(service.Comment) %>type <%= service.Name %> interface {
 	<%= for (method) in service.Methods { %><%= print_comment(method.Comment) %>
 	<%= method.Name %>(context.Context, *<%= method.RequestType.Name %>) (*<%= method.ResponseType.Name %>, error)
 <% } %>
@@ -81,10 +80,12 @@ func Register<%= service.Name %>Server(server *remotohttp.Server, service <%= se
 		server: server,
 	}
 	<%= for (method) in service.Methods { %>
-	server.Register("/remoto/<%= service.Name %>.<%= method.Name %>", http.HandlerFunc(srv.<%= method.Name %>))
+	server.Register("/remoto/<%= service.Name %>.<%= method.Name %>", http.HandlerFunc(srv.handle<%= method.Name %>))
 	<% } %>
 }
 
+// http<%= service.Name %>Server is an internal type that provides an
+// HTTP wrapper around <%= service.Name %>.
 type http<%= service.Name %>Server struct {
 	// service is the <%= service.Name %> being exposed by this
 	// server.
@@ -95,8 +96,8 @@ type http<%= service.Name %>Server struct {
 }
 
 <%= for (method) in service.Methods { %>
-// <%= method.Name %> is an http.Handler wrapper for <%= service.Name %>.<%= method.Name %>.
-func (srv *http<%= service.Name %>Server) <%= method.Name %>(w http.ResponseWriter, r *http.Request) {
+// handle<%= method.Name %> is an http.Handler wrapper for <%= service.Name %>.<%= method.Name %>.
+func (srv *http<%= service.Name %>Server) handle<%= method.Name %>(w http.ResponseWriter, r *http.Request) {
 	var reqs []*<%= method.RequestType.Name %>
 	if err := remotohttp.Decode(r, &reqs); err != nil {
 		srv.server.OnErr(w, r, err)

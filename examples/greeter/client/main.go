@@ -22,6 +22,8 @@ func run() error {
 	if len(os.Args) < 2 {
 		return errors.New("usage: client name")
 	}
+
+	// see https://medium.com/@matryer/make-ctrl-c-cancel-the-context-context-bd006a8ad6ff
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	c := make(chan os.Signal, 1)
@@ -37,6 +39,7 @@ func run() error {
 		case <-ctx.Done():
 		}
 	}()
+
 	g := greeter.NewGreeterClient("http://localhost:8080", http.DefaultClient)
 	greetRequest := &greeter.GreetRequest{
 		Name: os.Args[1],
