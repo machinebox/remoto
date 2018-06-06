@@ -71,7 +71,8 @@ type PredictedClass struct {
 
 // ListModels(context.Context, *ListModelsRequest) (*ListModelsResponse, error)
 
-type ListModelsRequest struct{}
+type ListModelsRequest struct {
+}
 type ListModelsResponse struct {
 	Models []Model
 }
