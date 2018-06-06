@@ -86,7 +86,6 @@ func TestErrors(t *testing.T) {
 		"testdata/rpc/errors/unexported-fields":           "greeter.remoto.go:13:2: field name: must be exported",
 		"testdata/rpc/errors/unexported-methods":          "greeter.remoto.go:8:2: method greet: must be exported",
 		"testdata/rpc/errors/same-request-response-types": "greeter.remoto.go:9:2: service methods must use different types for request and response objects",
-		"testdata/rpc/errors/mixed-response-with-files":   "greeter.remoto.go:13:2: response object may contain a single remototypes.File field only",
 	}
 	pwd, err := os.Getwd()
 	is.NoErr(err)

@@ -79,6 +79,7 @@ func (c *ImagesClient) FlipMulti(ctx context.Context, requests []*FlipRequest) (
 	if err != nil {
 		return nil, errors.Wrap(err, "ImagesClient.Flip: new request")
 	}
+	req.Header.Set("Accept", "application/json; charset=utf-8")
 	req.Header.Set("Content-Type", w.FormDataContentType())
 	req = req.WithContext(ctx)
 	resp, err := c.httpclient.Do(req)
@@ -102,12 +103,11 @@ func (c *ImagesClient) FlipMulti(ctx context.Context, requests []*FlipRequest) (
 }
 
 // FlipRequest is the request for Images.Flip.
-
 type FlipRequest struct {
 	Image remototypes.File `json:"image"`
 }
 
-// SetImage puts a file into the context ready for the request.
+// SetImage sets the file for the Image field.
 func (s *FlipRequest) SetImage(ctx context.Context, filename string, r io.Reader) context.Context {
 	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
 	if !ok {
@@ -121,34 +121,30 @@ func (s *FlipRequest) SetImage(ctx context.Context, filename string, r io.Reader
 }
 
 // FlipResponse is the response for Images.Flip.
-
 type FlipResponse struct {
 	FlippedImage remototypes.File `json:"flipped_image"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
-// SetFlippedImage puts a file into the context ready for the request.
-func (s *FlipResponse) SetFlippedImage(ctx context.Context, filename string, r io.Reader) context.Context {
-	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
-	if !ok {
-		files = make(map[string]file)
-	}
-	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
-	files[fieldname] = file{r: r, filename: filename}
-	ctx = context.WithValue(ctx, contextKeyFiles, files)
-	s.FlippedImage = remototypes.NewFile(fieldname)
-	return ctx
+// OpenFlippedImage opens the file from the response.
+func (s *FlipResponse) OpenFlippedImage(ctx context.Context) (io.Reader, error) {
+	return nil, nil
 }
 
+// contextKey is a local context key type.
+// see https://medium.com/@matryer/context-keys-in-go-5312346a868d
 type contextKey string
 
 func (c contextKey) String() string {
 	return "remoto context key: " + string(c)
 }
 
+// contextKeyFiles is the context key for the request files.
 var contextKeyFiles = contextKey("files")
 
+// file holds info about a file in the context, including
+// the io.Reader where the contents will be read from.
 type file struct {
 	r        io.Reader
 	filename string

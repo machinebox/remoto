@@ -88,6 +88,9 @@ type Structure struct {
 	Name    string
 	Comment string
 	Fields  []Field
+
+	IsRequestObject  bool
+	IsResponseObject bool
 }
 
 func (s Structure) String() string {
@@ -236,6 +239,7 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 	if !strings.HasSuffix(requestStructure.Name, "Request") {
 		return method, newErr(fset, m.Pos(), "request object should end with \"Request\"")
 	}
+	requestStructure.IsRequestObject = true
 	method.RequestType = requestStructure
 	srv.ensureStructure(requestStructure)
 	// process return arguments
@@ -251,15 +255,9 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 	if requestStructure.Name == responseStructure.Name {
 		return method, newErr(fset, m.Pos(), "service methods must use different types for request and response objects")
 	}
+	responseStructure.IsResponseObject = true
 	if !strings.HasSuffix(responseStructure.Name, "Response") {
 		return method, newErr(fset, m.Pos(), "response object should end with \"Response\"")
-	}
-	for _, field := range responseStructure.Fields {
-		if field.Type.Name == "remototypes.File" {
-			if len(responseStructure.Fields) > 1 {
-				return method, newErr(fset, m.Pos(), "response object may contain a single remototypes.File field only")
-			}
-		}
 	}
 	addDefaultResponseFields(&responseStructure)
 	method.ResponseType = responseStructure

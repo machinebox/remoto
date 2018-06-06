@@ -92,6 +92,7 @@ func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context,
 	if err != nil {
 		return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: new request")
 	}
+	req.Header.Set("Accept", "application/json; charset=utf-8")
 	req.Header.Set("Content-Type", w.FormDataContentType())
 	req = req.WithContext(ctx)
 	resp, err := c.httpclient.Do(req)
@@ -116,15 +117,15 @@ func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context,
 <% } %>
 <% } %>
 
-<%= for (structure) in unique_structures(def) { %><%= print_comment(structure.Comment) %>
-type <%= structure.Name %> struct {
+<%= for (structure) in unique_structures(def) { %>
+<%= print_comment(structure.Comment) %>type <%= structure.Name %> struct {
     <%= for (field) in structure.Fields { %>
 	<%= print_comment(field.Comment) %><%= field.Name %> <%= go_type_string(field.Type) %> `json:"<%= underscore(field.Name) %>"`<% } %>
 }
 
 <%= for (field) in structure.Fields { %>
-<%= if (field.Type.Name == "remototypes.File") { %>
-// Set<%= field.Name %> puts a file into the context ready for the request.
+<%= if (field.Type.Name == "remototypes.File" && !structure.IsResponseObject) { %>
+// Set<%= field.Name %> sets the file for the <%= field.Name %> field.
 func (s *<%= structure.Name %>) Set<%= field.Name %>(ctx context.Context, filename string, r io.Reader) context.Context {
 	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
 	if !ok {
@@ -137,18 +138,29 @@ func (s *<%= structure.Name %>) Set<%= field.Name %>(ctx context.Context, filena
 	return ctx
 }
 <% } %>
+<%= if (field.Type.Name == "remototypes.File" && !structure.IsRequestObject) { %>
+// Open<%= field.Name %> opens the file from the response.
+func (s *<%= structure.Name %>) Open<%= field.Name %>(ctx context.Context) (io.Reader, error) {
+	return nil, nil
+}
+<% } %>
 <% } %>
 
 <% } %>
 
+// contextKey is a local context key type.
+// see https://medium.com/@matryer/context-keys-in-go-5312346a868d
 type contextKey string
 
 func (c contextKey) String() string {
 	return "remoto context key: " + string(c)
 }
 
+// contextKeyFiles is the context key for the request files.
 var contextKeyFiles = contextKey("files")
 
+// file holds info about a file in the context, including
+// the io.Reader where the contents will be read from.
 type file struct {
 	r io.Reader
 	filename string

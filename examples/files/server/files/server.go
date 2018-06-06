@@ -14,6 +14,11 @@ import (
 	"github.com/pkg/errors"
 )
 
+// Images provides image services.
+type Images interface {
+	Flip(context.Context, *FlipRequest) (*FlipResponse, error)
+}
+
 // Run is the simplest way to run the services.
 func Run(addr string,
 	images Images,
@@ -46,9 +51,15 @@ func New(
 	return server
 }
 
-// FlipRequest is the request for Images.Flip.
-type FlipRequest struct {
-	Image remototypes.File `json:"image"`
+// RegisterImagesServer registers a Images with a remotohttp.Server.
+func RegisterImagesServer(server *remotohttp.Server, service Images) {
+	srv := &httpImagesServer{
+		service: service,
+		server:  server,
+	}
+
+	server.Register("/remoto/Images.Flip", http.HandlerFunc(srv.handleFlip))
+
 }
 
 // FlipResponse is the response for Images.Flip.
@@ -59,20 +70,9 @@ type FlipResponse struct {
 	Error string `json:"error"`
 }
 
-// Images provides image services.
-type Images interface {
-	Flip(context.Context, *FlipRequest) (*FlipResponse, error)
-}
-
-// RegisterImagesServer registers a Images with a remotohttp.Server.
-func RegisterImagesServer(server *remotohttp.Server, service Images) {
-	srv := &httpImagesServer{
-		service: service,
-		server:  server,
-	}
-
-	server.Register("/remoto/Images.Flip", http.HandlerFunc(srv.handleFlip))
-
+// FlipRequest is the request for Images.Flip.
+type FlipRequest struct {
+	Image remototypes.File `json:"image"`
 }
 
 // httpImagesServer is an internal type that provides an
