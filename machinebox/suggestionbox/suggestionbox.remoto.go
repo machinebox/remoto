@@ -1,4 +1,4 @@
-package classificationbox
+package suggestionbox
 
 import (
 	"context"
@@ -6,12 +6,10 @@ import (
 	"github.com/machinebox/remoto/remototypes"
 )
 
-// Classificationbox lets you use machine learning to automatically classify
-// various types of data, such as text, images, structured and unstructured data.
-type Classificationbox interface {
+type Suggestionbox interface {
 	CreateModel(context.Context, *CreateModelRequest) (*CreateModelResponse, error)
-	Teach(context.Context, *TeachRequest) (*TeachResponse, error)
 	Predict(context.Context, *PredictRequest) (*PredictResponse, error)
+	Reward(context.Context, *RewardRequest) (*RewardResponse, error)
 
 	ListModels(context.Context, *ListModelsRequest) (*ListModelsResponse, error)
 	DeleteModel(context.Context, *DeleteModelRequest) (*DeleteModelResponse, error)
@@ -24,28 +22,33 @@ type CreateModelRequest struct {
 	Model Model
 }
 
-type CreateModelResponse struct {
-}
+type CreateModelResponse struct{}
 
 type Model struct {
 	ID      string
 	Name    string
 	Options ModelOptions
-	Classes []string
+	Choices []Choice
 }
 
 type ModelOptions struct {
-	Ngrams    int
-	Skipgrams int
+	RewardExpirationSeconds int
+	Ngrams                  int
+	Skipgrams               int
+	Mode                    string
+	Epsilon                 float64
+	Cover                   float64
 }
 
-type TeachRequest struct {
-	ModelID string
-	Class   string
-	Inputs  []Feature
+type Choice struct {
+	ID       string
+	Features []Feature
 }
 
-type TeachResponse struct {
+type PredictedChoice struct {
+	ID       string
+	Features []Feature
+	RewardID string
 }
 
 type Feature struct {
@@ -62,19 +65,26 @@ type PredictRequest struct {
 }
 
 type PredictResponse struct {
-	Classes []PredictedClass
+	Choices []PredictedChoice
 }
 
-type PredictedClass struct {
-	ID    string
-	Score float64
+type RewardRequest struct {
+	ModelID  string
+	RewardID string
+	Value    int
 }
+type RewardResponse struct{}
 
 type ListModelsRequest struct {
 }
 type ListModelsResponse struct {
 	Models []Model
 }
+
+type DeleteModelRequest struct {
+	ModelID string
+}
+type DeleteModelResponse struct{}
 
 type GetStateRequest struct{}
 
@@ -87,8 +97,3 @@ type PutStateRequest struct {
 }
 
 type PutStateResponse struct{}
-
-type DeleteModelRequest struct {
-	ModelID string
-}
-type DeleteModelResponse struct{}
