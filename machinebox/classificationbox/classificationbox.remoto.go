@@ -69,8 +69,6 @@ type PredictedClass struct {
 	Score float64
 }
 
-// ListModels(context.Context, *ListModelsRequest) (*ListModelsResponse, error)
-
 type ListModelsRequest struct {
 }
 type ListModelsResponse struct {
