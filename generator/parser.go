@@ -369,7 +369,7 @@ func resolveTypeName(def *Definition, typ types.Type) (Type, error) {
 		return ty, nil
 	}
 	switch ty.Name {
-	case "string", "float64", "int32", "int64", "bool",
+	case "string", "float64", "int", "bool",
 		"remototypes.File":
 		return ty, nil
 	}
@@ -377,5 +377,6 @@ func resolveTypeName(def *Definition, typ types.Type) (Type, error) {
 }
 
 var tips = map[string]string{
-	" int ": "use explicitly sized types int32 or int64",
+	" int32 ": "use int",
+	" int64 ": "use int",
 }

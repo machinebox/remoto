@@ -7,7 +7,7 @@ type Greeter interface {
 }
 
 type GreetRequest struct {
-	Name int
+	Name int32
 }
 
 type GreetResponse struct {

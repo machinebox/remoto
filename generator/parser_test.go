@@ -82,7 +82,7 @@ func TestErrors(t *testing.T) {
 		"testdata/rpc/errors/bad-return-args":             "greeter.remoto.go:6:2: service methods must have signature (context.Context, *Request) (*Response, error)",
 		"testdata/rpc/errors/non-pointer-request":         "greeter.remoto.go:6:25: request object must be a pointer to a struct",
 		"testdata/rpc/errors/non-pointer-response":        "greeter.remoto.go:6:41: response object must be a pointer to a struct",
-		"testdata/rpc/errors/bad-type":                    "greeter.remoto.go:10:2: type int not supported: use explicitly sized types int32 or int64",
+		"testdata/rpc/errors/bad-type":                    "greeter.remoto.go:10:2: type int32 not supported: use int",
 		"testdata/rpc/errors/unexported-fields":           "greeter.remoto.go:13:2: field name: must be exported",
 		"testdata/rpc/errors/unexported-methods":          "greeter.remoto.go:8:2: method greet: must be exported",
 		"testdata/rpc/errors/same-request-response-types": "greeter.remoto.go:9:2: service methods must use different types for request and response objects",

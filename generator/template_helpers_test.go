@@ -79,3 +79,11 @@ func TestGoTypeString(t *testing.T) {
 	}
 	is.Equal(goTypeString(typ), "[]string")
 }
+
+func TestUnderscore(t *testing.T) {
+	is := is.New(t)
+	is.Equal(underscore("hello there"), `hello_there`)
+	is.Equal(underscore("Hello There"), `hello_there`)
+	is.Equal(underscore("SomethingElse"), `something_else`)
+	is.Equal(underscore("ModelID"), `model_id`)
+}

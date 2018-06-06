@@ -21,10 +21,8 @@ import (
 	"os"
 
 	"github.com/machinebox/remoto/go/remotohttp"
+	"github.com/machinebox/remoto/remototypes"
 	"github.com/pkg/errors"
-	<%= if (has_field_type(def, "remototypes.File")) { %>
-	"github.com/machinebox/remoto/remototypes"	
-	<% } %>
 )
 
 // Run is the simplest way to run the services.
@@ -120,3 +118,7 @@ func (srv *http<%= service.Name %>Server) <%= method.Name %>(w http.ResponseWrit
 }<% } %> 
 
 <% } %>
+
+// this is here so we don't get a compiler complaint about 
+// importing remototypes but not using it.
+var _ = remototypes.File("ignore me")

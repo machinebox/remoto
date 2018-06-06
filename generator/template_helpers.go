@@ -1,5 +1,9 @@
 package generator
 
+import (
+	"github.com/markbates/inflect"
+)
+
 type setter interface {
 	Set(name string, value interface{})
 }
@@ -9,6 +13,14 @@ func addHelpers(s setter) {
 	s.Set("unique_structures", uniqueStructures)
 	s.Set("print_comment", printComment)
 	s.Set("go_type_string", goTypeString)
+	s.Set("underscore", underscore)
+}
+
+// underscore converts a type name or other string into an underscored
+// version. For example, "ModelID" becomes "model_id".
+func underscore(s string) string {
+	s = inflect.Underscore(s)
+	return s
 }
 
 // uniqueStructures gets all unique Structure types from all services.

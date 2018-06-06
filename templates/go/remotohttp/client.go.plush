@@ -20,13 +20,12 @@ import (
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
+	"strconv"
 
 	"github.com/machinebox/remoto/remototypes"
 	"github.com/oxtoacart/bpool"
 	"github.com/pkg/errors"
 )
-
-var _ = remototypes.File("ignore me")
 
 <%= for (service) in def.Services { %>
 // <%= service.Name %>Client accesses remote <%= service.Name %> services.
@@ -56,7 +55,7 @@ func New<%= service.Name %>Client(endpoint string, client *http.Client) *<%= ser
 		return nil, err
 	}
 	if len(resp) == 0 {
-		return nil, errors.New("<%= service.Name %>.<%= method.Name %>: no response")
+		return nil, errors.New("<%= service.Name %>Client.<%= method.Name %>: no response")
 	}
 	return resp[0], nil
 }
@@ -64,59 +63,53 @@ func New<%= service.Name %>Client(endpoint string, client *http.Client) *<%= ser
 func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context, requests []*<%= method.RequestType.Name %>) ([]*<%= method.ResponseType.Name %>, error) {
 	b, err := json.Marshal(requests)
     if err != nil {
-        return nil, errors.Wrap(err, "<%= service.Name %>.<%= method.Name %>: encode request")
+        return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: encode request")
     }
 	buf := c.bufs.Get()
 	defer c.bufs.Put(buf)
 	w := multipart.NewWriter(buf)
 	w.WriteField("json", string(b))
-	<%= if (has_field_type(method.RequestType, "remototypes.File")) { %>
-	var files int
-	for i := range requests {<%= for (field) in method.RequestType.Fields { %><%= if (field.Type.Name == "remototypes.File") { %>
-		if requests[i].file<%= field.Name %> != nil {
-			fieldName := "_files["+strconv.Itoa(files)+"]"
-			requests[i].Image = remototypes.NewFile(fieldName)
-			f, err := w.CreateFormFile(fieldName, "todo.dat")
+	if files, ok := ctx.Value(contextKeyFiles).(map[string]file); ok {
+		for fieldname, file := range files {
+			f, err := w.CreateFormFile(fieldname, file.filename)
 			if err != nil {
-				return nil, errors.Wrap(err, "<%= service.Name %>.<%= method.Name %>: create form file")
+				return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: create form file")
 			}
-			if _, err := io.Copy(f, requests[i].file<%= field.Name %>); err != nil {
-				return nil, errors.Wrap(err, "<%= service.Name %>.<%= method.Name %>: reading file")
+			if _, err := io.Copy(f, file.r); err != nil {
+				return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: reading file")
 			}
-			files++
 			select {
 			case <-ctx.Done():
 				return nil, ctx.Err()
 			default:
 			}
 		}
-<% } %><% } %>	}
-	<% } %>
+	}
 	if err := w.Close(); err != nil {
-		return nil, errors.Wrap(err, "<%= service.Name %>.<%= method.Name %>: write")
+		return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: write")
 	}
 	req, err := http.NewRequest(http.MethodPost, c.endpoint + "/remoto/<%= service.Name %>.<%= method.Name %>", buf)
 	if err != nil {
-		return nil, errors.Wrap(err, "<%= service.Name %>.<%= method.Name %>: new request")
+		return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: new request")
 	}
 	req.Header.Set("Content-Type", w.FormDataContentType())
 	req = req.WithContext(ctx)
 	resp, err := c.httpclient.Do(req)
 	if err != nil {
-		return nil, errors.Wrap(err, "<%= service.Name %>.<%= method.Name %>: do")
+		return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: do")
 	}
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
-		return nil, errors.Errorf("<%= service.Name %>.<%= method.Name %>: remote service returned %d", resp.Status)
+		return nil, errors.Errorf("<%= service.Name %>Client.<%= method.Name %>: remote service returned %d", resp.Status)
 	}
 	b, err = ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
 	if err != nil {
-		return nil, errors.Wrap(err, "<%= service.Name %>.<%= method.Name %>: read response body")
+		return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: read response body")
 	}
 	var resps []*<%= method.ResponseType.Name %>
 	if err := json.Unmarshal(b, &resps); err != nil {
-		return nil, errors.Wrap(err, "<%= service.Name %>.<%= method.Name %>: decode response body")
+		return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: decode response body")
 	}
 	return resps, nil
 }
@@ -132,10 +125,16 @@ type <%= structure.Name %> struct {
 
 <%= for (field) in structure.Fields { %>
 <%= if (field.Type.Name == "remototypes.File") { %>
-// <%= field.Name %>File puts a file into the context ready for the request.
-func (s *<%= structure.Name %>) <%= field.Name %>File(ctx context.Context, filename string, r io.Reader) context.Context {
-	ctx = context.WithValue(ctx, contextKey("<%= structure.Name %>.<%= field.Name %>:filename", filename))
-	ctx = context.WithValue(ctx, contextKey("<%= structure.Name %>.<%= field.Name %>:r", r))
+// Set<%= field.Name %> puts a file into the context ready for the request.
+func (s *<%= structure.Name %>) Set<%= field.Name %>(ctx context.Context, filename string, r io.Reader) context.Context {
+	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
+	if !ok {
+		files = make(map[string]file)
+	}
+	fieldname := "files["+ strconv.Itoa(len(files)) + "]"
+	files[fieldname] = file{r: r, filename: filename}
+	ctx = context.WithValue(ctx, contextKeyFiles, files)
+	s.<%= field.Name %> = remototypes.NewFile(fieldname)
 	return ctx
 }
 <% } %>
@@ -144,3 +143,18 @@ func (s *<%= structure.Name %>) <%= field.Name %>File(ctx context.Context, filen
 <% } %>
 
 type contextKey string
+
+func (c contextKey) String() string {
+	return "remoto context key: " + string(c)
+}
+
+var contextKeyFiles = contextKey("files")
+
+type file struct {
+	r io.Reader
+	filename string
+}
+
+// this is here so we don't get a compiler complaint about 
+// importing remototypes but not using it.
+var _ = remototypes.File("ignore me")
