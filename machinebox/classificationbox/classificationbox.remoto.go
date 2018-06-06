@@ -91,4 +91,5 @@ type PutStateResponse struct{}
 type DeleteModelRequest struct {
 	ModelID string
 }
+
 type DeleteModelResponse struct{}

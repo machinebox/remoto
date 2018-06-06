@@ -73,10 +73,12 @@ type RewardRequest struct {
 	RewardID string
 	Value    int
 }
+
 type RewardResponse struct{}
 
 type ListModelsRequest struct {
 }
+
 type ListModelsResponse struct {
 	Models []Model
 }
@@ -84,6 +86,7 @@ type ListModelsResponse struct {
 type DeleteModelRequest struct {
 	ModelID string
 }
+
 type DeleteModelResponse struct{}
 
 type GetStateRequest struct{}
