@@ -100,7 +100,7 @@ func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context,
 	}
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
-		return nil, errors.Errorf("<%= service.Name %>Client.<%= method.Name %>: remote service returned %d", resp.Status)
+		return nil, errors.Errorf("<%= service.Name %>Client.<%= method.Name %>: remote service returned %s", resp.Status)
 	}
 	b, err = ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
