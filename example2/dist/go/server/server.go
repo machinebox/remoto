@@ -45,6 +45,16 @@ func New(
 	return server
 }
 
+type CheckRequest struct {
+	Image remototypes.File `json:"image"`
+}
+
+type Faces struct {
+	Name string `json:"name"`
+
+	Matched bool `json:"matched"`
+}
+
 type CheckResponse struct {
 	Faces []Faces `json:"faces"`
 
@@ -68,16 +78,6 @@ type TeachResponse struct {
 	// Error is an error message if one occurred.
 
 	Error string `json:"error"`
-}
-
-type CheckRequest struct {
-	Image remototypes.File `json:"image"`
-}
-
-type Faces struct {
-	Name string `json:"name"`
-
-	Matched bool `json:"matched"`
 }
 
 // Facebox provides facial detection and recognition capabilities.

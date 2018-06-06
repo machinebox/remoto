@@ -20,11 +20,13 @@ import (
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
-	"strconv"
 
+	"github.com/machinebox/remoto/remototypes"
 	"github.com/oxtoacart/bpool"
 	"github.com/pkg/errors"
 )
+
+var _ = remototypes.File("ignore me")
 
 <%= for (service) in def.Services { %>
 // <%= service.Name %>Client accesses remote <%= service.Name %> services.
@@ -47,8 +49,8 @@ func New<%= service.Name %>Client(endpoint string, client *http.Client) *<%= ser
     }
 }
 
-<%= for (method) in service.Methods { %><%= print_comment(method.Comment) %>
-func (c *<%= service.Name %>Client) <%= method.Name %>(ctx context.Context, request *<%= method.RequestType.Name %>) (*<%= method.ResponseType.Name %>, error) {
+<%= for (method) in service.Methods { %>
+<%= print_comment(method.Comment) %>func (c *<%= service.Name %>Client) <%= method.Name %>(ctx context.Context, request *<%= method.RequestType.Name %>) (*<%= method.ResponseType.Name %>, error) {
 	resp, err := c.<%= method.Name %>Multi(ctx, []*<%= method.RequestType.Name %>{request})
 	if err != nil {
 		return nil, err
@@ -123,19 +125,22 @@ func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context,
 
 <%= for (structure) in unique_structures(def) { %><%= print_comment(structure.Comment) %>
 type <%= structure.Name %> struct {
-    <%= for (field) in structure.Fields { %><%= print_comment(field.Comment) %>
-    <%= field.Name %> <%= go_type_string(field.Type) %>
+    <%= for (field) in structure.Fields { %>
+	<%= print_comment(field.Comment) %><%= field.Name %> <%= go_type_string(field.Type) %>
     <% } %>
 }
 
 <%= for (field) in structure.Fields { %>
 <%= if (field.Type.Name == "remototypes.File") { %>
-// Set<%= field.Name %> sets the file for <%= field.Name %>.
-func (s *<%= structure.Name %>) Set<%= field.Name %>(r io.Reader, filename string) {
-	s.file<%= field.Name %> = r
-	s.filename<%= field.Name %> = filename
+// <%= field.Name %>File puts a file into the context ready for the request.
+func (s *<%= structure.Name %>) <%= field.Name %>File(ctx context.Context, filename string, r io.Reader) context.Context {
+	ctx = context.WithValue(ctx, contextKey("<%= structure.Name %>.<%= field.Name %>:filename", filename))
+	ctx = context.WithValue(ctx, contextKey("<%= structure.Name %>.<%= field.Name %>:r", r))
+	return ctx
 }
 <% } %>
 <% } %>
 
 <% } %>
+
+type contextKey string

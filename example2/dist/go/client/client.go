@@ -9,11 +9,13 @@ import (
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
-	"strconv"
 
+	"github.com/machinebox/remoto/remototypes"
 	"github.com/oxtoacart/bpool"
 	"github.com/pkg/errors"
 )
+
+var _ = remototypes.File("ignore me")
 
 // FaceboxClient accesses remote Facebox services.
 type FaceboxClient struct {
@@ -135,21 +137,15 @@ func (c *FaceboxClient) TeachMulti(ctx context.Context, requests []*TeachRequest
 	return resps, nil
 }
 
-type CheckResponse struct {
-	Faces []Faces
-	// Error is an error message if one occurred.
-
-	Error string
-}
-
 type TeachFile struct {
 	Image remototypes.File
 }
 
-// SetImage sets the file for Image.
-func (s *TeachFile) SetImage(r io.Reader, filename string) {
-	s.fileImage = r
-	s.filenameImage = filename
+// ImageFile puts a file into the context ready for the request.
+func (s *TeachFile) ImageFile(ctx context.Context, filename string, r io.Reader) context.Context {
+	ctx = context.WithValue(ctx, contextKey("TeachFile.Image:filename", filename))
+	ctx = context.WithValue(ctx, contextKey("TeachFile.Image:r", r))
+	return ctx
 }
 
 type TeachRequest struct {
@@ -159,8 +155,8 @@ type TeachRequest struct {
 }
 
 type TeachResponse struct {
-	// Error is an error message if one occurred.
 
+	// Error is an error message if one occurred.
 	Error string
 }
 
@@ -168,10 +164,11 @@ type CheckRequest struct {
 	Image remototypes.File
 }
 
-// SetImage sets the file for Image.
-func (s *CheckRequest) SetImage(r io.Reader, filename string) {
-	s.fileImage = r
-	s.filenameImage = filename
+// ImageFile puts a file into the context ready for the request.
+func (s *CheckRequest) ImageFile(ctx context.Context, filename string, r io.Reader) context.Context {
+	ctx = context.WithValue(ctx, contextKey("CheckRequest.Image:filename", filename))
+	ctx = context.WithValue(ctx, contextKey("CheckRequest.Image:r", r))
+	return ctx
 }
 
 type Faces struct {
@@ -179,3 +176,14 @@ type Faces struct {
 
 	Matched bool
 }
+
+type CheckResponse struct {
+	Faces []Faces
+
+	// Error is an error message if one occurred.
+	Error string
+}
+
+type contextKey string
+
+func file(ctx context.Context, name string)
