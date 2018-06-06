@@ -248,6 +248,9 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 	if err != nil {
 		return method, err
 	}
+	if requestStructure.Name == responseStructure.Name {
+		return method, newErr(fset, m.Pos(), "service methods must use different types for request and response objects")
+	}
 	if !strings.HasSuffix(responseStructure.Name, "Response") {
 		return method, newErr(fset, m.Pos(), "response object should end with \"Response\"")
 	}
