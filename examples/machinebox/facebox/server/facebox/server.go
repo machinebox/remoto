@@ -106,18 +106,8 @@ func RegisterFaceboxServer(server *remotohttp.Server, service Facebox) {
 
 }
 
-type TeachFaceprintRequest struct {
-	ID string `json:"id"`
-
-	Name string `json:"name"`
-
-	Faceprint string `json:"faceprint"`
-}
-
-type TeachURLResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
+type CheckFaceprintRequest struct {
+	Faceprints []string `json:"faceprints"`
 }
 
 type CheckFaceprintResponse struct {
@@ -127,10 +117,115 @@ type CheckFaceprintResponse struct {
 	Error string `json:"error"`
 }
 
+type CheckFileRequest struct {
+	File remototypes.File `json:"file"`
+}
+
+type CheckFileResponse struct {
+	Faces []Face `json:"faces"`
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type CheckURLRequest struct {
+	File remototypes.File `json:"file"`
+}
+
+type CheckURLResponse struct {
+	Faces []Face `json:"faces"`
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type Face struct {
+	ID string `json:"id"`
+
+	Name string `json:"name"`
+
+	Matched bool `json:"matched"`
+
+	Faceprint string `json:"faceprint"`
+
+	Rect Rect `json:"rect"`
+}
+
+type FaceprintCompareRequest struct {
+	Target string `json:"target"`
+
+	Faceprints []string `json:"faceprints"`
+}
+
+type FaceprintCompareResponse struct {
+	Confidences []float64 `json:"confidences"`
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type FaceprintFace struct {
+	Matched bool `json:"matched"`
+
+	Confidence float64 `json:"confidence"`
+
+	ID string `json:"id"`
+
+	Name string `json:"name"`
+}
+
 type GetStateRequest struct {
 }
 
+type PutStateRequest struct {
+	StateFile remototypes.File `json:"state_file"`
+}
+
 type PutStateResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type Rect struct {
+	Top int `json:"top"`
+
+	Left int `json:"left"`
+
+	Width int `json:"width"`
+
+	Height int `json:"height"`
+}
+
+type RemoveIDRequest struct {
+	ID string `json:"id"`
+}
+
+type RemoveIDResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type RenameIDRequest struct {
+	ID string `json:"id"`
+
+	Name string `json:"name"`
+}
+
+type RenameIDResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type RenameRequest struct {
+	From string `json:"from"`
+
+	To string `json:"to"`
+}
+
+type RenameResponse struct {
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
@@ -142,7 +237,22 @@ type SimilarFace struct {
 	SimilarFaces []Face `json:"similar_faces"`
 }
 
+type SimilarFileRequest struct {
+	File remototypes.File `json:"file"`
+}
+
 type SimilarFileResponse struct {
+	Faces []SimilarFace `json:"faces"`
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type SimilarIDRequest struct {
+	ID string `json:"id"`
+}
+
+type SimilarIDResponse struct {
 	Faces []SimilarFace `json:"faces"`
 
 	// Error is an error message if one occurred.
@@ -160,57 +270,18 @@ type SimilarURLResponse struct {
 	Error string `json:"error"`
 }
 
-type TeachFileResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type CheckURLResponse struct {
-	Faces []Face `json:"faces"`
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type FaceprintCompareRequest struct {
-	Target string `json:"target"`
-
-	Faceprints []string `json:"faceprints"`
-}
-
-type RemoveIDRequest struct {
+type TeachFaceprintRequest struct {
 	ID string `json:"id"`
+
+	Name string `json:"name"`
+
+	Faceprint string `json:"faceprint"`
 }
 
-type RenameRequest struct {
-	From string `json:"from"`
-
-	To string `json:"to"`
-}
-
-type RenameResponse struct {
+type TeachFaceprintResponse struct {
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
-}
-
-type CheckURLRequest struct {
-	File remototypes.File `json:"file"`
-}
-
-type PutStateRequest struct {
-	StateFile remototypes.File `json:"state_file"`
-}
-
-type RemoveIDResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type SimilarIDRequest struct {
-	ID string `json:"id"`
 }
 
 type TeachFileRequest struct {
@@ -221,60 +292,7 @@ type TeachFileRequest struct {
 	File remototypes.File `json:"file"`
 }
 
-type FaceprintFace struct {
-	Matched bool `json:"matched"`
-
-	Confidence float64 `json:"confidence"`
-
-	ID string `json:"id"`
-
-	Name string `json:"name"`
-}
-
-type Rect struct {
-	Top int `json:"top"`
-
-	Left int `json:"left"`
-
-	Width int `json:"width"`
-
-	Height int `json:"height"`
-}
-
-type Face struct {
-	ID string `json:"id"`
-
-	Name string `json:"name"`
-
-	Matched bool `json:"matched"`
-
-	Faceprint string `json:"faceprint"`
-
-	Rect Rect `json:"rect"`
-}
-
-type CheckFileResponse struct {
-	Faces []Face `json:"faces"`
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type FaceprintCompareResponse struct {
-	Confidences []float64 `json:"confidences"`
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type SimilarIDResponse struct {
-	Faces []SimilarFace `json:"faces"`
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type TeachFaceprintResponse struct {
+type TeachFileResponse struct {
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
@@ -288,28 +306,10 @@ type TeachURLRequest struct {
 	URL string `json:"url"`
 }
 
-type RenameIDRequest struct {
-	ID string `json:"id"`
-
-	Name string `json:"name"`
-}
-
-type RenameIDResponse struct {
+type TeachURLResponse struct {
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
-}
-
-type CheckFaceprintRequest struct {
-	Faceprints []string `json:"faceprints"`
-}
-
-type CheckFileRequest struct {
-	File remototypes.File `json:"file"`
-}
-
-type SimilarFileRequest struct {
-	File remototypes.File `json:"file"`
 }
 
 // httpFaceboxServer is an internal type that provides an

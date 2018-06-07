@@ -81,74 +81,6 @@ func RegisterSuggestionboxServer(server *remotohttp.Server, service Suggestionbo
 
 }
 
-type Feature struct {
-	Key string `json:"key"`
-
-	Type string `json:"type"`
-
-	Value string `json:"value"`
-
-	File remototypes.File `json:"file"`
-}
-
-type DeleteModelRequest struct {
-	ModelID string `json:"model_id"`
-}
-
-type ListModelsResponse struct {
-	Models []Model `json:"models"`
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type RewardRequest struct {
-	ModelID string `json:"model_id"`
-
-	RewardID string `json:"reward_id"`
-
-	Value int `json:"value"`
-}
-
-type ModelOptions struct {
-	RewardExpirationSeconds int `json:"reward_expiration_seconds"`
-
-	Ngrams int `json:"ngrams"`
-
-	Skipgrams int `json:"skipgrams"`
-
-	Mode string `json:"mode"`
-
-	Epsilon float64 `json:"epsilon"`
-
-	Cover float64 `json:"cover"`
-}
-
-type PredictedChoice struct {
-	ID string `json:"id"`
-
-	Features []Feature `json:"features"`
-
-	RewardID string `json:"reward_id"`
-}
-
-type PredictResponse struct {
-	Choices []PredictedChoice `json:"choices"`
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type PutStateRequest struct {
-	StateFile remototypes.File `json:"state_file"`
-}
-
-type PutStateResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
 type Choice struct {
 	ID string `json:"id"`
 
@@ -165,13 +97,34 @@ type CreateModelResponse struct {
 	Error string `json:"error"`
 }
 
+type DeleteModelRequest struct {
+	ModelID string `json:"model_id"`
+}
+
 type DeleteModelResponse struct {
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
-type RewardResponse struct {
+type Feature struct {
+	Key string `json:"key"`
+
+	Type string `json:"type"`
+
+	Value string `json:"value"`
+
+	File remototypes.File `json:"file"`
+}
+
+type GetStateRequest struct {
+}
+
+type ListModelsRequest struct {
+}
+
+type ListModelsResponse struct {
+	Models []Model `json:"models"`
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
@@ -187,10 +140,18 @@ type Model struct {
 	Choices []Choice `json:"choices"`
 }
 
-type GetStateRequest struct {
-}
+type ModelOptions struct {
+	RewardExpirationSeconds int `json:"reward_expiration_seconds"`
 
-type ListModelsRequest struct {
+	Ngrams int `json:"ngrams"`
+
+	Skipgrams int `json:"skipgrams"`
+
+	Mode string `json:"mode"`
+
+	Epsilon float64 `json:"epsilon"`
+
+	Cover float64 `json:"cover"`
 }
 
 type PredictRequest struct {
@@ -199,6 +160,45 @@ type PredictRequest struct {
 	Limit int `json:"limit"`
 
 	Inputs []Feature `json:"inputs"`
+}
+
+type PredictResponse struct {
+	Choices []PredictedChoice `json:"choices"`
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type PredictedChoice struct {
+	ID string `json:"id"`
+
+	Features []Feature `json:"features"`
+
+	RewardID string `json:"reward_id"`
+}
+
+type PutStateRequest struct {
+	StateFile remototypes.File `json:"state_file"`
+}
+
+type PutStateResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type RewardRequest struct {
+	ModelID string `json:"model_id"`
+
+	RewardID string `json:"reward_id"`
+
+	Value int `json:"value"`
+}
+
+type RewardResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
 }
 
 // httpSuggestionboxServer is an internal type that provides an

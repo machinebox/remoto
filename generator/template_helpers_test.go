@@ -90,3 +90,11 @@ func TestUnderscore(t *testing.T) {
 	is.Equal(underscore("SomethingElse"), `something_else`)
 	is.Equal(underscore("ModelID"), `model_id`)
 }
+
+func TestCamelizeDownFirst(t *testing.T) {
+	is := is.New(t)
+	is.Equal(camelizeDownFirst("hello there"), `helloThere`)
+	is.Equal(camelizeDownFirst("Hello There"), `helloThere`)
+	is.Equal(camelizeDownFirst("SomethingElse"), `somethingElse`)
+	is.Equal(camelizeDownFirst("ModelID"), `modelID`)
+}

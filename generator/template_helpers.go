@@ -1,6 +1,8 @@
 package generator
 
 import (
+	"sort"
+
 	"github.com/markbates/inflect"
 )
 
@@ -14,13 +16,19 @@ func addHelpers(s setter) {
 	s.Set("print_comment", printComment)
 	s.Set("go_type_string", goTypeString)
 	s.Set("underscore", underscore)
+	s.Set("camelize_down_first", camelizeDownFirst)
 }
 
 // underscore converts a type name or other string into an underscored
 // version. For example, "ModelID" becomes "model_id".
 func underscore(s string) string {
-	s = inflect.Underscore(s)
-	return s
+	return inflect.Underscore(s)
+}
+
+// camelizeDownFirst converts a name or other string into a camel case
+// version with the first letter lowercase. "ModelID" becomes "modelID".
+func camelizeDownFirst(s string) string {
+	return inflect.CamelizeDownFirst(s)
 }
 
 // uniqueStructures gets all unique Structure types from all services.
@@ -40,6 +48,9 @@ func uniqueStructures(def Definition) []Structure {
 	for _, structure := range structures {
 		s = append(s, structure)
 	}
+	sort.Slice(s, func(i, j int) bool {
+		return s[i].Name < s[j].Name
+	})
 	return s
 }
 

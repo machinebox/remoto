@@ -1010,207 +1010,6 @@ type CheckFaceprintRequest struct {
 	Faceprints []string `json:"faceprints"`
 }
 
-type SimilarURLResponse struct {
-	Faces []SimilarFace `json:"faces"`
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type TeachURLRequest struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-	URL  string `json:"url"`
-}
-
-type TeachFaceprintResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type FaceprintFace struct {
-	Matched    bool    `json:"matched"`
-	Confidence float64 `json:"confidence"`
-	ID         string  `json:"id"`
-	Name       string  `json:"name"`
-}
-
-type CheckURLRequest struct {
-	File remototypes.File `json:"file"`
-}
-
-// SetFile sets the file for the File field.
-func (s *CheckURLRequest) SetFile(ctx context.Context, filename string, r io.Reader) context.Context {
-	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
-	if !ok {
-		files = make(map[string]file)
-	}
-	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
-	files[fieldname] = file{r: r, filename: filename}
-	ctx = context.WithValue(ctx, contextKeyFiles, files)
-	s.File = remototypes.File{
-		Fieldname: fieldname,
-		Filename:  filename,
-	}
-	return ctx
-}
-
-type SimilarIDRequest struct {
-	ID string `json:"id"`
-}
-
-type RenameResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type SimilarURLRequest struct {
-	URL string `json:"url"`
-}
-
-type TeachFileRequest struct {
-	ID   string           `json:"id"`
-	Name string           `json:"name"`
-	File remototypes.File `json:"file"`
-}
-
-// SetFile sets the file for the File field.
-func (s *TeachFileRequest) SetFile(ctx context.Context, filename string, r io.Reader) context.Context {
-	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
-	if !ok {
-		files = make(map[string]file)
-	}
-	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
-	files[fieldname] = file{r: r, filename: filename}
-	ctx = context.WithValue(ctx, contextKeyFiles, files)
-	s.File = remototypes.File{
-		Fieldname: fieldname,
-		Filename:  filename,
-	}
-	return ctx
-}
-
-type CheckURLResponse struct {
-	Faces []Face `json:"faces"`
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type PutStateResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type RemoveIDRequest struct {
-	ID string `json:"id"`
-}
-
-type Rect struct {
-	Top    int `json:"top"`
-	Left   int `json:"left"`
-	Width  int `json:"width"`
-	Height int `json:"height"`
-}
-
-type PutStateRequest struct {
-	StateFile remototypes.File `json:"state_file"`
-}
-
-// SetStateFile sets the file for the StateFile field.
-func (s *PutStateRequest) SetStateFile(ctx context.Context, filename string, r io.Reader) context.Context {
-	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
-	if !ok {
-		files = make(map[string]file)
-	}
-	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
-	files[fieldname] = file{r: r, filename: filename}
-	ctx = context.WithValue(ctx, contextKeyFiles, files)
-	s.StateFile = remototypes.File{
-		Fieldname: fieldname,
-		Filename:  filename,
-	}
-	return ctx
-}
-
-type SimilarFileRequest struct {
-	File remototypes.File `json:"file"`
-}
-
-// SetFile sets the file for the File field.
-func (s *SimilarFileRequest) SetFile(ctx context.Context, filename string, r io.Reader) context.Context {
-	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
-	if !ok {
-		files = make(map[string]file)
-	}
-	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
-	files[fieldname] = file{r: r, filename: filename}
-	ctx = context.WithValue(ctx, contextKeyFiles, files)
-	s.File = remototypes.File{
-		Fieldname: fieldname,
-		Filename:  filename,
-	}
-	return ctx
-}
-
-type CheckFileResponse struct {
-	Faces []Face `json:"faces"`
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type SimilarFace struct {
-	Rect         Rect   `json:"rect"`
-	SimilarFaces []Face `json:"similar_faces"`
-}
-
-type Face struct {
-	ID        string `json:"id"`
-	Name      string `json:"name"`
-	Matched   bool   `json:"matched"`
-	Faceprint string `json:"faceprint"`
-	Rect      Rect   `json:"rect"`
-}
-
-type GetStateRequest struct {
-}
-
-type RenameIDRequest struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-}
-
-type FaceprintCompareResponse struct {
-	Confidences []float64 `json:"confidences"`
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type RemoveIDResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type RenameIDResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type TeachFaceprintRequest struct {
-	ID        string `json:"id"`
-	Name      string `json:"name"`
-	Faceprint string `json:"faceprint"`
-}
-
-type TeachURLResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
 type CheckFaceprintResponse struct {
 	Faces []FaceprintFace `json:"faces"`
 	// Error is an error message if one occurred.
@@ -1237,12 +1036,116 @@ func (s *CheckFileRequest) SetFile(ctx context.Context, filename string, r io.Re
 	return ctx
 }
 
+type CheckFileResponse struct {
+	Faces []Face `json:"faces"`
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type CheckURLRequest struct {
+	File remototypes.File `json:"file"`
+}
+
+// SetFile sets the file for the File field.
+func (s *CheckURLRequest) SetFile(ctx context.Context, filename string, r io.Reader) context.Context {
+	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
+	if !ok {
+		files = make(map[string]file)
+	}
+	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
+	files[fieldname] = file{r: r, filename: filename}
+	ctx = context.WithValue(ctx, contextKeyFiles, files)
+	s.File = remototypes.File{
+		Fieldname: fieldname,
+		Filename:  filename,
+	}
+	return ctx
+}
+
+type CheckURLResponse struct {
+	Faces []Face `json:"faces"`
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type Face struct {
+	ID        string `json:"id"`
+	Name      string `json:"name"`
+	Matched   bool   `json:"matched"`
+	Faceprint string `json:"faceprint"`
+	Rect      Rect   `json:"rect"`
+}
+
 type FaceprintCompareRequest struct {
 	Target     string   `json:"target"`
 	Faceprints []string `json:"faceprints"`
 }
 
-type TeachFileResponse struct {
+type FaceprintCompareResponse struct {
+	Confidences []float64 `json:"confidences"`
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type FaceprintFace struct {
+	Matched    bool    `json:"matched"`
+	Confidence float64 `json:"confidence"`
+	ID         string  `json:"id"`
+	Name       string  `json:"name"`
+}
+
+type GetStateRequest struct {
+}
+
+type PutStateRequest struct {
+	StateFile remototypes.File `json:"state_file"`
+}
+
+// SetStateFile sets the file for the StateFile field.
+func (s *PutStateRequest) SetStateFile(ctx context.Context, filename string, r io.Reader) context.Context {
+	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
+	if !ok {
+		files = make(map[string]file)
+	}
+	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
+	files[fieldname] = file{r: r, filename: filename}
+	ctx = context.WithValue(ctx, contextKeyFiles, files)
+	s.StateFile = remototypes.File{
+		Fieldname: fieldname,
+		Filename:  filename,
+	}
+	return ctx
+}
+
+type PutStateResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type Rect struct {
+	Top    int `json:"top"`
+	Left   int `json:"left"`
+	Width  int `json:"width"`
+	Height int `json:"height"`
+}
+
+type RemoveIDRequest struct {
+	ID string `json:"id"`
+}
+
+type RemoveIDResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type RenameIDRequest struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type RenameIDResponse struct {
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
@@ -1253,14 +1156,111 @@ type RenameRequest struct {
 	To   string `json:"to"`
 }
 
+type RenameResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type SimilarFace struct {
+	Rect         Rect   `json:"rect"`
+	SimilarFaces []Face `json:"similar_faces"`
+}
+
+type SimilarFileRequest struct {
+	File remototypes.File `json:"file"`
+}
+
+// SetFile sets the file for the File field.
+func (s *SimilarFileRequest) SetFile(ctx context.Context, filename string, r io.Reader) context.Context {
+	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
+	if !ok {
+		files = make(map[string]file)
+	}
+	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
+	files[fieldname] = file{r: r, filename: filename}
+	ctx = context.WithValue(ctx, contextKeyFiles, files)
+	s.File = remototypes.File{
+		Fieldname: fieldname,
+		Filename:  filename,
+	}
+	return ctx
+}
+
 type SimilarFileResponse struct {
 	Faces []SimilarFace `json:"faces"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+type SimilarIDRequest struct {
+	ID string `json:"id"`
+}
+
 type SimilarIDResponse struct {
 	Faces []SimilarFace `json:"faces"`
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type SimilarURLRequest struct {
+	URL string `json:"url"`
+}
+
+type SimilarURLResponse struct {
+	Faces []SimilarFace `json:"faces"`
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type TeachFaceprintRequest struct {
+	ID        string `json:"id"`
+	Name      string `json:"name"`
+	Faceprint string `json:"faceprint"`
+}
+
+type TeachFaceprintResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type TeachFileRequest struct {
+	ID   string           `json:"id"`
+	Name string           `json:"name"`
+	File remototypes.File `json:"file"`
+}
+
+// SetFile sets the file for the File field.
+func (s *TeachFileRequest) SetFile(ctx context.Context, filename string, r io.Reader) context.Context {
+	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
+	if !ok {
+		files = make(map[string]file)
+	}
+	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
+	files[fieldname] = file{r: r, filename: filename}
+	ctx = context.WithValue(ctx, contextKeyFiles, files)
+	s.File = remototypes.File{
+		Fieldname: fieldname,
+		Filename:  filename,
+	}
+	return ctx
+}
+
+type TeachFileResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type TeachURLRequest struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+	URL  string `json:"url"`
+}
+
+type TeachURLResponse struct {
+
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
