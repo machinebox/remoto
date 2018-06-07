@@ -102,14 +102,14 @@ func (c *GreeterClient) GreetMulti(ctx context.Context, requests []*GreetRequest
 	return resps, nil
 }
 
+type GreetRequest struct {
+	Name string `json:"name"`
+}
+
 type GreetResponse struct {
 	Greeting string `json:"greeting"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
-}
-
-type GreetRequest struct {
-	Name string `json:"name"`
 }
 
 // contextKey is a local context key type.
@@ -130,8 +130,9 @@ type file struct {
 	filename string
 }
 
-// this is here so we don't get a compiler complaint about
-// importing remototypes but not using it.
-// This file may or may not use it, depending on what's being
-// generated.
-var _ = remototypes.File{}
+// this is here so we don't get a compiler complaints.
+func init() {
+	var _ = remototypes.File{}
+	var _ = strconv.Itoa(0)
+	var _ = ioutil.Discard
+}

@@ -160,4 +160,5 @@ func (srv *http<%= service.Name %>Server) handle<%= method.Name %>(w http.Respon
 func init() {
 	var _ = remototypes.File{}
 	var _ = strconv.Itoa(0)
+	var _ = io.EOF
 }

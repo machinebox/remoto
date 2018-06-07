@@ -6,8 +6,10 @@ package greeter
 import (
 	"context"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/machinebox/remoto/go/remotohttp"
 	"github.com/machinebox/remoto/remototypes"
@@ -91,6 +93,7 @@ func (srv *httpGreeterServer) handleGreet(w http.ResponseWriter, r *http.Request
 		srv.server.OnErr(w, r, err)
 		return
 	}
+
 	resps := make([]GreetResponse, len(reqs))
 	for i := range reqs {
 		resp, err := srv.service.Greet(r.Context(), reqs[i])
@@ -104,10 +107,12 @@ func (srv *httpGreeterServer) handleGreet(w http.ResponseWriter, r *http.Request
 		srv.server.OnErr(w, r, err)
 		return
 	}
+
 }
 
-// this is here so we don't get a compiler complaint about
-// importing remototypes but not using it.
-// This file may or may not use it, depending on what's being
-// generated.
-var _ = remototypes.File{}
+// this is here so we don't get a compiler complaints.
+func init() {
+	var _ = remototypes.File{}
+	var _ = strconv.Itoa(0)
+	var _ = io.EOF
+}
