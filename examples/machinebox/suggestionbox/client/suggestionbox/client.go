@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"io"
+	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"strconv"
@@ -477,6 +478,115 @@ func (c *SuggestionboxClient) RewardMulti(ctx context.Context, requests []*Rewar
 	return resps, nil
 }
 
+type DeleteModelRequest struct {
+	ModelID string `json:"model_id"`
+}
+
+type ListModelsResponse struct {
+	Models []Model `json:"models"`
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type PutStateRequest struct {
+	StateFile remototypes.File `json:"state_file"`
+}
+
+// SetStateFile sets the file for the StateFile field.
+func (s *PutStateRequest) SetStateFile(ctx context.Context, filename string, r io.Reader) context.Context {
+	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
+	if !ok {
+		files = make(map[string]file)
+	}
+	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
+	files[fieldname] = file{r: r, filename: filename}
+	ctx = context.WithValue(ctx, contextKeyFiles, files)
+	s.StateFile = remototypes.File{
+		Fieldname: fieldname,
+		Filename:  filename,
+	}
+	return ctx
+}
+
+type RewardResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type Choice struct {
+	ID       string    `json:"id"`
+	Features []Feature `json:"features"`
+}
+
+type PredictedChoice struct {
+	ID       string    `json:"id"`
+	Features []Feature `json:"features"`
+	RewardID string    `json:"reward_id"`
+}
+
+type GetStateRequest struct {
+}
+
+type Model struct {
+	ID      string       `json:"id"`
+	Name    string       `json:"name"`
+	Options ModelOptions `json:"options"`
+	Choices []Choice     `json:"choices"`
+}
+
+type CreateModelRequest struct {
+	Model Model `json:"model"`
+}
+
+type DeleteModelResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type ListModelsRequest struct {
+}
+
+type PredictResponse struct {
+	Choices []PredictedChoice `json:"choices"`
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type ModelOptions struct {
+	RewardExpirationSeconds int     `json:"reward_expiration_seconds"`
+	Ngrams                  int     `json:"ngrams"`
+	Skipgrams               int     `json:"skipgrams"`
+	Mode                    string  `json:"mode"`
+	Epsilon                 float64 `json:"epsilon"`
+	Cover                   float64 `json:"cover"`
+}
+
+type CreateModelResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type PredictRequest struct {
+	ModelID string    `json:"model_id"`
+	Limit   int       `json:"limit"`
+	Inputs  []Feature `json:"inputs"`
+}
+
+type PutStateResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type RewardRequest struct {
+	ModelID  string `json:"model_id"`
+	RewardID string `json:"reward_id"`
+	Value    int    `json:"value"`
+}
+
 type Feature struct {
 	Key   string           `json:"key"`
 	Type  string           `json:"type"`
@@ -505,115 +615,6 @@ func (s *Feature) OpenFile(ctx context.Context) (io.Reader, error) {
 	return nil, nil
 }
 
-type CreateModelResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type ListModelsResponse struct {
-	Models []Model `json:"models"`
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type Choice struct {
-	ID       string    `json:"id"`
-	Features []Feature `json:"features"`
-}
-
-type Model struct {
-	ID      string       `json:"id"`
-	Name    string       `json:"name"`
-	Options ModelOptions `json:"options"`
-	Choices []Choice     `json:"choices"`
-}
-
-type DeleteModelRequest struct {
-	ModelID string `json:"model_id"`
-}
-
-type ModelOptions struct {
-	RewardExpirationSeconds int     `json:"reward_expiration_seconds"`
-	Ngrams                  int     `json:"ngrams"`
-	Skipgrams               int     `json:"skipgrams"`
-	Mode                    string  `json:"mode"`
-	Epsilon                 float64 `json:"epsilon"`
-	Cover                   float64 `json:"cover"`
-}
-
-type DeleteModelResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type ListModelsRequest struct {
-}
-
-type PredictedChoice struct {
-	ID       string    `json:"id"`
-	Features []Feature `json:"features"`
-	RewardID string    `json:"reward_id"`
-}
-
-type PutStateRequest struct {
-	StateFile remototypes.File `json:"state_file"`
-}
-
-// SetStateFile sets the file for the StateFile field.
-func (s *PutStateRequest) SetStateFile(ctx context.Context, filename string, r io.Reader) context.Context {
-	files, ok := ctx.Value(contextKeyFiles).(map[string]file)
-	if !ok {
-		files = make(map[string]file)
-	}
-	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
-	files[fieldname] = file{r: r, filename: filename}
-	ctx = context.WithValue(ctx, contextKeyFiles, files)
-	s.StateFile = remototypes.File{
-		Fieldname: fieldname,
-		Filename:  filename,
-	}
-	return ctx
-}
-
-type PutStateResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type RewardRequest struct {
-	ModelID  string `json:"model_id"`
-	RewardID string `json:"reward_id"`
-	Value    int    `json:"value"`
-}
-
-type RewardResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type CreateModelRequest struct {
-	Model Model `json:"model"`
-}
-
-type GetStateRequest struct {
-}
-
-type PredictRequest struct {
-	ModelID string    `json:"model_id"`
-	Limit   int       `json:"limit"`
-	Inputs  []Feature `json:"inputs"`
-}
-
-type PredictResponse struct {
-	Choices []PredictedChoice `json:"choices"`
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
 // contextKey is a local context key type.
 // see https://medium.com/@matryer/context-keys-in-go-5312346a868d
 type contextKey string
@@ -635,4 +636,6 @@ type file struct {
 // this is here so we don't get a compiler complaints.
 func init() {
 	var _ = remototypes.File{}
+	var _ = strconv.Itoa(0)
+	var _ = ioutil.Discard
 }

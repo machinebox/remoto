@@ -1,7 +1,9 @@
 # remoto
+
 Ultra-simple but complete RPC ecosystem.
 
 * Simple service definitions written in Go (interfaces and structs)
+* Generates servers and clients that makes implementing/consuming easy
 * Generates code that looks like a human wrote it
 
 ## Definition

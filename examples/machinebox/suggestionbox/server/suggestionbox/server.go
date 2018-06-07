@@ -71,19 +71,12 @@ func RegisterSuggestionboxServer(server *remotohttp.Server, service Suggestionbo
 		service: service,
 		server:  server,
 	}
-
 	server.Register("/remoto/Suggestionbox.CreateModel", http.HandlerFunc(srv.handleCreateModel))
-
 	server.Register("/remoto/Suggestionbox.DeleteModel", http.HandlerFunc(srv.handleDeleteModel))
-
 	server.Register("/remoto/Suggestionbox.GetState", http.HandlerFunc(srv.handleGetState))
-
 	server.Register("/remoto/Suggestionbox.ListModels", http.HandlerFunc(srv.handleListModels))
-
 	server.Register("/remoto/Suggestionbox.Predict", http.HandlerFunc(srv.handlePredict))
-
 	server.Register("/remoto/Suggestionbox.PutState", http.HandlerFunc(srv.handlePutState))
-
 	server.Register("/remoto/Suggestionbox.Reward", http.HandlerFunc(srv.handleReward))
 
 }
@@ -100,6 +93,76 @@ type Feature struct {
 
 type DeleteModelRequest struct {
 	ModelID string `json:"model_id"`
+}
+
+type ListModelsResponse struct {
+	Models []Model `json:"models"`
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type RewardRequest struct {
+	ModelID string `json:"model_id"`
+
+	RewardID string `json:"reward_id"`
+
+	Value int `json:"value"`
+}
+
+type ModelOptions struct {
+	RewardExpirationSeconds int `json:"reward_expiration_seconds"`
+
+	Ngrams int `json:"ngrams"`
+
+	Skipgrams int `json:"skipgrams"`
+
+	Mode string `json:"mode"`
+
+	Epsilon float64 `json:"epsilon"`
+
+	Cover float64 `json:"cover"`
+}
+
+type PredictedChoice struct {
+	ID string `json:"id"`
+
+	Features []Feature `json:"features"`
+
+	RewardID string `json:"reward_id"`
+}
+
+type PredictResponse struct {
+	Choices []PredictedChoice `json:"choices"`
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type PutStateRequest struct {
+	StateFile remototypes.File `json:"state_file"`
+}
+
+type PutStateResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
+}
+
+type Choice struct {
+	ID string `json:"id"`
+
+	Features []Feature `json:"features"`
+}
+
+type CreateModelRequest struct {
+	Model Model `json:"model"`
+}
+
+type CreateModelResponse struct {
+
+	// Error is an error message if one occurred.
+	Error string `json:"error"`
 }
 
 type DeleteModelResponse struct {
@@ -124,31 +187,10 @@ type Model struct {
 	Choices []Choice `json:"choices"`
 }
 
-type ListModelsRequest struct {
-}
-
-type ListModelsResponse struct {
-	Models []Model `json:"models"`
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type RewardRequest struct {
-	ModelID string `json:"model_id"`
-
-	RewardID string `json:"reward_id"`
-
-	Value int `json:"value"`
-}
-
-type CreateModelResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
 type GetStateRequest struct {
+}
+
+type ListModelsRequest struct {
 }
 
 type PredictRequest struct {
@@ -157,55 +199,6 @@ type PredictRequest struct {
 	Limit int `json:"limit"`
 
 	Inputs []Feature `json:"inputs"`
-}
-
-type PredictResponse struct {
-	Choices []PredictedChoice `json:"choices"`
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type PutStateRequest struct {
-	StateFile remototypes.File `json:"state_file"`
-}
-
-type PutStateResponse struct {
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-type ModelOptions struct {
-	RewardExpirationSeconds int `json:"reward_expiration_seconds"`
-
-	Ngrams int `json:"ngrams"`
-
-	Skipgrams int `json:"skipgrams"`
-
-	Mode string `json:"mode"`
-
-	Epsilon float64 `json:"epsilon"`
-
-	Cover float64 `json:"cover"`
-}
-
-type Choice struct {
-	ID string `json:"id"`
-
-	Features []Feature `json:"features"`
-}
-
-type CreateModelRequest struct {
-	Model Model `json:"model"`
-}
-
-type PredictedChoice struct {
-	ID string `json:"id"`
-
-	Features []Feature `json:"features"`
-
-	RewardID string `json:"reward_id"`
 }
 
 // httpSuggestionboxServer is an internal type that provides an
@@ -408,4 +401,5 @@ func (srv *httpSuggestionboxServer) handleReward(w http.ResponseWriter, r *http.
 func init() {
 	var _ = remototypes.File{}
 	var _ = strconv.Itoa(0)
+	var _ = io.EOF
 }

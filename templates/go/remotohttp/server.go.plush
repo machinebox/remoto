@@ -73,8 +73,7 @@ func Register<%= service.Name %>Server(server *remotohttp.Server, service <%= se
 		service: service,
 		server: server,
 	}
-	<%= for (method) in service.Methods { %>
-	server.Register("/remoto/<%= service.Name %>.<%= method.Name %>", http.HandlerFunc(srv.handle<%= method.Name %>))
+	<%= for (method) in service.Methods { %>server.Register("/remoto/<%= service.Name %>.<%= method.Name %>", http.HandlerFunc(srv.handle<%= method.Name %>))
 	<% } %>
 }
 
