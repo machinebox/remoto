@@ -58,6 +58,7 @@ func New(
 			fmt.Fprintf(os.Stderr, "%s %s: %s\n", r.Method, r.URL.Path, err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		},
+		NotFound: http.NotFoundHandler(),
 	}
 	<%= for (service) in def.Services { %>
 	Register<%= service.Name %>Server(server, <%= camelize_down_first(service.Name) %>)<% } %>

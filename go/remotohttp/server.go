@@ -34,7 +34,11 @@ func (srv *Server) Register(path string, fn http.Handler) {
 // ServeHTTP calls the registered handler
 func (srv *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		srv.NotFound.ServeHTTP(w, r)
+		if srv.NotFound != nil {
+			srv.NotFound.ServeHTTP(w, r)
+			return
+		}
+		http.NotFound(w, r)
 		return
 	}
 	h, ok := srv.handlers.Load(r.URL.Path)

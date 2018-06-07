@@ -45,6 +45,7 @@ func New(
 			fmt.Fprintf(os.Stderr, "%s %s: %s\n", r.Method, r.URL.Path, err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		},
+		NotFound: http.NotFoundHandler(),
 	}
 
 	RegisterImagesServer(server, images)
