@@ -1,6 +1,9 @@
 # remoto
 Ultra-simple but complete RPC ecosystem.
 
+* Simple service definitions written in Go (interfaces and structs)
+* Generates code that looks like a human wrote it
+
 ## Definition
 
 Definition files are Go source with `.remoto.go` file extension.
@@ -39,14 +42,17 @@ type GreetResponse struct {
 * Any slices (boundless arrays) of the supported types are also allowed (e.g. `[]string`, `[]bool`, etc.)
 * Comments describe the service
 
-### Special types
+## Special types
+
+### Files
 
 Remoto provides the following special types:
 
 * `remototypes.File` - A local or remote file
 
-If a response object contains a `remototypes.File` field, it must be the only field.
+You can also optionally return `*remototypes.FileResponse` from the methods, which will describe a binary
+file that will be streamed to the client.
 
-### Tips
+## Tips
 
-* For simplicity, don't import common types - just describe all the requireds types in a single file
+* Avoid importing common types - describe all the required types in a single `.remoto.go` file

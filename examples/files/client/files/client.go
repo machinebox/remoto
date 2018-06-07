@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"strconv"
@@ -36,19 +35,8 @@ func NewImagesClient(endpoint string, client *http.Client) *ImagesClient {
 	}
 }
 
-func (c *ImagesClient) Flip(ctx context.Context, request *FlipRequest) (*FlipResponse, error) {
-	resp, err := c.FlipMulti(ctx, []*FlipRequest{request})
-	if err != nil {
-		return nil, err
-	}
-	if len(resp) == 0 {
-		return nil, errors.New("ImagesClient.Flip: no response")
-	}
-	return resp[0], nil
-}
-
-func (c *ImagesClient) FlipMulti(ctx context.Context, requests []*FlipRequest) ([]*FlipResponse, error) {
-	b, err := json.Marshal(requests)
+func (c *ImagesClient) Flip(ctx context.Context, request *FlipRequest) (io.ReadCloser, error) {
+	b, err := json.Marshal([]interface{}{request})
 	if err != nil {
 		return nil, errors.Wrap(err, "ImagesClient.Flip: encode request")
 	}
@@ -90,16 +78,7 @@ func (c *ImagesClient) FlipMulti(ctx context.Context, requests []*FlipRequest) (
 		resp.Body.Close()
 		return nil, errors.Errorf("ImagesClient.Flip: remote service returned %s", resp.Status)
 	}
-	b, err = ioutil.ReadAll(resp.Body)
-	resp.Body.Close()
-	if err != nil {
-		return nil, errors.Wrap(err, "ImagesClient.Flip: read response body")
-	}
-	var resps []*FlipResponse
-	if err := json.Unmarshal(b, &resps); err != nil {
-		return nil, errors.Wrap(err, "ImagesClient.Flip: decode response body")
-	}
-	return resps, nil
+	return resp.Body, nil
 }
 
 // FlipRequest is the request for Images.Flip.
@@ -116,20 +95,11 @@ func (s *FlipRequest) SetImage(ctx context.Context, filename string, r io.Reader
 	fieldname := "files[" + strconv.Itoa(len(files)) + "]"
 	files[fieldname] = file{r: r, filename: filename}
 	ctx = context.WithValue(ctx, contextKeyFiles, files)
-	s.Image = remototypes.NewFile(fieldname)
+	s.Image = remototypes.File{
+		Fieldname: fieldname,
+		Filename:  filename,
+	}
 	return ctx
-}
-
-// FlipResponse is the response for Images.Flip.
-type FlipResponse struct {
-	FlippedImage remototypes.File `json:"flipped_image"`
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
-// OpenFlippedImage opens the file from the response.
-func (s *FlipResponse) OpenFlippedImage(ctx context.Context) (io.Reader, error) {
-	return nil, nil
 }
 
 // contextKey is a local context key type.
@@ -150,6 +120,7 @@ type file struct {
 	filename string
 }
 
-// this is here so we don't get a compiler complaint about
-// importing remototypes but not using it.
-var _ = remototypes.File("ignore me")
+// this is here so we don't get a compiler complaints.
+func init() {
+	var _ = remototypes.File{}
+}

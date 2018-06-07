@@ -6,8 +6,10 @@ package files
 import (
 	"context"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/machinebox/remoto/go/remotohttp"
 	"github.com/machinebox/remoto/remototypes"
@@ -16,7 +18,7 @@ import (
 
 // Images provides image services.
 type Images interface {
-	Flip(context.Context, *FlipRequest) (*FlipResponse, error)
+	Flip(context.Context, *FlipRequest) (*remototypes.FileResponse, error)
 }
 
 // Run is the simplest way to run the services.
@@ -63,14 +65,6 @@ func RegisterImagesServer(server *remotohttp.Server, service Images) {
 
 }
 
-// FlipResponse is the response for Images.Flip.
-type FlipResponse struct {
-	FlippedImage remototypes.File `json:"flipped_image"`
-
-	// Error is an error message if one occurred.
-	Error string `json:"error"`
-}
-
 // FlipRequest is the request for Images.Flip.
 type FlipRequest struct {
 	Image remototypes.File `json:"image"`
@@ -94,21 +88,42 @@ func (srv *httpImagesServer) handleFlip(w http.ResponseWriter, r *http.Request) 
 		srv.server.OnErr(w, r, err)
 		return
 	}
-	resps := make([]FlipResponse, len(reqs))
-	for i := range reqs {
-		resp, err := srv.service.Flip(r.Context(), reqs[i])
-		if err != nil {
-			resps[i].Error = err.Error()
-			continue
+
+	// single file response
+
+	if len(reqs) != 1 {
+		if err := remotohttp.EncodeErr(w, r, errors.New("only single requests supported for file response endpoints")); err != nil {
+			srv.server.OnErr(w, r, err)
+			return
 		}
-		resps[i] = *resp
+		return
 	}
-	if err := remotohttp.Encode(w, r, http.StatusOK, resps); err != nil {
+
+	resp, err := srv.service.Flip(r.Context(), reqs[0])
+	if err != nil {
+		resp.Error = err.Error()
+		if err := remotohttp.Encode(w, r, http.StatusOK, []interface{}{resp}); err != nil {
+			srv.server.OnErr(w, r, err)
+			return
+		}
+	}
+	if resp.ContentType == "" {
+		resp.ContentType = "application/octet-stream"
+	}
+	w.Header().Set("Content-Type", resp.ContentType)
+	w.Header().Set("Content-Disposition", "attachment; filename="+strconv.QuoteToASCII(resp.Filename))
+	if resp.ContentLength > 0 {
+		w.Header().Set("Content-Length", strconv.Itoa(resp.ContentLength))
+	}
+	if _, err := io.Copy(w, resp.Data); err != nil {
 		srv.server.OnErr(w, r, err)
 		return
 	}
+
 }
 
-// this is here so we don't get a compiler complaint about
-// importing remototypes but not using it.
-var _ = remototypes.File("ignore me")
+// this is here so we don't get a compiler complaints.
+func init() {
+	var _ = remototypes.File{}
+	var _ = strconv.Itoa(0)
+}

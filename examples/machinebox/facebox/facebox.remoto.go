@@ -27,7 +27,7 @@ type Facebox interface {
 	FaceprintCompare(context.Context, *FaceprintCompareRequest) (*FaceprintCompareResponse, error)
 	CheckFaceprint(context.Context, *CheckFaceprintRequest) (*CheckFaceprintResponse, error)
 
-	GetState(context.Context, *GetStateRequest) (*GetStateResponse, error)
+	GetState(context.Context, *GetStateRequest) (*remototypes.FileResponse, error)
 	PutState(context.Context, *PutStateRequest) (*PutStateResponse, error)
 }
 

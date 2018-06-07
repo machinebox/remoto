@@ -79,6 +79,7 @@ func (c *GreeterClient) GreetMulti(ctx context.Context, requests []*GreetRequest
 	if err != nil {
 		return nil, errors.Wrap(err, "GreeterClient.Greet: new request")
 	}
+	req.Header.Set("Accept", "application/json; charset=utf-8")
 	req.Header.Set("Content-Type", w.FormDataContentType())
 	req = req.WithContext(ctx)
 	resp, err := c.httpclient.Do(req)
@@ -101,24 +102,29 @@ func (c *GreeterClient) GreetMulti(ctx context.Context, requests []*GreetRequest
 	return resps, nil
 }
 
-type GreetRequest struct {
-	Name string `json:"name"`
-}
-
 type GreetResponse struct {
 	Greeting string `json:"greeting"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+type GreetRequest struct {
+	Name string `json:"name"`
+}
+
+// contextKey is a local context key type.
+// see https://medium.com/@matryer/context-keys-in-go-5312346a868d
 type contextKey string
 
 func (c contextKey) String() string {
 	return "remoto context key: " + string(c)
 }
 
+// contextKeyFiles is the context key for the request files.
 var contextKeyFiles = contextKey("files")
 
+// file holds info about a file in the context, including
+// the io.Reader where the contents will be read from.
 type file struct {
 	r        io.Reader
 	filename string
@@ -126,4 +132,6 @@ type file struct {
 
 // this is here so we don't get a compiler complaint about
 // importing remototypes but not using it.
-var _ = remototypes.File("ignore me")
+// This file may or may not use it, depending on what's being
+// generated.
+var _ = remototypes.File{}

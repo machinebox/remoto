@@ -9,6 +9,7 @@ import (
 
 	"github.com/disintegration/imaging"
 	"github.com/machinebox/remoto/examples/files/server/files"
+	"github.com/machinebox/remoto/remototypes"
 	"github.com/pkg/errors"
 )
 
@@ -30,7 +31,7 @@ func run() error {
 
 type service struct{}
 
-func (service) Flip(ctx context.Context, req *files.FlipRequest) (*files.FlipResponse, error) {
+func (service) Flip(ctx context.Context, req *files.FlipRequest) (*remototypes.FileResponse, error) {
 	f, err := req.Image.Open(ctx)
 	if err != nil {
 		return nil, err
@@ -45,7 +46,11 @@ func (service) Flip(ctx context.Context, req *files.FlipRequest) (*files.FlipRes
 	if err := jpeg.Encode(&buf, rotated, &jpeg.Options{Quality: 100}); err != nil {
 		return nil, errors.Wrap(err, "encode jpeg")
 	}
-	resp := &files.FlipResponse{}
-	resp.SetFlippedImage("flipped.jpeg", &buf)
+	resp := &remototypes.FileResponse{
+		Filename:      "flipped.jpg",
+		Data:          &buf,
+		ContentLength: buf.Len(),
+		ContentType:   "image/jpeg",
+	}
 	return resp, nil
 }

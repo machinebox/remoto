@@ -14,7 +14,7 @@ type Suggestionbox interface {
 	ListModels(context.Context, *ListModelsRequest) (*ListModelsResponse, error)
 	DeleteModel(context.Context, *DeleteModelRequest) (*DeleteModelResponse, error)
 
-	GetState(context.Context, *GetStateRequest) (*GetStateResponse, error)
+	GetState(context.Context, *GetStateRequest) (*remototypes.FileResponse, error)
 	PutState(context.Context, *PutStateRequest) (*PutStateResponse, error)
 }
 

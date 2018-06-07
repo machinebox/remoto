@@ -38,31 +38,30 @@ func run() error {
 		case <-ctx.Done():
 		}
 	}()
-
-	f, err := os.Open(os.Args[1])
+	if len(os.Args) < 2 {
+		return errors.New("usage: client <image-file>")
+	}
+	inputFile := os.Args[1]
+	f, err := os.Open(inputFile)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 	images := files.NewImagesClient("http://localhost:8080", http.DefaultClient)
 	request := &files.FlipRequest{}
-	ctx = request.SetImage(ctx, filepath.Base(os.Args[1]), f)
+	ctx = request.SetImage(ctx, filepath.Base(inputFile), f)
 	resp, err := images.Flip(ctx, request)
 	if err != nil {
 		return errors.Wrap(err, "images.Flip")
 	}
-	flipped, err := resp.FlippedImage.Open(ctx)
-	if err != nil {
-		return errors.Wrap(err, "open file from response")
-	}
-	defer flipped.Close()
-	outfile := filepath.Join(os.Args[1], "flipped")
+	defer resp.Close()
+	outfile := filepath.Join(filepath.Dir(inputFile), "flipped.jpg")
 	out, err := os.Create(outfile)
 	if err != nil {
 		return err
 	}
 	defer out.Close()
-	if _, err := io.Copy(out, flipped); err != nil {
+	if _, err := io.Copy(out, resp); err != nil {
 		return errors.Wrap(err, "writing file")
 	}
 	log.Println("flipped image saved to", outfile)

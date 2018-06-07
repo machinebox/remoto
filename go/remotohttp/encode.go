@@ -20,3 +20,16 @@ func Encode(w http.ResponseWriter, _ *http.Request, status int, v interface{}) e
 	}
 	return nil
 }
+
+// EncodeErr writes an error response with http.StatusInternalServerError.
+func EncodeErr(w http.ResponseWriter, r *http.Request, err error) error {
+	// returns [{"error":"message"}]
+	e := []struct {
+		Error string `json:"error"`
+	}{
+		{
+			Error: err.Error(),
+		},
+	}
+	return Encode(w, r, http.StatusInternalServerError, e)
+}

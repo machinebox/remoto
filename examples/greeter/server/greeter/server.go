@@ -14,6 +14,10 @@ import (
 	"github.com/pkg/errors"
 )
 
+type Greeter interface {
+	Greet(context.Context, *GreetRequest) (*GreetResponse, error)
+}
+
 // Run is the simplest way to run the services.
 func Run(addr string,
 	greeter Greeter,
@@ -40,10 +44,22 @@ func New(
 			fmt.Fprintf(os.Stderr, "%s %s: %s\n", r.Method, r.URL.Path, err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		},
+		NotFound: http.NotFoundHandler(),
 	}
 
 	RegisterGreeterServer(server, greeter)
 	return server
+}
+
+// RegisterGreeterServer registers a Greeter with a remotohttp.Server.
+func RegisterGreeterServer(server *remotohttp.Server, service Greeter) {
+	srv := &httpGreeterServer{
+		service: service,
+		server:  server,
+	}
+
+	server.Register("/remoto/Greeter.Greet", http.HandlerFunc(srv.handleGreet))
+
 }
 
 type GreetRequest struct {
@@ -54,25 +70,11 @@ type GreetResponse struct {
 	Greeting string `json:"greeting"`
 
 	// Error is an error message if one occurred.
-
 	Error string `json:"error"`
 }
 
-type Greeter interface {
-	Greet(context.Context, *GreetRequest) (*GreetResponse, error)
-}
-
-// RegisterGreeterServer registers a Greeter with a remotohttp.Server.
-func RegisterGreeterServer(server *remotohttp.Server, service Greeter) {
-	srv := &httpGreeterServer{
-		service: service,
-		server:  server,
-	}
-
-	server.Register("/remoto/Greeter.Greet", http.HandlerFunc(srv.Greet))
-
-}
-
+// httpGreeterServer is an internal type that provides an
+// HTTP wrapper around Greeter.
 type httpGreeterServer struct {
 	// service is the Greeter being exposed by this
 	// server.
@@ -82,8 +84,8 @@ type httpGreeterServer struct {
 	server *remotohttp.Server
 }
 
-// Greet is an http.Handler wrapper for Greeter.Greet.
-func (srv *httpGreeterServer) Greet(w http.ResponseWriter, r *http.Request) {
+// handleGreet is an http.Handler wrapper for Greeter.Greet.
+func (srv *httpGreeterServer) handleGreet(w http.ResponseWriter, r *http.Request) {
 	var reqs []*GreetRequest
 	if err := remotohttp.Decode(r, &reqs); err != nil {
 		srv.server.OnErr(w, r, err)
@@ -106,4 +108,6 @@ func (srv *httpGreeterServer) Greet(w http.ResponseWriter, r *http.Request) {
 
 // this is here so we don't get a compiler complaint about
 // importing remototypes but not using it.
-var _ = remototypes.File("ignore me")
+// This file may or may not use it, depending on what's being
+// generated.
+var _ = remototypes.File{}

@@ -38,7 +38,8 @@ func TestHelperUniqueStructures(t *testing.T) {
 		Name: "s1",
 	})
 	srv1.Structures = append(srv1.Structures, Structure{
-		Name: "s2",
+		Name:       "s2",
+		IsImported: true,
 	})
 	srv1.Structures = append(srv1.Structures, Structure{
 		Name: "s1",
@@ -51,17 +52,19 @@ func TestHelperUniqueStructures(t *testing.T) {
 		Name: "s1",
 	})
 	srv2.Structures = append(srv2.Structures, Structure{
-		Name: "s2",
+		Name:       "s2",
+		IsImported: true,
 	})
 	srv2.Structures = append(srv2.Structures, Structure{
-		Name: "s1",
+		Name:       "s1",
+		IsImported: true,
 	})
 	srv2.Structures = append(srv2.Structures, Structure{
 		Name: "s3",
 	})
 	def.Services = append(def.Services, srv1, srv2)
 	structs := uniqueStructures(def)
-	is.Equal(len(structs), 3)
+	is.Equal(len(structs), 2)
 }
 
 func TestGoTypeString(t *testing.T) {

@@ -7,50 +7,47 @@ import (
 )
 
 // File describes a binary file.
-// Can be either:
-//  <remoto.File:fieldname>
-//  <remoto.URL:https://machinebox.io/>
-// File: The file should be in the http.Request under fieldname.
-// URL: The file will be downloaded from the URL.
-type File string
-
-// String gets a string representation of File.
-func (f File) String() string {
-	return string(f)
+// File is only allowed in requests.
+type File struct {
+	Fieldname string `json:"fieldname"`
+	Filename  string `json:"filename"`
 }
 
-// NewFile creates a new File with the given fieldname.
-func NewFile(fieldname string) File {
-	return File("<remoto.File:" + fieldname + ">")
-}
-
-// NewFileURL create a new File with the given URL.
-func NewFileURL(url string) File {
-	return File("<remoto.URL:" + url + ">")
-}
-
-// Open opens the file.
+// Open opens the file as an io.ReadCloser.
+// Callers must close the file.
 func (f File) Open(ctx context.Context) (io.ReadCloser, error) {
-	opener, ok := ctx.Value(contextKeyOpener).(OpenerFunc)
+	opener, ok := ctx.Value(contextKeyFileOpener).(Opener)
 	if !ok {
-		return nil, errors.New("unable to open (no opener found in context)")
+		return nil, errors.New("opener missing from context")
 	}
-	return opener(f)
+	return opener(ctx, f)
 }
 
-// OpenerFunc is a function capable of opening files.
-// It is stored in the context and called by Open.
-type OpenerFunc func(File) (io.ReadCloser, error)
-
-// WithFileOpenContext specifies the opener function in the context.
-func WithFileOpenContext(ctx context.Context, opener OpenerFunc) context.Context {
-	return context.WithValue(ctx, contextKeyOpener, opener)
+// FileResponse is response type for a file.
+type FileResponse struct {
+	Filename      string    `json:"filename"`
+	ContentType   string    `json:"contentType"`
+	ContentLength int       `json:"contentLength"`
+	Data          io.Reader `json:"-"`
+	Error         string    `json:"error"`
 }
 
+// Opener is a function that knows how to open files.
+type Opener func(ctx context.Context, file File) (io.ReadCloser, error)
+
+// WithOpener gets a new context.Context with the specified Opener.
+func WithOpener(ctx context.Context, opener Opener) context.Context {
+	return context.WithValue(ctx, contextKeyFileOpener, opener)
+}
+
+// contextKey is a local context key type.
+// see https://medium.com/@matryer/context-keys-in-go-5312346a868d
 type contextKey string
 
 func (c contextKey) String() string {
-	return "remoto context key: " + string(c)
+	return "remototypes context key: " + string(c)
 }
 
-const contextKeyOpener = contextKey("opener")
+// contextKeyFileOpener is the context key for a function capable of
+// opening files.
+var contextKeyFileOpener = contextKey("files")

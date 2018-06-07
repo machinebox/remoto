@@ -30,6 +30,9 @@ func uniqueStructures(def Definition) []Structure {
 	structures := make(map[string]Structure)
 	for _, service := range def.Services {
 		for _, structure := range service.Structures {
+			if structure.IsImported {
+				continue
+			}
 			structures[structure.Name] = structure
 		}
 	}

@@ -17,7 +17,6 @@ import (
 	"context"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"strconv"
@@ -49,6 +48,53 @@ func New<%= service.Name %>Client(endpoint string, client *http.Client) *<%= ser
 }
 
 <%= for (method) in service.Methods { %>
+<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
+<%= print_comment(method.Comment) %>func (c *<%= service.Name %>Client) <%= method.Name %>(ctx context.Context, request *<%= method.RequestType.Name %>) (io.ReadCloser, error) {
+	b, err := json.Marshal([]interface{}{ request })
+    if err != nil {
+        return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: encode request")
+    }
+	buf := c.bufs.Get()
+	defer c.bufs.Put(buf)
+	w := multipart.NewWriter(buf)
+	w.WriteField("json", string(b))
+	if files, ok := ctx.Value(contextKeyFiles).(map[string]file); ok {
+		for fieldname, file := range files {
+			f, err := w.CreateFormFile(fieldname, file.filename)
+			if err != nil {
+				return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: create form file")
+			}
+			if _, err := io.Copy(f, file.r); err != nil {
+				return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: reading file")
+			}
+			select {
+			case <-ctx.Done():
+				return nil, ctx.Err()
+			default:
+			}
+		}
+	}
+	if err := w.Close(); err != nil {
+		return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: write")
+	}
+	req, err := http.NewRequest(http.MethodPost, c.endpoint + "/remoto/<%= service.Name %>.<%= method.Name %>", buf)
+	if err != nil {
+		return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: new request")
+	}
+	req.Header.Set("Accept", "application/json; charset=utf-8")
+	req.Header.Set("Content-Type", w.FormDataContentType())
+	req = req.WithContext(ctx)
+	resp, err := c.httpclient.Do(req)
+	if err != nil {
+		return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: do")
+	}
+	if resp.StatusCode != http.StatusOK {
+		resp.Body.Close()
+		return nil, errors.Errorf("<%= service.Name %>Client.<%= method.Name %>: remote service returned %s", resp.Status)
+	}
+	return resp.Body, nil
+}
+<% } else { %>
 <%= print_comment(method.Comment) %>func (c *<%= service.Name %>Client) <%= method.Name %>(ctx context.Context, request *<%= method.RequestType.Name %>) (*<%= method.ResponseType.Name %>, error) {
 	resp, err := c.<%= method.Name %>Multi(ctx, []*<%= method.RequestType.Name %>{request})
 	if err != nil {
@@ -116,6 +162,7 @@ func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context,
 }
 <% } %>
 <% } %>
+<% } %>
 
 <%= for (structure) in unique_structures(def) { %>
 <%= print_comment(structure.Comment) %>type <%= structure.Name %> struct {
@@ -134,7 +181,10 @@ func (s *<%= structure.Name %>) Set<%= field.Name %>(ctx context.Context, filena
 	fieldname := "files["+ strconv.Itoa(len(files)) + "]"
 	files[fieldname] = file{r: r, filename: filename}
 	ctx = context.WithValue(ctx, contextKeyFiles, files)
-	s.<%= field.Name %> = remototypes.NewFile(fieldname)
+	s.<%= field.Name %> = remototypes.File{
+		Fieldname: fieldname,
+		Filename: filename,
+	}
 	return ctx
 }
 <% } %>
@@ -166,6 +216,7 @@ type file struct {
 	filename string
 }
 
-// this is here so we don't get a compiler complaint about 
-// importing remototypes but not using it.
-var _ = remototypes.File("ignore me")
+// this is here so we don't get a compiler complaints.
+func init() {
+	var _ = remototypes.File{}
+}

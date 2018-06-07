@@ -85,9 +85,10 @@ func (m Method) String() string {
 
 // Structure describes a data structure.
 type Structure struct {
-	Name    string
-	Comment string
-	Fields  []Field
+	Name       string
+	Comment    string
+	Fields     []Field
+	IsImported bool
 
 	IsRequestObject  bool
 	IsResponseObject bool
@@ -122,6 +123,7 @@ type Type struct {
 	Name       string
 	IsMultiple bool
 	IsStruct   bool
+	IsImported bool
 }
 
 func (t Type) code() string {
@@ -182,7 +184,7 @@ func Parse(dir string) (Definition, error) {
 		obj := pkg.Scope().Lookup(name)
 		switch v := obj.Type().Underlying().(type) {
 		case *types.Interface:
-			service, err := parseService(fset, pkg.Scope(), &def, obj, v)
+			service, err := parseService(fset, pkg, &def, obj, v)
 			if err != nil {
 				for sub, tip := range tips {
 					if strings.Contains(err.Error(), sub) {
@@ -198,14 +200,14 @@ func Parse(dir string) (Definition, error) {
 	return def, nil
 }
 
-func parseService(fset *token.FileSet, scope *types.Scope, def *Definition, obj types.Object, v *types.Interface) (Service, error) {
+func parseService(fset *token.FileSet, pkg *types.Package, def *Definition, obj types.Object, v *types.Interface) (Service, error) {
 	srv := Service{
 		Name:    obj.Name(),
 		Comment: def.comments[obj.Name()],
 	}
 	for i := 0; i < v.NumMethods(); i++ {
 		m := v.Method(i)
-		method, err := parseMethod(fset, scope, def, &srv, m)
+		method, err := parseMethod(fset, pkg, def, &srv, m)
 		if err != nil {
 			return srv, err
 		}
@@ -214,7 +216,7 @@ func parseService(fset *token.FileSet, scope *types.Scope, def *Definition, obj 
 	return srv, nil
 }
 
-func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *Service, m *types.Func) (Method, error) {
+func parseMethod(fset *token.FileSet, pkg *types.Package, def *Definition, srv *Service, m *types.Func) (Method, error) {
 	method := Method{
 		Name:    m.Name(),
 		Comment: def.comments[m.Name()],
@@ -232,7 +234,7 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 		return method, newErr(fset, m.Pos(), "service methods must have signature (context.Context, *Request) (*Response, error)")
 	}
 	requestParam := params.At(1)
-	requestStructure, err := parseStructureFromParam(fset, scope, def, srv, "request", requestParam)
+	requestStructure, err := parseStructureFromParam(fset, pkg, def, srv, "request", requestParam)
 	if err != nil {
 		return method, err
 	}
@@ -248,7 +250,7 @@ func parseMethod(fset *token.FileSet, scope *types.Scope, def *Definition, srv *
 		return method, newErr(fset, m.Pos(), "service methods must have signature (context.Context, *Request) (*Response, error)")
 	}
 	responseParam := returns.At(0)
-	responseStructure, err := parseStructureFromParam(fset, scope, def, srv, "response", responseParam)
+	responseStructure, err := parseStructureFromParam(fset, pkg, def, srv, "response", responseParam)
 	if err != nil {
 		return method, err
 	}
@@ -277,7 +279,7 @@ func addDefaultResponseFields(structure *Structure) {
 	})
 }
 
-func parseStructureFromParam(fset *token.FileSet, scope *types.Scope, def *Definition, srv *Service, structureKind string, v *types.Var) (Structure, error) {
+func parseStructureFromParam(fset *token.FileSet, pkg *types.Package, def *Definition, srv *Service, structureKind string, v *types.Var) (Structure, error) {
 	resolver := func(other *types.Package) string {
 		if other.Name() != def.PackageName {
 			return other.Name()
@@ -295,8 +297,9 @@ func parseStructureFromParam(fset *token.FileSet, scope *types.Scope, def *Defin
 	}
 	structure.Name = types.TypeString(v.Type(), resolver)[1:]
 	structure.Comment = def.comments[structure.Name]
+	structure.IsImported = strings.Contains(structure.Name, ".")
 	for i := 0; i < st.NumFields(); i++ {
-		field, err := parseField(fset, scope, def, srv, st.Field(i))
+		field, err := parseField(fset, pkg, def, srv, st.Field(i))
 		if err != nil {
 			return structure, err
 		}
@@ -305,7 +308,7 @@ func parseStructureFromParam(fset *token.FileSet, scope *types.Scope, def *Defin
 	return structure, nil
 }
 
-func parseStructure(fset *token.FileSet, scope *types.Scope, def *Definition, srv *Service, obj types.Object) (Structure, error) {
+func parseStructure(fset *token.FileSet, pkg *types.Package, def *Definition, srv *Service, obj types.Object) (Structure, error) {
 	structure := Structure{
 		Name: obj.Name(),
 	}
@@ -315,7 +318,7 @@ func parseStructure(fset *token.FileSet, scope *types.Scope, def *Definition, sr
 		return structure, newErr(fset, obj.Pos(), obj.Type().String()+" field must be a pointer to a struct")
 	}
 	for i := 0; i < st.NumFields(); i++ {
-		field, err := parseField(fset, scope, def, srv, st.Field(i))
+		field, err := parseField(fset, pkg, def, srv, st.Field(i))
 		if err != nil {
 			return structure, err
 		}
@@ -324,7 +327,7 @@ func parseStructure(fset *token.FileSet, scope *types.Scope, def *Definition, sr
 	return structure, nil
 }
 
-func parseField(fset *token.FileSet, scope *types.Scope, def *Definition, srv *Service, v *types.Var) (Field, error) {
+func parseField(fset *token.FileSet, pkg *types.Package, def *Definition, srv *Service, v *types.Var) (Field, error) {
 	var field Field
 	if !v.IsField() {
 		return field, newErr(fset, v.Pos(), v.Name()+" not a field")
@@ -332,16 +335,16 @@ func parseField(fset *token.FileSet, scope *types.Scope, def *Definition, srv *S
 	if !v.Exported() {
 		return field, newErr(fset, v.Pos(), "field "+v.Name()+": must be exported")
 	}
-	typ, err := resolveTypeName(def, v.Type())
+	typ, err := parseType(def, v.Type())
 	if err != nil {
 		return field, newErr(fset, v.Pos(), err.Error())
 	}
 	def.FieldTypes[typ.Name] = typ
 	field.Name = v.Name()
 	field.Type = typ
-	if typ.IsStruct {
-		obj := scope.Lookup(typ.Name)
-		structure, err := parseStructure(fset, scope, def, srv, obj)
+	if typ.IsStruct && !typ.IsImported {
+		obj := pkg.Scope().Lookup(typ.Name)
+		structure, err := parseStructure(fset, pkg, def, srv, obj)
 		if err != nil {
 			return field, err
 		}
@@ -355,7 +358,7 @@ func newErr(fset *token.FileSet, pos token.Pos, err string) error {
 	return errors.New(position.String() + ": " + err)
 }
 
-func resolveTypeName(def *Definition, typ types.Type) (Type, error) {
+func parseType(def *Definition, typ types.Type) (Type, error) {
 	resolver := func(other *types.Package) string {
 		if other.Name() != def.PackageName {
 			return other.Name()
@@ -369,12 +372,13 @@ func resolveTypeName(def *Definition, typ types.Type) (Type, error) {
 		typ = slice.Elem()
 	}
 	ty.Name = types.TypeString(typ, resolver)
+	ty.IsImported = strings.Contains(ty.Name, ".")
 	if _, ok := typ.Underlying().(*types.Struct); ok {
 		ty.IsStruct = true
 		return ty, nil
 	}
 	switch ty.Name {
-	case "string", "float64", "int", "bool",
+	case "string", "float64", "int", "bool", "io.Reader",
 		"remototypes.File":
 		return ty, nil
 	}

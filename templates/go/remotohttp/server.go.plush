@@ -17,8 +17,10 @@ package <%= def.PackageName %>
 import (
 	"context"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/machinebox/remoto/go/remotohttp"
 	"github.com/machinebox/remoto/remototypes"
@@ -104,6 +106,38 @@ func (srv *http<%= service.Name %>Server) handle<%= method.Name %>(w http.Respon
 		srv.server.OnErr(w, r, err)
 		return
 	}
+	<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
+	// single file response
+
+	if len(reqs) != 1 {
+		if err := remotohttp.EncodeErr(w, r, errors.New("only single requests supported for file response endpoints")); err != nil {
+			srv.server.OnErr(w, r, err)
+			return
+		}
+		return
+	}
+
+	resp, err := srv.service.<%= method.Name %>(r.Context(), reqs[0])
+	if err != nil {
+		resp.Error = err.Error()
+		if err := remotohttp.Encode(w, r, http.StatusOK, []interface{}{ resp }); err != nil {
+			srv.server.OnErr(w, r, err)
+			return
+		}
+	}
+	if resp.ContentType == "" {
+		resp.ContentType = "application/octet-stream"
+	}
+	w.Header().Set("Content-Type", resp.ContentType)
+	w.Header().Set("Content-Disposition", "attachment; filename=" + strconv.QuoteToASCII(resp.Filename))
+	if resp.ContentLength > 0 {
+		w.Header().Set("Content-Length", strconv.Itoa(resp.ContentLength))
+	}
+	if _, err := io.Copy(w, resp.Data); err != nil {
+		srv.server.OnErr(w, r, err)
+		return
+	}
+	<% } else { %>
 	resps := make([]<%= method.ResponseType.Name %>, len(reqs))
 	for i := range reqs {
 		resp, err := srv.service.<%= method.Name %>(r.Context(), reqs[i])
@@ -117,10 +151,13 @@ func (srv *http<%= service.Name %>Server) handle<%= method.Name %>(w http.Respon
 		srv.server.OnErr(w, r, err)
 		return
 	}
+	<% } %>
 }<% } %> 
 
 <% } %>
 
-// this is here so we don't get a compiler complaint about 
-// importing remototypes but not using it.
-var _ = remototypes.File("ignore me")
+// this is here so we don't get a compiler complaints.
+func init() {
+	var _ = remototypes.File{}
+	var _ = strconv.Itoa(0)
+}
