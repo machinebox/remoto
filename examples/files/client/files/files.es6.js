@@ -73,8 +73,9 @@ export class FlipRequest {
 		this._files[fieldname] = file
 		return fieldname
 	}
-
-	// allFiles gets a map of files in this request.
+	
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
 	get filesCount() { return this._filesCount }

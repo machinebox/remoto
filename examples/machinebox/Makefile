@@ -5,6 +5,7 @@ generate:
 	remoto generate ./facebox ../../templates/go/remotohttp/server.go.plush -o ./facebox/server/facebox/server.go && gofmt -w ./facebox/server/facebox/server.go
 	remoto generate ./facebox ../../templates/go/remotohttp/client.go.plush -o ./facebox/client/facebox/client.go && gofmt -w ./facebox/client/facebox/client.go
 	remoto generate ./facebox ../../templates/js/remotohttp/client.es6.js.plush -o ./facebox/client/web/facebox.es6.js 
+	cd ./facebox/client/web && npx babel ./facebox.es6.js --out-file ./dist/facebox.js
 
 install:
 	cd ../../ ; go install

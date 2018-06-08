@@ -4,16 +4,16 @@
 //
 // uses the Fetch API: to support older browsers, use the polyfil https://github.github.io/fetch/
 
-'use strict';
+"use strict";
 
 // FaceboxClientOptions are the options for the FaceboxClient.
 export class FaceboxClientOptions {
 	constructor(data = {}) {
-		this.data = data
-		this.data.endpoint = this.data.endpoint || "http://localhost:8080"
+		this._data = data
+		this._data.endpoint = this._data.endpoint || "http://localhost:8080"
 	}
-	get endpoint() { return this.data.endpoint }
-	set endpoint(endpoint) { this.data.endpoint = endpoint}
+	get endpoint() { return this._data.endpoint }
+	set endpoint(endpoint) { this._data.endpoint = endpoint }
 }
 
 // Facebox provides facial detection and recognition in images.
@@ -519,725 +519,736 @@ export class FaceboxClient {
 	
 }
 
-
-
 export class CheckFaceprintRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get faceprints() { return this.data.faceprints }
+	get faceprints() { return this._data.faceprints }
 	
-	set faceprints(faceprints) { this.data.faceprints = faceprints }
-}
-
-export class CheckFaceprintResponse {
+	set faceprints(faceprints) { this._data.faceprints = faceprints }
+}export class CheckFaceprintResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get faces() { return this.data.faces }
+	get faces() { return this._data.faces }
 	
 	
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class CheckFileRequest {
+}export class CheckFileRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get file() { return this.data.file }
-	setFile(request, filename, file) { this.data.file = request.addFile(filename, file) }
+	get file() { return this._data.file }
+	setFile(request, filename, file) { this._data.file = request.addFile(filename, file) }
 	
-}
-
-export class CheckFileResponse {
+}export class CheckFileResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get faces() { return this.data.faces }
+	get faces() { return this._data.faces }
 	
 	
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class CheckURLRequest {
+}export class CheckURLRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this._files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get file() { return this.data.file }
-	setFile(request, filename, file) { this.data.file = request.addFile(filename, file) }
+	get file() { return this._data.file }
+	setFile(request, filename, file) { this._data.file = request.addFile(filename, file) }
 	
-}
-
-export class CheckURLResponse {
+}export class CheckURLResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get faces() { return this.data.faces }
+	get faces() { return this._data.faces }
 	
 	
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class Face {
+}export class Face {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get iD() { return this.data.id }
+	get iD() { return this._data.id }
 	
-	set iD(id) { this.data.id = id }
-	get name() { return this.data.name }
+	set iD(id) { this._data.id = id }
+	get name() { return this._data.name }
 	
-	set name(name) { this.data.name = name }
-	get matched() { return this.data.matched }
+	set name(name) { this._data.name = name }
+	get matched() { return this._data.matched }
 	
-	set matched(matched) { this.data.matched = matched }
-	get faceprint() { return this.data.faceprint }
+	set matched(matched) { this._data.matched = matched }
+	get faceprint() { return this._data.faceprint }
 	
-	set faceprint(faceprint) { this.data.faceprint = faceprint }
-	get rect() { return this.data.rect }
+	set faceprint(faceprint) { this._data.faceprint = faceprint }
+	get rect() { return this._data.rect }
 	
-	set rect(rect) { this.data.rect = rect }
-}
-
-export class FaceprintCompareRequest {
+	set rect(rect) { this._data.rect = rect }
+}export class FaceprintCompareRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get target() { return this.data.target }
+	get target() { return this._data.target }
 	
-	set target(target) { this.data.target = target }
-	get faceprints() { return this.data.faceprints }
+	set target(target) { this._data.target = target }
+	get faceprints() { return this._data.faceprints }
 	
-	set faceprints(faceprints) { this.data.faceprints = faceprints }
-}
-
-export class FaceprintCompareResponse {
+	set faceprints(faceprints) { this._data.faceprints = faceprints }
+}export class FaceprintCompareResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get confidences() { return this.data.confidences }
+	get confidences() { return this._data.confidences }
 	
 	
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class FaceprintFace {
+}export class FaceprintFace {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get matched() { return this.data.matched }
+	get matched() { return this._data.matched }
 	
-	set matched(matched) { this.data.matched = matched }
-	get confidence() { return this.data.confidence }
+	set matched(matched) { this._data.matched = matched }
+	get confidence() { return this._data.confidence }
 	
-	set confidence(confidence) { this.data.confidence = confidence }
-	get iD() { return this.data.id }
+	set confidence(confidence) { this._data.confidence = confidence }
+	get iD() { return this._data.id }
 	
-	set iD(id) { this.data.id = id }
-	get name() { return this.data.name }
+	set iD(id) { this._data.id = id }
+	get name() { return this._data.name }
 	
-	set name(name) { this.data.name = name }
-}
-
-export class GetStateRequest {
+	set name(name) { this._data.name = name }
+}export class GetStateRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-}
-
-export class PutStateRequest {
+}export class PutStateRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get stateFile() { return this.data.state_file }
-	setStateFile(request, filename, state_file) { this.data.state_file = request.addFile(filename, state_file) }
+	get stateFile() { return this._data.state_file }
+	setStateFile(request, filename, state_file) { this._data.state_file = request.addFile(filename, state_file) }
 	
-}
-
-export class PutStateResponse {
+}export class PutStateResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class Rect {
+}export class Rect {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get top() { return this.data.top }
+	get top() { return this._data.top }
 	
-	set top(top) { this.data.top = top }
-	get left() { return this.data.left }
+	set top(top) { this._data.top = top }
+	get left() { return this._data.left }
 	
-	set left(left) { this.data.left = left }
-	get width() { return this.data.width }
+	set left(left) { this._data.left = left }
+	get width() { return this._data.width }
 	
-	set width(width) { this.data.width = width }
-	get height() { return this.data.height }
+	set width(width) { this._data.width = width }
+	get height() { return this._data.height }
 	
-	set height(height) { this.data.height = height }
-}
-
-export class RemoveIDRequest {
+	set height(height) { this._data.height = height }
+}export class RemoveIDRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get iD() { return this.data.id }
+	get iD() { return this._data.id }
 	
-	set iD(id) { this.data.id = id }
-}
-
-export class RemoveIDResponse {
+	set iD(id) { this._data.id = id }
+}export class RemoveIDResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class RenameIDRequest {
+}export class RenameIDRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get iD() { return this.data.id }
+	get iD() { return this._data.id }
 	
-	set iD(id) { this.data.id = id }
-	get name() { return this.data.name }
+	set iD(id) { this._data.id = id }
+	get name() { return this._data.name }
 	
-	set name(name) { this.data.name = name }
-}
-
-export class RenameIDResponse {
+	set name(name) { this._data.name = name }
+}export class RenameIDResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class RenameRequest {
+}export class RenameRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get from() { return this.data.from }
+	get from() { return this._data.from }
 	
-	set from(from) { this.data.from = from }
-	get to() { return this.data.to }
+	set from(from) { this._data.from = from }
+	get to() { return this._data.to }
 	
-	set to(to) { this.data.to = to }
-}
-
-export class RenameResponse {
+	set to(to) { this._data.to = to }
+}export class RenameResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class SimilarFace {
+}export class SimilarFace {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get rect() { return this.data.rect }
+	get rect() { return this._data.rect }
 	
-	set rect(rect) { this.data.rect = rect }
-	get similarFaces() { return this.data.similar_faces }
+	set rect(rect) { this._data.rect = rect }
+	get similarFaces() { return this._data.similar_faces }
 	
-	set similarFaces(similar_faces) { this.data.similar_faces = similar_faces }
-}
-
-export class SimilarFileRequest {
+	set similarFaces(similar_faces) { this._data.similar_faces = similar_faces }
+}export class SimilarFileRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get file() { return this.data.file }
-	setFile(request, filename, file) { this.data.file = request.addFile(filename, file) }
+	get file() { return this._data.file }
+	setFile(request, filename, file) { this._data.file = request.addFile(filename, file) }
 	
-}
-
-export class SimilarFileResponse {
+}export class SimilarFileResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get faces() { return this.data.faces }
+	get faces() { return this._data.faces }
 	
 	
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class SimilarIDRequest {
+}export class SimilarIDRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get iD() { return this.data.id }
+	get iD() { return this._data.id }
 	
-	set iD(id) { this.data.id = id }
-}
-
-export class SimilarIDResponse {
+	set iD(id) { this._data.id = id }
+}export class SimilarIDResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get faces() { return this.data.faces }
+	get faces() { return this._data.faces }
 	
 	
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class SimilarURLRequest {
+}export class SimilarURLRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get uRL() { return this.data.url }
+	get uRL() { return this._data.url }
 	
-	set uRL(url) { this.data.url = url }
-}
-
-export class SimilarURLResponse {
+	set uRL(url) { this._data.url = url }
+}export class SimilarURLResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get faces() { return this.data.faces }
+	get faces() { return this._data.faces }
 	
 	
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class TeachFaceprintRequest {
+}export class TeachFaceprintRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get iD() { return this.data.id }
+	get iD() { return this._data.id }
 	
-	set iD(id) { this.data.id = id }
-	get name() { return this.data.name }
+	set iD(id) { this._data.id = id }
+	get name() { return this._data.name }
 	
-	set name(name) { this.data.name = name }
-	get faceprint() { return this.data.faceprint }
+	set name(name) { this._data.name = name }
+	get faceprint() { return this._data.faceprint }
 	
-	set faceprint(faceprint) { this.data.faceprint = faceprint }
-}
-
-export class TeachFaceprintResponse {
+	set faceprint(faceprint) { this._data.faceprint = faceprint }
+}export class TeachFaceprintResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class TeachFileRequest {
+}export class TeachFileRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get iD() { return this.data.id }
+	get iD() { return this._data.id }
 	
-	set iD(id) { this.data.id = id }
-	get name() { return this.data.name }
+	set iD(id) { this._data.id = id }
+	get name() { return this._data.name }
 	
-	set name(name) { this.data.name = name }
-	get file() { return this.data.file }
-	setFile(request, filename, file) { this.data.file = request.addFile(filename, file) }
+	set name(name) { this._data.name = name }
+	get file() { return this._data.file }
+	setFile(request, filename, file) { this._data.file = request.addFile(filename, file) }
 	
-}
-
-export class TeachFileResponse {
+}export class TeachFileResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
-}
-
-export class TeachURLRequest {
+}export class TeachURLRequest {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets an object of files in this request, keyed with
+	// the fieldname.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get iD() { return this.data.id }
+	get iD() { return this._data.id }
 	
-	set iD(id) { this.data.id = id }
-	get name() { return this.data.name }
+	set iD(id) { this._data.id = id }
+	get name() { return this._data.name }
 	
-	set name(name) { this.data.name = name }
-	get uRL() { return this.data.url }
+	set name(name) { this._data.name = name }
+	get uRL() { return this._data.url }
 	
-	set uRL(url) { this.data.url = url }
-}
-
-export class TeachURLResponse {
+	set uRL(url) { this._data.url = url }
+}export class TeachURLResponse {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 
-	get error() { return this.data.error }
+	get error() { return this._data.error }
 	
 	
 }
-
