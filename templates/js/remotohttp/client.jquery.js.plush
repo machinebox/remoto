@@ -39,6 +39,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.<%= def.PackageName %>.<%= method.ResponseType.Name %>(response))
+			})
+			return responseObjects
 		})
 	}
 	<% } %><% } %>

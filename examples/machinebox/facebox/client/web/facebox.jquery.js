@@ -36,6 +36,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.CheckFaceprintResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -64,6 +70,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.CheckFileResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -92,6 +104,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.CheckURLResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -120,6 +138,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.FaceprintCompareResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -151,6 +175,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.remototypes.FileResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -179,6 +209,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.PutStateResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -207,6 +243,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.RemoveIDResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -235,6 +277,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.RenameResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -263,6 +311,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.RenameIDResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -291,6 +345,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.SimilarFileResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -319,6 +379,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.SimilarIDResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -347,6 +413,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.SimilarURLResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -375,6 +447,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.TeachFaceprintResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -403,6 +481,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.TeachFileResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
@@ -431,6 +515,12 @@
 			data: formData,
 			contentType: false,
 			processData: false
+		}).then(function(responses) {
+			var responseObjects = []
+			responses.forEach(function(response){
+				responseObjects.push(new $.facebox.TeachURLResponse(response))
+			})
+			return responseObjects
 		})
 	}
 	
