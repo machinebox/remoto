@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"io"
+	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"strconv"
@@ -123,4 +124,6 @@ type file struct {
 // this is here so we don't get a compiler complaints.
 func init() {
 	var _ = remototypes.File{}
+	var _ = strconv.Itoa(0)
+	var _ = ioutil.Discard
 }

@@ -60,7 +60,6 @@ func RegisterImagesServer(server *remotohttp.Server, service Images) {
 		service: service,
 		server:  server,
 	}
-
 	server.Register("/remoto/Images.Flip", http.HandlerFunc(srv.handleFlip))
 
 }
@@ -126,4 +125,5 @@ func (srv *httpImagesServer) handleFlip(w http.ResponseWriter, r *http.Request) 
 func init() {
 	var _ = remototypes.File{}
 	var _ = strconv.Itoa(0)
+	var _ = io.EOF
 }

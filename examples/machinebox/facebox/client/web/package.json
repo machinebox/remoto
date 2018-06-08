@@ -16,5 +16,9 @@
     "webpack": "^4.11.1",
     "webpack-cli": "^3.0.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "npm": "^6.1.0",
+    "to": "^0.2.9",
+    "update": "^0.7.4"
+  }
 }

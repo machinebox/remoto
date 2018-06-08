@@ -9,11 +9,11 @@
 // <%= service.Name %>ClientOptions are the options for the <%= service.Name %>Client.
 export class <%= service.Name %>ClientOptions {
 	constructor(data = {}) {
-		this.data = data
-		this.data.endpoint = this.data.endpoint || "http://localhost:8080"
+		this._data = data
+		this._data.endpoint = this._data.endpoint || "http://localhost:8080"
 	}
-	get endpoint() { return this.data.endpoint }
-	set endpoint(endpoint) { this.data.endpoint = endpoint}
+	get endpoint() { return this._data.endpoint }
+	set endpoint(endpoint) { this._data.endpoint = endpoint }
 }
 
 <%= print_comment(service.Comment) %>export class <%= service.Name %>Client {
@@ -56,31 +56,31 @@ export class <%= service.Name %>ClientOptions {
 	<% } %>
 }
 <% } %>
-
-<%= for (structure) in unique_structures(def) { %>
-<%= print_comment(structure.Comment) %>export class <%= structure.Name %> {
+<%= for (structure) in unique_structures(def) { %><%= print_comment(structure.Comment) %>export class <%= structure.Name %> {
 	constructor(data = {}) {
-		this.data = data
+		this._data = data
 		this._files = {}
+		this._filesCount = 0
 	}
 	<%= if (structure.IsRequestObject) { %>
 	// addFile adds a file to the request and returns its unique name.
-	// this method is not usually called directly, instead use the setters
+	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+(this._filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
 
-	// allFiles gets a map of files that make up this request.
+	// allFiles gets a map of files in this request.
 	get allFiles() { return this._files }
+	// filesCount gets the number of files in this request.
+	get filesCount() { return this._filesCount }
 	<% } %>
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this.data) }
+	toJSON() { return JSON.stringify(this._data) }
 <%= for (field) in structure.Fields { %>
-	get <%= camelize_down_first(field.Name) %>() { return this.data.<%= underscore(field.Name) %> }
-	<%= if (field.Type.Name == "remototypes.File") { %>set<%= field.Name %>(request, filename, <%= underscore(field.Name) %>) { this.data.<%= underscore(field.Name) %> = request.addFile(filename, <%= underscore(field.Name) %>) }<% } %>
-	<%= if (!structure.IsResponseObject && field.Type.Name != "remototypes.File") { %>set <%= camelize_down_first(field.Name) %>(<%= underscore(field.Name) %>) { this.data.<%= underscore(field.Name) %> = <%= underscore(field.Name) %> }<% } %><% } %>
-}
-<% } %>
+	get <%= camelize_down_first(field.Name) %>() { return this._data.<%= underscore(field.Name) %> }
+	<%= if (field.Type.Name == "remototypes.File") { %>set<%= field.Name %>(request, filename, <%= underscore(field.Name) %>) { this._data.<%= underscore(field.Name) %> = request.addFile(filename, <%= underscore(field.Name) %>) }<% } %>
+	<%= if (!structure.IsResponseObject && field.Type.Name != "remototypes.File") { %>set <%= camelize_down_first(field.Name) %>(<%= underscore(field.Name) %>) { this._data.<%= underscore(field.Name) %> = <%= underscore(field.Name) %> }<% } %><% } %>
+}<% } %>

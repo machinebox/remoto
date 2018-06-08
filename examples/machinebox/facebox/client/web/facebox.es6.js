@@ -617,7 +617,7 @@ export class CheckURLRequest {
 	// this method is not usually called directly, instead use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+this.files.length+']'
+		let fieldname = 'files['+this._files.length+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
