@@ -6,6 +6,11 @@
 
 "use strict";
 
+// _filesCount keeps track of the number of files being added, and is used
+// to generate unique field names.
+var _filesCount = 0
+
+
 // FaceboxClientOptions are the options for the FaceboxClient.
 export class FaceboxClientOptions {
 	constructor(data = {}) {
@@ -519,18 +524,18 @@ export class FaceboxClient {
 	
 }
 
+
 export class CheckFaceprintRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -539,7 +544,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -547,11 +552,12 @@ export class CheckFaceprintRequest {
 	get faceprints() { return this._data.faceprints }
 	
 	set faceprints(faceprints) { this._data.faceprints = faceprints }
-}export class CheckFaceprintResponse {
+}
+
+export class CheckFaceprintResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -563,18 +569,19 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class CheckFileRequest {
+}
+
+export class CheckFileRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -583,7 +590,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -591,11 +598,12 @@ export class CheckFaceprintRequest {
 	get file() { return this._data.file }
 	setFile(request, filename, file) { this._data.file = request.addFile(filename, file) }
 	
-}export class CheckFileResponse {
+}
+
+export class CheckFileResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -607,18 +615,19 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class CheckURLRequest {
+}
+
+export class CheckURLRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -627,7 +636,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -635,11 +644,12 @@ export class CheckFaceprintRequest {
 	get file() { return this._data.file }
 	setFile(request, filename, file) { this._data.file = request.addFile(filename, file) }
 	
-}export class CheckURLResponse {
+}
+
+export class CheckURLResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -651,11 +661,12 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class Face {
+}
+
+export class Face {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -676,18 +687,19 @@ export class CheckFaceprintRequest {
 	get rect() { return this._data.rect }
 	
 	set rect(rect) { this._data.rect = rect }
-}export class FaceprintCompareRequest {
+}
+
+export class FaceprintCompareRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -696,7 +708,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -707,11 +719,12 @@ export class CheckFaceprintRequest {
 	get faceprints() { return this._data.faceprints }
 	
 	set faceprints(faceprints) { this._data.faceprints = faceprints }
-}export class FaceprintCompareResponse {
+}
+
+export class FaceprintCompareResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -723,11 +736,12 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class FaceprintFace {
+}
+
+export class FaceprintFace {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -745,18 +759,19 @@ export class CheckFaceprintRequest {
 	get name() { return this._data.name }
 	
 	set name(name) { this._data.name = name }
-}export class GetStateRequest {
+}
+
+export class GetStateRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -765,23 +780,24 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
 
-}export class PutStateRequest {
+}
+
+export class PutStateRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -790,7 +806,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -798,11 +814,12 @@ export class CheckFaceprintRequest {
 	get stateFile() { return this._data.state_file }
 	setStateFile(request, filename, state_file) { this._data.state_file = request.addFile(filename, state_file) }
 	
-}export class PutStateResponse {
+}
+
+export class PutStateResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -811,11 +828,12 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class Rect {
+}
+
+export class Rect {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -833,18 +851,19 @@ export class CheckFaceprintRequest {
 	get height() { return this._data.height }
 	
 	set height(height) { this._data.height = height }
-}export class RemoveIDRequest {
+}
+
+export class RemoveIDRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -853,7 +872,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -861,11 +880,12 @@ export class CheckFaceprintRequest {
 	get iD() { return this._data.id }
 	
 	set iD(id) { this._data.id = id }
-}export class RemoveIDResponse {
+}
+
+export class RemoveIDResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -874,18 +894,19 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class RenameIDRequest {
+}
+
+export class RenameIDRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -894,7 +915,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -905,11 +926,12 @@ export class CheckFaceprintRequest {
 	get name() { return this._data.name }
 	
 	set name(name) { this._data.name = name }
-}export class RenameIDResponse {
+}
+
+export class RenameIDResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -918,18 +940,19 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class RenameRequest {
+}
+
+export class RenameRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -938,7 +961,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -949,11 +972,12 @@ export class CheckFaceprintRequest {
 	get to() { return this._data.to }
 	
 	set to(to) { this._data.to = to }
-}export class RenameResponse {
+}
+
+export class RenameResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -962,11 +986,12 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class SimilarFace {
+}
+
+export class SimilarFace {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -978,18 +1003,19 @@ export class CheckFaceprintRequest {
 	get similarFaces() { return this._data.similar_faces }
 	
 	set similarFaces(similar_faces) { this._data.similar_faces = similar_faces }
-}export class SimilarFileRequest {
+}
+
+export class SimilarFileRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -998,7 +1024,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -1006,11 +1032,12 @@ export class CheckFaceprintRequest {
 	get file() { return this._data.file }
 	setFile(request, filename, file) { this._data.file = request.addFile(filename, file) }
 	
-}export class SimilarFileResponse {
+}
+
+export class SimilarFileResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -1022,18 +1049,19 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class SimilarIDRequest {
+}
+
+export class SimilarIDRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -1042,7 +1070,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -1050,11 +1078,12 @@ export class CheckFaceprintRequest {
 	get iD() { return this._data.id }
 	
 	set iD(id) { this._data.id = id }
-}export class SimilarIDResponse {
+}
+
+export class SimilarIDResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -1066,18 +1095,19 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class SimilarURLRequest {
+}
+
+export class SimilarURLRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -1086,7 +1116,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -1094,11 +1124,12 @@ export class CheckFaceprintRequest {
 	get uRL() { return this._data.url }
 	
 	set uRL(url) { this._data.url = url }
-}export class SimilarURLResponse {
+}
+
+export class SimilarURLResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -1110,18 +1141,19 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class TeachFaceprintRequest {
+}
+
+export class TeachFaceprintRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -1130,7 +1162,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -1144,11 +1176,12 @@ export class CheckFaceprintRequest {
 	get faceprint() { return this._data.faceprint }
 	
 	set faceprint(faceprint) { this._data.faceprint = faceprint }
-}export class TeachFaceprintResponse {
+}
+
+export class TeachFaceprintResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -1157,18 +1190,19 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class TeachFileRequest {
+}
+
+export class TeachFileRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -1177,7 +1211,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -1191,11 +1225,12 @@ export class CheckFaceprintRequest {
 	get file() { return this._data.file }
 	setFile(request, filename, file) { this._data.file = request.addFile(filename, file) }
 	
-}export class TeachFileResponse {
+}
+
+export class TeachFileResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -1204,18 +1239,19 @@ export class CheckFaceprintRequest {
 	get error() { return this._data.error }
 	
 	
-}export class TeachURLRequest {
+}
+
+export class TeachURLRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
@@ -1224,7 +1260,7 @@ export class CheckFaceprintRequest {
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -1238,11 +1274,12 @@ export class CheckFaceprintRequest {
 	get uRL() { return this._data.url }
 	
 	set uRL(url) { this._data.url = url }
-}export class TeachURLResponse {
+}
+
+export class TeachURLResponse {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// toJSON gets a JSON string describing this object.
@@ -1252,3 +1289,4 @@ export class CheckFaceprintRequest {
 	
 	
 }
+

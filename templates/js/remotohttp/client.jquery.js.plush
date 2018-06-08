@@ -1,0 +1,84 @@
+(function($){
+	<%= for (service) in def.Services { %>
+	// $.<%= def.PackageName %>.<%= service.Name %>Client is a client capable of
+	// interacting with <%= service.Name %> services.
+	// Usage:
+	// 	var client = new $.<%= def.PackageName %>.<%= service.Name %>Client({
+	// 		endpoint: "http://localhost:8080"
+	// 	})
+	$.<%= def.PackageName %>.<%= service.Name %>Client = function(options){
+		this.options = this.options || {}
+		this.options.endpoint = this.options.endpoint || "http://localhost:8080"
+	}
+	<%= for (method) in service.Methods { %><%= print_comment(method.Comment) %><%= if (method.RequestType.HasFields) { %>
+	// Must pass in an instance of $.<%= def.PackageName %>.<%= method.RequestType.Name %>.
+	$.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %> = function(<%= camelize_down_first(method.RequestType.Name) %>) {
+		return this.<%= method.Name %>Multi([<%= camelize_down_first(method.RequestType.Name) %>])
+			.then(function(responses){
+				return responses[0]
+			})
+	}
+	
+	// $.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %>Multi is a batch
+	// version of $.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %>.
+	// Pass in an array of request objects, and get back an array of response objects.
+	$.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %>Multi = function(<%= camelize_down_first(method.RequestType.Name) %>s) {
+		<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
+		if (<%= camelize_down_first(method.RequestType.Name) %>s.length > 1) {
+			throw '$.<%= def.PackageName %>.<%= service.Name %>Client.<%= method.Name %>Multi: batch requests are not supported for file responses, use $.<%= def.PackageName %>.<%= service.Name %>Client.<%= method.Name %> instead.'
+		}<% } %>var filesCount = 0
+		var formData = new FormData()
+		requests.forEach(function(request){
+			request._files.forEach(function(file) {
+				formData.append(file, request._files[file])
+			})
+		})
+		formData.append('json', JSON.stringify(requests))
+		return $.ajax({
+			method: 'post', url: this.options.endpoint + '/remoto/<%= service.Name %>.<%= method.Name %>',
+			data: formData,
+			contentType: false,
+			processData: false
+		})
+	}
+	<% } %><% } %>
+	<%= for (structure) in unique_structures(def) { %>
+	<%= print_comment(structure.Comment) %>$.<%= def.PackageName %>.<%= structure.Name %> = function(data) {
+		this.data = data
+	}
+	$.<%= def.PackageName %>.<%= structure.Name %>.prototype.toJSON = function() {
+		return JSON.stringify(this.data)
+	}
+	<%= if (structure.IsRequestObject) { %>
+	// _addFile adds a file to the request.
+	$.<%= def.PackageName %>.<%= structure.Name %>.prototype._addFile = function(file) {
+		this._files = this._files || {}
+		var fieldname = 'files['+$.facebox._filesCount+']'
+		this._files[fieldname] = file
+		$.facebox._filesCount++
+		return fieldname
+	}
+	<% } %>
+	<%= for (field) in structure.Fields { %>
+	// get<%= field.Name %> gets the <%= camelize_down_first(field.Name) %> from this object.
+	$.<%= def.PackageName %>.<%= structure.Name %>.prototype.get<%= field.Name %> = function() {
+		return this.data.<%= camelize_down_first(field.Name) %>
+	}
+	<%= if (!structure.IsResponseObject) { %>
+	<%= if (field.Type.Name == "remototypes.File") { %>
+	// set<%= field.Name %> sets the <%= camelize_down_first(field.Name) %> on this object.
+	// The root request must also be provided so it can be informed of the file.
+	$.<%= def.PackageName %>.<%= structure.Name %>.prototype.set<%= field.Name %> = function(request, <%= camelize_down_first(field.Name) %>) {
+		this.data.<%= camelize_down_first(field.Name) %> = request._addFile(<%= camelize_down_first(field.Name) %>)
+	}
+	<% } else { %>
+	// set<%= field.Name %> sets the <%= camelize_down_first(field.Name) %> on this object.
+	$.<%= def.PackageName %>.<%= structure.Name %>.prototype.set<%= field.Name %> = function(<%= camelize_down_first(field.Name) %>) {
+		this.data.<%= camelize_down_first(field.Name) %> = <%= camelize_down_first(field.Name) %>
+	}<% } %><% } %>
+	<% } %>
+	<% } %>
+	// _filesCount keeps track of the number of files being added, and is used
+	// to generate unique field names.
+	$.facebox._filesCount = 0
+})(jQuery)

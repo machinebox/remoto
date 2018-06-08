@@ -107,6 +107,32 @@ func (s Structure) String() string {
 	return str
 }
 
+// HasFields gets whether the Structure has any fields or not.
+func (s Structure) HasFields() bool {
+	return len(s.Fields) > 0
+} // TODO: test
+
+// HasField gets whether the Structure has a specific field or not.
+func (s Structure) HasField(field string) bool {
+	for _, f := range s.Fields {
+		if f.Name == field {
+			return true
+		}
+	}
+	return false
+} // TODO: test
+
+// FieldsOfType gets all Field objects that have a specific type.
+func (s Structure) FieldsOfType(typename string) []Field {
+	var fields []Field
+	for _, field := range s.Fields {
+		if field.Type.Name == typename {
+			fields = append(fields, field)
+		}
+	}
+	return fields
+}
+
 // Field describes a structure field.
 type Field struct {
 	Name    string
@@ -270,6 +296,9 @@ func parseMethod(fset *token.FileSet, pkg *types.Package, def *Definition, srv *
 // addDefaultResponseFields adds the built-in remoto fields to the
 // response structure.
 func addDefaultResponseFields(structure *Structure) {
+	if structure.HasField("Error") {
+		return
+	}
 	structure.Fields = append(structure.Fields, Field{
 		Comment: "Error is an error message if one occurred.",
 		Name:    "Error",

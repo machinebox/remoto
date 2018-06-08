@@ -6,7 +6,8 @@
 
 "use strict";
 
-// FaceboxClientOptions are the options for the FaceboxClient.
+// _filesCount keeps track of the number of files being added, and is used
+// to generate unique field names.
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -15,6 +16,10 @@ Object.defineProperty(exports, "__esModule", {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _filesCount = 0;
+
+// FaceboxClientOptions are the options for the FaceboxClient.
 
 var FaceboxClientOptions = exports.FaceboxClientOptions = function () {
 	function FaceboxClientOptions() {
@@ -677,7 +682,6 @@ var CheckFaceprintRequest = exports.CheckFaceprintRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -688,7 +692,7 @@ var CheckFaceprintRequest = exports.CheckFaceprintRequest = function () {
 	_createClass(CheckFaceprintRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -714,7 +718,7 @@ var CheckFaceprintRequest = exports.CheckFaceprintRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "faceprints",
@@ -737,7 +741,6 @@ var CheckFaceprintResponse = exports.CheckFaceprintResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -771,7 +774,6 @@ var CheckFileRequest = exports.CheckFileRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -782,7 +784,7 @@ var CheckFileRequest = exports.CheckFileRequest = function () {
 	_createClass(CheckFileRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -813,7 +815,7 @@ var CheckFileRequest = exports.CheckFileRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "file",
@@ -833,7 +835,6 @@ var CheckFileResponse = exports.CheckFileResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -867,7 +868,6 @@ var CheckURLRequest = exports.CheckURLRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -878,7 +878,7 @@ var CheckURLRequest = exports.CheckURLRequest = function () {
 	_createClass(CheckURLRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -909,7 +909,7 @@ var CheckURLRequest = exports.CheckURLRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "file",
@@ -929,7 +929,6 @@ var CheckURLResponse = exports.CheckURLResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -963,7 +962,6 @@ var Face = exports.Face = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -1027,7 +1025,6 @@ var FaceprintCompareRequest = exports.FaceprintCompareRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -1038,7 +1035,7 @@ var FaceprintCompareRequest = exports.FaceprintCompareRequest = function () {
 	_createClass(FaceprintCompareRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -1064,7 +1061,7 @@ var FaceprintCompareRequest = exports.FaceprintCompareRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "target",
@@ -1095,7 +1092,6 @@ var FaceprintCompareResponse = exports.FaceprintCompareResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -1129,7 +1125,6 @@ var FaceprintFace = exports.FaceprintFace = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -1185,7 +1180,6 @@ var GetStateRequest = exports.GetStateRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -1196,7 +1190,7 @@ var GetStateRequest = exports.GetStateRequest = function () {
 	_createClass(GetStateRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -1222,7 +1216,7 @@ var GetStateRequest = exports.GetStateRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}]);
 
@@ -1237,7 +1231,6 @@ var PutStateRequest = exports.PutStateRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -1248,7 +1241,7 @@ var PutStateRequest = exports.PutStateRequest = function () {
 	_createClass(PutStateRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -1279,7 +1272,7 @@ var PutStateRequest = exports.PutStateRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "stateFile",
@@ -1299,7 +1292,6 @@ var PutStateResponse = exports.PutStateResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -1328,7 +1320,6 @@ var Rect = exports.Rect = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -1384,7 +1375,6 @@ var RemoveIDRequest = exports.RemoveIDRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -1395,7 +1385,7 @@ var RemoveIDRequest = exports.RemoveIDRequest = function () {
 	_createClass(RemoveIDRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -1421,7 +1411,7 @@ var RemoveIDRequest = exports.RemoveIDRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "iD",
@@ -1444,7 +1434,6 @@ var RemoveIDResponse = exports.RemoveIDResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -1473,7 +1462,6 @@ var RenameIDRequest = exports.RenameIDRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -1484,7 +1472,7 @@ var RenameIDRequest = exports.RenameIDRequest = function () {
 	_createClass(RenameIDRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -1510,7 +1498,7 @@ var RenameIDRequest = exports.RenameIDRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "iD",
@@ -1541,7 +1529,6 @@ var RenameIDResponse = exports.RenameIDResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -1570,7 +1557,6 @@ var RenameRequest = exports.RenameRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -1581,7 +1567,7 @@ var RenameRequest = exports.RenameRequest = function () {
 	_createClass(RenameRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -1607,7 +1593,7 @@ var RenameRequest = exports.RenameRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "from",
@@ -1638,7 +1624,6 @@ var RenameResponse = exports.RenameResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -1667,7 +1652,6 @@ var SimilarFace = exports.SimilarFace = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -1707,7 +1691,6 @@ var SimilarFileRequest = exports.SimilarFileRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -1718,7 +1701,7 @@ var SimilarFileRequest = exports.SimilarFileRequest = function () {
 	_createClass(SimilarFileRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -1749,7 +1732,7 @@ var SimilarFileRequest = exports.SimilarFileRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "file",
@@ -1769,7 +1752,6 @@ var SimilarFileResponse = exports.SimilarFileResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -1803,7 +1785,6 @@ var SimilarIDRequest = exports.SimilarIDRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -1814,7 +1795,7 @@ var SimilarIDRequest = exports.SimilarIDRequest = function () {
 	_createClass(SimilarIDRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -1840,7 +1821,7 @@ var SimilarIDRequest = exports.SimilarIDRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "iD",
@@ -1863,7 +1844,6 @@ var SimilarIDResponse = exports.SimilarIDResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -1897,7 +1877,6 @@ var SimilarURLRequest = exports.SimilarURLRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -1908,7 +1887,7 @@ var SimilarURLRequest = exports.SimilarURLRequest = function () {
 	_createClass(SimilarURLRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -1934,7 +1913,7 @@ var SimilarURLRequest = exports.SimilarURLRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "uRL",
@@ -1957,7 +1936,6 @@ var SimilarURLResponse = exports.SimilarURLResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -1991,7 +1969,6 @@ var TeachFaceprintRequest = exports.TeachFaceprintRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -2002,7 +1979,7 @@ var TeachFaceprintRequest = exports.TeachFaceprintRequest = function () {
 	_createClass(TeachFaceprintRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -2028,7 +2005,7 @@ var TeachFaceprintRequest = exports.TeachFaceprintRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "iD",
@@ -2067,7 +2044,6 @@ var TeachFaceprintResponse = exports.TeachFaceprintResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -2096,7 +2072,6 @@ var TeachFileRequest = exports.TeachFileRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -2107,7 +2082,7 @@ var TeachFileRequest = exports.TeachFileRequest = function () {
 	_createClass(TeachFileRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -2138,7 +2113,7 @@ var TeachFileRequest = exports.TeachFileRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "iD",
@@ -2174,7 +2149,6 @@ var TeachFileResponse = exports.TeachFileResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.
@@ -2203,7 +2177,6 @@ var TeachURLRequest = exports.TeachURLRequest = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// addFile adds a file to the request and returns its unique name.
@@ -2214,7 +2187,7 @@ var TeachURLRequest = exports.TeachURLRequest = function () {
 	_createClass(TeachURLRequest, [{
 		key: "addFile",
 		value: function addFile(filename, file) {
-			var fieldname = 'files[' + this._filesCount++ + ']';
+			var fieldname = 'files[' + _filesCount++ + ']';
 			this._files[fieldname] = file;
 			return fieldname;
 		}
@@ -2240,7 +2213,7 @@ var TeachURLRequest = exports.TeachURLRequest = function () {
 	}, {
 		key: "filesCount",
 		get: function get() {
-			return this._filesCount;
+			return _filesCount;
 		}
 	}, {
 		key: "iD",
@@ -2279,7 +2252,6 @@ var TeachURLResponse = exports.TeachURLResponse = function () {
 
 		this._data = data;
 		this._files = {};
-		this._filesCount = 0;
 	}
 
 	// toJSON gets a JSON string describing this object.

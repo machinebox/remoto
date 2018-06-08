@@ -3,7 +3,11 @@
 		<script src='facebox.js'></script>
 		<script>
 		
-			
+			var options = new FaceboxClientOptions({
+				endpoint: "http://localhost:8080"
+			})
+			var client = new FaceboxClient(options)
+			console.info(client)
 
 		</script>
 	</head>
