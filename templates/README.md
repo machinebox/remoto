@@ -72,9 +72,9 @@ specific ones in the [generator/template_helpers.go](https://github.com/machineb
 
 ### Template data structure
 
-The data structure for the templates can be read in full in the source code.
+The data structure for the templates is best expressed through the godoc online documentation:
 
-* This area of documentation needs work.
+* [https://godoc.org/github.com/machinebox/remoto/generator/definition](https://godoc.org/github.com/machinebox/remoto/generator/definition)
 
 ### Dealing with repsonse files
 

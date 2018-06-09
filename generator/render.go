@@ -4,11 +4,12 @@ import (
 	"io"
 
 	"github.com/gobuffalo/plush"
+	"github.com/machinebox/remoto/generator/definition"
 	"github.com/pkg/errors"
 )
 
 // Render renders the tpl template with the Definition into w.
-func Render(w io.Writer, tpl string, def Definition) error {
+func Render(w io.Writer, tpl string, def definition.Definition) error {
 	ctx := plush.NewContext()
 	ctx.Set("def", def)
 	addHelpers(ctx)
