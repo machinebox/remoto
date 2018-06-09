@@ -33,6 +33,14 @@ type GreetResponse struct {
 }
 ```
 
+A simple service is made up of five things:
+
+* `package project` - package name can group services
+* `type ServiceName interface` - describes an RPC service
+* `Greet(*GreetRequest) *GreetResponse` - service method with request and response objects
+* `type GreetRequest struct` - describes the request data
+* `type GreetResponse struct` - describes the response data
+
 ### Rules
 
 * Each service is an `interface`
