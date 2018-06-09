@@ -7,6 +7,19 @@ Ultra-simple, fast, complete RPC ecosystem.
 * Generates human-readable code
 * Lots of [templates](templates) to use today
 
+## In this document
+
+* [Introduction](#introduction) - Start learning about Remoto in the introduction
+* [Remoto Definition Files](#remoto-definition-files) - An overview of the Remoto definition files
+* [Remoto command](#remoto-command) - The `remoto` command line tool
+* [remotohttp](#remotohttp) - Templates for Remoto powered HTTP servers and clients
+
+# Introduction
+
+Remoto is an RPC ecosystem and code generation tool. A powerful set of templates and
+supporting code allows you to quickly spin up RPC services, and consume them with hand crafted
+client libraries by experts in each particular language.
+
 ## Who is Remoto for?
 
 Remoto is for teams who want to:
@@ -14,12 +27,6 @@ Remoto is for teams who want to:
 * Deliver mobile and web RPC services
 * Automate SDK and client library generation
 * Stick with simple and familiar technology
-
-## In this document
-
-* [Remoto Definition Files](#remoto-definition-files) - An overview of the Remoto definition files
-* [Remoto command](#remoto-command) - The `remoto` command line tool
-* [remotohttp](#remotohttp) - Templates for Remoto powered HTTP servers and clients
 
 # Remoto definition files
 
