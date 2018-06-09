@@ -1,6 +1,6 @@
 # remoto
 
-Ultra-simple but complete RPC ecosystem.
+Ultra-simple, fast, complete RPC ecosystem.
 
 * Simple service definitions written in Go (interfaces and structs)
 * Generates servers and clients that makes implementing/consuming easy
@@ -99,3 +99,9 @@ usage:
 * `definition` - Path to the definition folder
 * `template` - Path to the template to render
 * `output-file` - Where to save the output (folders will be created and files will be overwritten without warning)
+
+# remotohttp
+
+As well as code generation, Remoto ships with a complete HTTP client/server implementation which you can generate from your definition files.
+
+For more information, see the [remotohttp documentation](remotohttp).
