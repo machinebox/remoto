@@ -1,0 +1,14 @@
+<% contentFor("structure") { %>
+
+<% } %>
+<html>
+<head>
+	<title><%= def.PackageName %> • Remoto jQuery Playground</title>
+
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css'>
+</head>
+<body>
+	<!-- if you named your jQuery client something else, please update it here -->
+	<script src='<%= def.PackageName %>.jquery.js'></script>
+</body>
+</html>
