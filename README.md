@@ -19,6 +19,7 @@ Remoto is for teams who want to:
 
 * [Remoto Definition Files](#remoto-definition-files) - An overview of the Remoto definition files
 * [Remoto command](#remoto-command) - The `remoto` command line tool
+* [remotohttp](#remotohttp) - Templates for Remoto powered HTTP servers and clients
 
 # Remoto definition files
 
