@@ -1,3 +1,16 @@
+# Remoto templates
+
+* [Introduction](#introduction)
+* [Writing templates](#writing-templates)
+
+## Introduction
+
+Remoto generates code by processing a [Plush](https://github.com/gobuffalo/plush) template with a data structure describing the services.
+
+A goal of the project is to keep and maintain all Remoto templates in this repository, although it is
+possible to render with any template for advanced cases, the wider community will benefit from a
+carefully maintained experience.
+
 # Writing templates
 
 Remoto templates are how code is generated. Templates are written using [Plush](https://github.com/gobuffalo/plush).
