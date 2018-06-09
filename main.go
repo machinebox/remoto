@@ -7,13 +7,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-/*
-	Examples:
-
-		go build -o remoto && ./remoto generate generator/testdata/rpc/example generator/templates/go/remotohttpjson/server.go.plush
-
-*/
-
 func main() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
