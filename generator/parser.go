@@ -265,7 +265,11 @@ func parseType(def *definition.Definition, typ types.Type) (definition.Type, err
 	return ty, errors.New("type " + ty.Name + " not supported")
 }
 
+// tips are simple error string matches (keys) which if found,
+// will have the tip information (value) appended to the error.
 var tips = map[string]string{
-	" int32 ": "use int",
-	" int64 ": "use int",
+	" int32 ":     "use int",
+	" int64 ":     "use int",
+	" float32 ":   "use float64",
+	" time.Time ": "use string",
 }
