@@ -18,7 +18,6 @@ type Definition struct {
 	Services       []Service
 	PackageName    string
 	PackageComment string
-	FieldTypes     map[string]Type
 
 	comments map[string]string
 }
@@ -164,7 +163,6 @@ func (t Type) code() string {
 func Parse(dir string) (Definition, error) {
 	var def Definition
 	def.comments = make(map[string]string)
-	def.FieldTypes = make(map[string]Type)
 	fset := token.NewFileSet()
 	pkgs, err := parser.ParseDir(fset, dir, func(info os.FileInfo) bool {
 		return strings.HasSuffix(info.Name(), ".remoto.go")
@@ -368,7 +366,6 @@ func parseField(fset *token.FileSet, pkg *types.Package, def *Definition, srv *S
 	if err != nil {
 		return field, newErr(fset, v.Pos(), err.Error())
 	}
-	def.FieldTypes[typ.Name] = typ
 	field.Name = v.Name()
 	field.Type = typ
 	if typ.IsStruct && !typ.IsImported {

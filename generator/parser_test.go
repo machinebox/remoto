@@ -68,8 +68,6 @@ type GreetResponse struct {
 	is.Equal(def.Services[0].Structures[0].Fields[1].Type.Name, "string")
 	is.Equal(def.Services[0].Structures[0].Fields[1].Type.IsMultiple, true)
 
-	is.Equal(len(def.FieldTypes), 1)
-	is.Equal(def.FieldTypes["string"].IsStruct, false)
 }
 
 func TestErrors(t *testing.T) {

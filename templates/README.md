@@ -70,6 +70,12 @@ Plush uses `<%= tagsLikeThese %>` to inject data and provide conditional output 
 Remoto inherits all of the [Plush helpers](https://github.com/gobuffalo/plush#helpers) and adds some
 specific ones in the [generator/template_helpers.go](https://github.com/machinebox/remoto/blob/master/generator/template_helpers.go) file.
 
+### Template data structure
+
+The data structure for the templates can be read in full in the source code.
+
+* This area of documentation needs work.
+
 ### Dealing with repsonse files
 
 Some endpoints can return a file, these have the `*remototypes.FileResponse` return type.
