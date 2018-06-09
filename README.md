@@ -5,6 +5,7 @@ Ultra-simple but complete RPC ecosystem.
 * Simple service definitions written in Go (interfaces and structs)
 * Generates servers and clients that makes implementing/consuming easy
 * Generates human-readable code
+* Lots of [templates](templates) to choose from
 
 ## Definition
 
@@ -15,12 +16,10 @@ An example definition looks like this:
 ```go
 package project
 
-import "context"
-
 // Greeter provides greeting services.
 type Greeter interface {
 	// Greet generates a greeting.
-	Greet(context.Context, *GreetRequest) (*GreetResponse, error)
+	Greet(*GreetRequest) *GreetResponse
 }
 
 // GreetRequest is the request for Greeter.GreetRequest.

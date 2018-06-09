@@ -104,28 +104,28 @@ func parseMethod(fset *token.FileSet, pkg *types.Package, def *definition.Defini
 	}
 	sig := m.Type().(*types.Signature)
 	if sig.Variadic() {
-		return method, newErr(fset, m.Pos(), "service methods must have signature (context.Context, *Request) (*Response, error)")
+		return method, newErr(fset, m.Pos(), "service methods must have signature (*Request) *Response")
 	}
 	params := sig.Params()
 	// process input arguments
-	if params.Len() != 2 || params.At(0).Type().String() != "context.Context" {
-		return method, newErr(fset, m.Pos(), "service methods must have signature (context.Context, *Request) (*Response, error)")
+	if params.Len() != 1 {
+		return method, newErr(fset, m.Pos(), "service methods must have signature (*Request) *Response")
 	}
-	requestParam := params.At(1)
+	requestParam := params.At(0)
 	requestStructure, err := parseStructureFromParam(fset, pkg, def, srv, "request", requestParam)
 	if err != nil {
 		return method, err
 	}
 	if !strings.HasSuffix(requestStructure.Name, "Request") {
-		return method, newErr(fset, m.Pos(), "request object should end with \"Request\"")
+		return method, newErr(fset, m.Pos(), "request object type name should end with \"Request\"")
 	}
 	requestStructure.IsRequestObject = true
 	method.RequestType = requestStructure
 	srv.EnsureStructure(requestStructure)
 	// process return arguments
 	returns := sig.Results()
-	if returns.Len() != 2 || returns.At(1).Type().String() != "error" {
-		return method, newErr(fset, m.Pos(), "service methods must have signature (context.Context, *Request) (*Response, error)")
+	if returns.Len() != 1 {
+		return method, newErr(fset, m.Pos(), "service methods must have signature (*Request) *Response")
 	}
 	responseParam := returns.At(0)
 	responseStructure, err := parseStructureFromParam(fset, pkg, def, srv, "response", responseParam)
@@ -137,7 +137,7 @@ func parseMethod(fset *token.FileSet, pkg *types.Package, def *definition.Defini
 	}
 	responseStructure.IsResponseObject = true
 	if !strings.HasSuffix(responseStructure.Name, "Response") {
-		return method, newErr(fset, m.Pos(), "response object should end with \"Response\"")
+		return method, newErr(fset, m.Pos(), "response object type name should end with \"Response\"")
 	}
 	addDefaultResponseFields(&responseStructure)
 	method.ResponseType = responseStructure

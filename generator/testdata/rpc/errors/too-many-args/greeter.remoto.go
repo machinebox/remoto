@@ -1,9 +1,7 @@
 package testdata
 
-import "context"
-
 type Greeter interface {
-	Greet(context.Context, *GreetRequest, string) (*GreetResponse, error)
+	Greet(*GreetRequest, string) (*GreetResponse, error)
 }
 
 type GreetRequest struct {

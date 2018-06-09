@@ -22,7 +22,7 @@ func TestParser(t *testing.T) {
 
 // GreetFormatter provides formattable greeting services.
 type GreetFormatter interface {
-	Greet(context.Context, *GreetFormatRequest) (*GreetResponse, error)
+	Greet(*GreetFormatRequest) *GreetResponse
 }
 
 // GreetFormatRequest is the request for Greeter.GreetRequest.
@@ -39,7 +39,7 @@ type GreetResponse struct {
 
 // Greeter provides greeting services.
 type Greeter interface {
-	Greet(context.Context, *GreetRequest) (*GreetResponse, error)
+	Greet(*GreetRequest) *GreetResponse
 }
 
 // GreetRequest is the request for Greeter.GreetRequest.
@@ -73,17 +73,17 @@ type GreetResponse struct {
 func TestErrors(t *testing.T) {
 	is := is.New(t)
 	tests := map[string]string{
-		"testdata/rpc/errors/too-many-args":               "greeter.remoto.go:6:2: service methods must have signature (context.Context, *Request) (*Response, error)",
-		"testdata/rpc/errors/no-variadic":                 "greeter.remoto.go:8:2: service methods must have signature (context.Context, *Request) (*Response, error)",
-		"testdata/rpc/errors/bad-first-arg":               "greeter.remoto.go:4:2: service methods must have signature (context.Context, *Request) (*Response, error)",
-		"testdata/rpc/errors/too-few-return-args":         "greeter.remoto.go:6:2: service methods must have signature (context.Context, *Request) (*Response, error)",
-		"testdata/rpc/errors/bad-return-args":             "greeter.remoto.go:6:2: service methods must have signature (context.Context, *Request) (*Response, error)",
-		"testdata/rpc/errors/non-pointer-request":         "greeter.remoto.go:6:25: request object must be a pointer to a struct",
-		"testdata/rpc/errors/non-pointer-response":        "greeter.remoto.go:6:41: response object must be a pointer to a struct",
-		"testdata/rpc/errors/bad-type":                    "greeter.remoto.go:10:2: type int32 not supported: use int",
-		"testdata/rpc/errors/unexported-fields":           "greeter.remoto.go:13:2: field name: must be exported",
-		"testdata/rpc/errors/unexported-methods":          "greeter.remoto.go:8:2: method greet: must be exported",
-		"testdata/rpc/errors/same-request-response-types": "greeter.remoto.go:9:2: service methods must use different types for request and response objects",
+		"testdata/rpc/errors/too-many-args":               "greeter.remoto.go:4:2: service methods must have signature (*Request) *Response",
+		"testdata/rpc/errors/no-variadic":                 "greeter.remoto.go:6:2: service methods must have signature (*Request) *Response",
+		"testdata/rpc/errors/bad-first-arg":               "greeter.remoto.go:4:2: service methods must have signature (*Request) *Response",
+		"testdata/rpc/errors/too-few-return-args":         "greeter.remoto.go:4:2: service methods must have signature (*Request) *Response",
+		"testdata/rpc/errors/bad-return-args":             "greeter.remoto.go:4:23: response object must be a pointer to a struct",
+		"testdata/rpc/errors/non-pointer-request":         "greeter.remoto.go:4:8: request object must be a pointer to a struct",
+		"testdata/rpc/errors/non-pointer-response":        "greeter.remoto.go:4:23: response object must be a pointer to a struct",
+		"testdata/rpc/errors/bad-type":                    "greeter.remoto.go:8:2: type int32 not supported: use int",
+		"testdata/rpc/errors/unexported-fields":           "greeter.remoto.go:11:2: field name: must be exported",
+		"testdata/rpc/errors/unexported-methods":          "greeter.remoto.go:6:2: method greet: must be exported",
+		"testdata/rpc/errors/same-request-response-types": "greeter.remoto.go:7:2: service methods must use different types for request and response objects",
 	}
 	pwd, err := os.Getwd()
 	is.NoErr(err)

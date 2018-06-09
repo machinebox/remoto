@@ -1,18 +1,16 @@
 // Package greeter is a sweet API that greets people.
 package greeter
 
-import "context"
-
 // Greeter provides greeting services.
 type Greeter interface {
 	// Greet generates a greeting.
-	Greet(context.Context, *GreetRequest) (*GreetResponse, error)
+	Greet(*GreetRequest) *GreetResponse
 }
 
 // GreetFormatter provides formattable greeting services.
 type GreetFormatter interface {
 	// Greet generates a greeting.
-	Greet(context.Context, *GreetFormatRequest) (*GreetResponse, error)
+	Greet(*GreetFormatRequest) *GreetResponse
 }
 
 // GreetRequest is the request for Greeter.GreetRequest.

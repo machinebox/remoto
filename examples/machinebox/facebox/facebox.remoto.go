@@ -1,34 +1,32 @@
 package facebox
 
 import (
-	"context"
-
 	"github.com/machinebox/remoto/remototypes"
 )
 
 // Facebox provides facial detection and recognition in images.
 type Facebox interface {
-	TeachFile(context.Context, *TeachFileRequest) (*TeachFileResponse, error)
-	TeachURL(context.Context, *TeachURLRequest) (*TeachURLResponse, error)
-	TeachFaceprint(context.Context, *TeachFaceprintRequest) (*TeachFaceprintResponse, error)
+	TeachFile(*TeachFileRequest) *TeachFileResponse
+	TeachURL(*TeachURLRequest) *TeachURLResponse
+	TeachFaceprint(*TeachFaceprintRequest) *TeachFaceprintResponse
 
-	CheckFile(context.Context, *CheckFileRequest) (*CheckFileResponse, error)
-	CheckURL(context.Context, *CheckURLRequest) (*CheckURLResponse, error)
+	CheckFile(*CheckFileRequest) *CheckFileResponse
+	CheckURL(*CheckURLRequest) *CheckURLResponse
 
-	SimilarID(context.Context, *SimilarIDRequest) (*SimilarIDResponse, error)
-	SimilarFile(context.Context, *SimilarFileRequest) (*SimilarFileResponse, error)
-	SimilarURL(context.Context, *SimilarURLRequest) (*SimilarURLResponse, error)
+	SimilarID(*SimilarIDRequest) *SimilarIDResponse
+	SimilarFile(*SimilarFileRequest) *SimilarFileResponse
+	SimilarURL(*SimilarURLRequest) *SimilarURLResponse
 
-	Rename(context.Context, *RenameRequest) (*RenameResponse, error)
-	RenameID(context.Context, *RenameIDRequest) (*RenameIDResponse, error)
+	Rename(*RenameRequest) *RenameResponse
+	RenameID(*RenameIDRequest) *RenameIDResponse
 
-	RemoveID(context.Context, *RemoveIDRequest) (*RemoveIDResponse, error)
+	RemoveID(*RemoveIDRequest) *RemoveIDResponse
 
-	FaceprintCompare(context.Context, *FaceprintCompareRequest) (*FaceprintCompareResponse, error)
-	CheckFaceprint(context.Context, *CheckFaceprintRequest) (*CheckFaceprintResponse, error)
+	FaceprintCompare(*FaceprintCompareRequest) *FaceprintCompareResponse
+	CheckFaceprint(*CheckFaceprintRequest) *CheckFaceprintResponse
 
-	GetState(context.Context, *GetStateRequest) (*remototypes.FileResponse, error)
-	PutState(context.Context, *PutStateRequest) (*PutStateResponse, error)
+	GetState(*GetStateRequest) *remototypes.FileResponse
+	PutState(*PutStateRequest) *PutStateResponse
 }
 
 type TeachFileRequest struct {

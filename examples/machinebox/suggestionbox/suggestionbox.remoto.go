@@ -1,21 +1,19 @@
 package suggestionbox
 
 import (
-	"context"
-
 	"github.com/machinebox/remoto/remototypes"
 )
 
 type Suggestionbox interface {
-	CreateModel(context.Context, *CreateModelRequest) (*CreateModelResponse, error)
-	Predict(context.Context, *PredictRequest) (*PredictResponse, error)
-	Reward(context.Context, *RewardRequest) (*RewardResponse, error)
+	CreateModel(*CreateModelRequest) *CreateModelResponse
+	Predict(*PredictRequest) *PredictResponse
+	Reward(*RewardRequest) *RewardResponse
 
-	ListModels(context.Context, *ListModelsRequest) (*ListModelsResponse, error)
-	DeleteModel(context.Context, *DeleteModelRequest) (*DeleteModelResponse, error)
+	ListModels(*ListModelsRequest) *ListModelsResponse
+	DeleteModel(*DeleteModelRequest) *DeleteModelResponse
 
-	GetState(context.Context, *GetStateRequest) (*remototypes.FileResponse, error)
-	PutState(context.Context, *PutStateRequest) (*PutStateResponse, error)
+	GetState(*GetStateRequest) *remototypes.FileResponse
+	PutState(*PutStateRequest) *PutStateResponse
 }
 
 type CreateModelRequest struct {
