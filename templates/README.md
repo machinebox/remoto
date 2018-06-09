@@ -13,9 +13,9 @@ carefully maintained experience.
 
 # Writing templates
 
-Remoto templates are how code is generated. Templates are written using [Plush](https://github.com/gobuffalo/plush).
+Remoto templates are used to generate code; clients, server stubs, SDKs, etc.
 
-### Basics
+### Introduction
 
 You will generate code for one or more services, accessible via `def.Services`:
 
@@ -39,7 +39,10 @@ gives you the complete list:
 
 The structure comes with a list of fields.
 
-In Go you might have template code that looks like this:
+Templates aren't the nicest of things to look at and work with, but the pain here means
+we can generate human-readable code for our users.
+
+For example, in Go you might have template code that looks like this:
 
 ```go
 <%= for (structure) in unique_structures(def) { %>
@@ -48,11 +51,24 @@ In Go you might have template code that looks like this:
 	<%= print_comment(field.Comment) %><%= field.Name %> <%= go_type_string(field.Type) %> `json:"<%= underscore(field.Name) %>"`
 	<% } %>
 }
-
 <% } %>
 ```
 
 The above template will generate a Go `struct` matching the data structure of the object.
+
+### Templating language
+
+Templates are written using [Plush](https://github.com/gobuffalo/plush), a templating package
+from the [Buffalo project](https://gobuffalo.io/).
+
+Plush uses `<%= tagsLikeThese %>` to inject data and provide conditional output and loops.
+
+* See [Usage of the Plush Package](https://github.com/gobuffalo/plush#usage)
+
+### Template helpers
+
+Remoto inherits all of the [Plush helpers](https://github.com/gobuffalo/plush#helpers) and adds some
+specific ones in the [generator/template_helpers.go](https://github.com/machinebox/remoto/blob/master/generator/template_helpers.go) file.
 
 ### Dealing with repsonse files
 
