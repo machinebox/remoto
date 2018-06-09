@@ -79,6 +79,9 @@ single binary file that will be streamed to the client.
 
 # Remoto command
 
+The `remoto` command can be built into your development pipeline to generate source code from
+definition files.
+
 ## `remoto generate` 
 
 The generate command generates source code from a given template.
