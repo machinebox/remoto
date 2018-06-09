@@ -3,6 +3,8 @@ package definition
 import "fmt"
 
 // Definition is the definition of one or more services.
+// In templates, it is usually accessed via the `def` variable.
+//  Package name is <%= def.PackageName %>
 type Definition struct {
 	Services       []Service
 	PackageName    string
