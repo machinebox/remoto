@@ -1,6 +1,6 @@
 # remoto
 
-Ultra-simple, fast, complete RPC ecosystem.
+Ultra-simple, fast, complete RPC ecosystem designed for right now.
 
 * Simple service definitions written in Go (interfaces and structs)
 * Generates servers and clients that makes implementing/consuming easy
