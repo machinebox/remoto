@@ -3,6 +3,7 @@ package generator
 import (
 	"sort"
 
+	"github.com/machinebox/remoto/generator/definition"
 	"github.com/markbates/inflect"
 )
 
@@ -34,8 +35,8 @@ func camelizeDownFirst(s string) string {
 // uniqueStructures gets all unique Structure types from all services.
 // Structures with the same name are considered the same.
 // Use unique_structures(def) in templates.
-func uniqueStructures(def Definition) []Structure {
-	structures := make(map[string]Structure)
+func uniqueStructures(def definition.Definition) []definition.Structure {
+	structures := make(map[string]definition.Structure)
 	for _, service := range def.Services {
 		for _, structure := range service.Structures {
 			if structure.IsImported {
@@ -44,7 +45,7 @@ func uniqueStructures(def Definition) []Structure {
 			structures[structure.Name] = structure
 		}
 	}
-	s := make([]Structure, 0, len(structures))
+	s := make([]definition.Structure, 0, len(structures))
 	for _, structure := range structures {
 		s = append(s, structure)
 	}
@@ -66,7 +67,7 @@ func printComment(comment string) string {
 
 // goTypeString gets the Type as a Go string.
 // Use go_type_string(type) in templates.
-func goTypeString(typ Type) string {
+func goTypeString(typ definition.Type) string {
 	if typ.IsMultiple {
 		return "[]" + typ.Name
 	}

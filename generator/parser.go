@@ -1,7 +1,6 @@
 package generator
 
 import (
-	"fmt"
 	"go/ast"
 	"go/importer"
 	"go/parser"
@@ -10,161 +9,14 @@ import (
 	"os"
 	"strings"
 
+	"github.com/machinebox/remoto/generator/definition"
 	"github.com/pkg/errors"
 )
 
-// Definition is the definition of one or more services.
-type Definition struct {
-	Services       []Service
-	PackageName    string
-	PackageComment string
-	FieldTypes     map[string]Type
-
-	comments map[string]string
-}
-
-func (d Definition) String() string {
-	s := "package " + d.PackageName + "\n\n"
-	for i := range d.Services {
-		s += d.Services[i].String()
-	}
-	return s
-}
-
-// Service describes a logically grouped set of endpoints.
-type Service struct {
-	Name       string
-	Comment    string
-	Methods    []Method
-	Structures []Structure
-}
-
-// ensureStructure adds the Structure to the service if it isn't
-// already there.
-func (s *Service) ensureStructure(structure Structure) {
-	for i := range s.Structures {
-		if s.Structures[i].Name == structure.Name {
-			return
-		}
-	}
-	s.Structures = append(s.Structures, structure)
-}
-
-func (s Service) String() string {
-	var str string
-	if s.Comment != "" {
-		str += "// " + s.Comment + "\n"
-	}
-	str += "type " + s.Name + " interface {\n"
-	for i := range s.Methods {
-		str += "\t" + s.Methods[i].String()
-	}
-	str += "}\n\n"
-	for i := range s.Structures {
-		str += s.Structures[i].String()
-	}
-	return str
-}
-
-// Method is a single method.
-type Method struct {
-	Name         string
-	Comment      string
-	RequestType  Structure
-	ResponseType Structure
-}
-
-func (m Method) String() string {
-	var str string
-	if m.Comment != "" {
-		str += "// " + m.Comment + "/n"
-	}
-	str += m.Name + "(*" + m.RequestType.Name + ") *" + m.ResponseType.Name + "\n"
-	return str
-}
-
-// Structure describes a data structure.
-type Structure struct {
-	Name       string
-	Comment    string
-	Fields     []Field
-	IsImported bool
-
-	IsRequestObject  bool
-	IsResponseObject bool
-}
-
-func (s Structure) String() string {
-	var str string
-	if s.Comment != "" {
-		str += "// " + s.Comment + "\n"
-	}
-	str += "type " + s.Name + " struct {\n"
-	for i := range s.Fields {
-		str += "\t" + s.Fields[i].String() + "\n"
-	}
-	str += "}\n\n"
-	return str
-}
-
-// HasFields gets whether the Structure has any fields or not.
-func (s Structure) HasFields() bool {
-	return len(s.Fields) > 0
-} // TODO: test
-
-// HasField gets whether the Structure has a specific field or not.
-func (s Structure) HasField(field string) bool {
-	for _, f := range s.Fields {
-		if f.Name == field {
-			return true
-		}
-	}
-	return false
-} // TODO: test
-
-// FieldsOfType gets all Field objects that have a specific type.
-func (s Structure) FieldsOfType(typename string) []Field {
-	var fields []Field
-	for _, field := range s.Fields {
-		if field.Type.Name == typename {
-			fields = append(fields, field)
-		}
-	}
-	return fields
-}
-
-// Field describes a structure field.
-type Field struct {
-	Name    string
-	Comment string
-	Type    Type
-}
-
-func (f Field) String() string {
-	return fmt.Sprintf("%s %s", f.Name, f.Type.code())
-}
-
-// Type describes the type of a Field.
-type Type struct {
-	Name       string
-	IsMultiple bool
-	IsStruct   bool
-	IsImported bool
-}
-
-func (t Type) code() string {
-	str := t.Name
-	if t.IsMultiple {
-		str = "[]" + str
-	}
-	return str
-}
-
 // Parse parses a package of .remoto.go files.
-func Parse(dir string) (Definition, error) {
-	var def Definition
-	def.comments = make(map[string]string)
-	def.FieldTypes = make(map[string]Type)
+func Parse(dir string) (definition.Definition, error) {
+	var def definition.Definition
+	def.Comments = make(map[string]string)
 	fset := token.NewFileSet()
 	pkgs, err := parser.ParseDir(fset, dir, func(info os.FileInfo) bool {
 		return strings.HasSuffix(info.Name(), ".remoto.go")
@@ -202,7 +54,7 @@ func Parse(dir string) (Definition, error) {
 			name := strings.Split(trimmedComment, " ")[0]
 			inner := pkg.Scope().Innermost(pos)
 			if _, obj := inner.LookupParent(name, pos); obj != nil {
-				def.comments[obj.Name()] = trimmedComment
+				def.Comments[obj.Name()] = trimmedComment
 			}
 		}
 	}
@@ -226,10 +78,10 @@ func Parse(dir string) (Definition, error) {
 	return def, nil
 }
 
-func parseService(fset *token.FileSet, pkg *types.Package, def *Definition, obj types.Object, v *types.Interface) (Service, error) {
-	srv := Service{
+func parseService(fset *token.FileSet, pkg *types.Package, def *definition.Definition, obj types.Object, v *types.Interface) (definition.Service, error) {
+	srv := definition.Service{
 		Name:    obj.Name(),
-		Comment: def.comments[obj.Name()],
+		Comment: def.Comments[obj.Name()],
 	}
 	for i := 0; i < v.NumMethods(); i++ {
 		m := v.Method(i)
@@ -242,10 +94,10 @@ func parseService(fset *token.FileSet, pkg *types.Package, def *Definition, obj 
 	return srv, nil
 }
 
-func parseMethod(fset *token.FileSet, pkg *types.Package, def *Definition, srv *Service, m *types.Func) (Method, error) {
-	method := Method{
+func parseMethod(fset *token.FileSet, pkg *types.Package, def *definition.Definition, srv *definition.Service, m *types.Func) (definition.Method, error) {
+	method := definition.Method{
 		Name:    m.Name(),
-		Comment: def.comments[m.Name()],
+		Comment: def.Comments[m.Name()],
 	}
 	if !m.Exported() {
 		return method, newErr(fset, m.Pos(), "method "+m.Name()+": must be exported")
@@ -269,7 +121,7 @@ func parseMethod(fset *token.FileSet, pkg *types.Package, def *Definition, srv *
 	}
 	requestStructure.IsRequestObject = true
 	method.RequestType = requestStructure
-	srv.ensureStructure(requestStructure)
+	srv.EnsureStructure(requestStructure)
 	// process return arguments
 	returns := sig.Results()
 	if returns.Len() != 1 {
@@ -289,33 +141,33 @@ func parseMethod(fset *token.FileSet, pkg *types.Package, def *Definition, srv *
 	}
 	addDefaultResponseFields(&responseStructure)
 	method.ResponseType = responseStructure
-	srv.ensureStructure(responseStructure)
+	srv.EnsureStructure(responseStructure)
 	return method, nil
 }
 
 // addDefaultResponseFields adds the built-in remoto fields to the
 // response structure.
-func addDefaultResponseFields(structure *Structure) {
+func addDefaultResponseFields(structure *definition.Structure) {
 	if structure.HasField("Error") {
 		return
 	}
-	structure.Fields = append(structure.Fields, Field{
+	structure.Fields = append(structure.Fields, definition.Field{
 		Comment: "Error is an error message if one occurred.",
 		Name:    "Error",
-		Type: Type{
+		Type: definition.Type{
 			Name: "string",
 		},
 	})
 }
 
-func parseStructureFromParam(fset *token.FileSet, pkg *types.Package, def *Definition, srv *Service, structureKind string, v *types.Var) (Structure, error) {
+func parseStructureFromParam(fset *token.FileSet, pkg *types.Package, def *definition.Definition, srv *definition.Service, structureKind string, v *types.Var) (definition.Structure, error) {
 	resolver := func(other *types.Package) string {
 		if other.Name() != def.PackageName {
 			return other.Name()
 		}
 		return ""
 	}
-	var structure Structure
+	var structure definition.Structure
 	p, ok := v.Type().(*types.Pointer)
 	if !ok {
 		return structure, newErr(fset, v.Pos(), structureKind+" object must be a pointer to a struct")
@@ -325,7 +177,7 @@ func parseStructureFromParam(fset *token.FileSet, pkg *types.Package, def *Defin
 		return structure, newErr(fset, v.Pos(), structureKind+" object must be a pointer to a struct")
 	}
 	structure.Name = types.TypeString(v.Type(), resolver)[1:]
-	structure.Comment = def.comments[structure.Name]
+	structure.Comment = def.Comments[structure.Name]
 	structure.IsImported = strings.Contains(structure.Name, ".")
 	for i := 0; i < st.NumFields(); i++ {
 		field, err := parseField(fset, pkg, def, srv, st.Field(i))
@@ -337,11 +189,11 @@ func parseStructureFromParam(fset *token.FileSet, pkg *types.Package, def *Defin
 	return structure, nil
 }
 
-func parseStructure(fset *token.FileSet, pkg *types.Package, def *Definition, srv *Service, obj types.Object) (Structure, error) {
-	structure := Structure{
+func parseStructure(fset *token.FileSet, pkg *types.Package, def *definition.Definition, srv *definition.Service, obj types.Object) (definition.Structure, error) {
+	structure := definition.Structure{
 		Name: obj.Name(),
 	}
-	structure.Comment = def.comments[structure.Name]
+	structure.Comment = def.Comments[structure.Name]
 	st, ok := obj.Type().Underlying().(*types.Struct)
 	if !ok {
 		return structure, newErr(fset, obj.Pos(), obj.Type().String()+" field must be a pointer to a struct")
@@ -356,8 +208,8 @@ func parseStructure(fset *token.FileSet, pkg *types.Package, def *Definition, sr
 	return structure, nil
 }
 
-func parseField(fset *token.FileSet, pkg *types.Package, def *Definition, srv *Service, v *types.Var) (Field, error) {
-	var field Field
+func parseField(fset *token.FileSet, pkg *types.Package, def *definition.Definition, srv *definition.Service, v *types.Var) (definition.Field, error) {
+	var field definition.Field
 	if !v.IsField() {
 		return field, newErr(fset, v.Pos(), v.Name()+" not a field")
 	}
@@ -368,7 +220,6 @@ func parseField(fset *token.FileSet, pkg *types.Package, def *Definition, srv *S
 	if err != nil {
 		return field, newErr(fset, v.Pos(), err.Error())
 	}
-	def.FieldTypes[typ.Name] = typ
 	field.Name = v.Name()
 	field.Type = typ
 	if typ.IsStruct && !typ.IsImported {
@@ -377,7 +228,7 @@ func parseField(fset *token.FileSet, pkg *types.Package, def *Definition, srv *S
 		if err != nil {
 			return field, err
 		}
-		srv.ensureStructure(structure)
+		srv.EnsureStructure(structure)
 	}
 	return field, nil
 }
@@ -387,14 +238,14 @@ func newErr(fset *token.FileSet, pos token.Pos, err string) error {
 	return errors.New(position.String() + ": " + err)
 }
 
-func parseType(def *Definition, typ types.Type) (Type, error) {
+func parseType(def *definition.Definition, typ types.Type) (definition.Type, error) {
 	resolver := func(other *types.Package) string {
 		if other.Name() != def.PackageName {
 			return other.Name()
 		}
 		return ""
 	}
-	var ty Type
+	var ty definition.Type
 	slice, ok := typ.(*types.Slice)
 	if ok {
 		ty.IsMultiple = true
@@ -414,7 +265,11 @@ func parseType(def *Definition, typ types.Type) (Type, error) {
 	return ty, errors.New("type " + ty.Name + " not supported")
 }
 
+// tips are simple error string matches (keys) which if found,
+// will have the tip information (value) appended to the error.
 var tips = map[string]string{
-	" int32 ": "use int",
-	" int64 ": "use int",
+	" int32 ":     "use int",
+	" int64 ":     "use int",
+	" float32 ":   "use float64",
+	" time.Time ": "use string",
 }

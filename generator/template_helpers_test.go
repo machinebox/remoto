@@ -3,6 +3,7 @@ package generator
 import (
 	"testing"
 
+	"github.com/machinebox/remoto/generator/definition"
 	"github.com/matryer/is"
 )
 
@@ -32,34 +33,34 @@ func TestHelperComment(t *testing.T) {
 
 func TestHelperUniqueStructures(t *testing.T) {
 	is := is.New(t)
-	var def Definition
-	var srv1 Service
-	srv1.Structures = append(srv1.Structures, Structure{
+	var def definition.Definition
+	var srv1 definition.Service
+	srv1.Structures = append(srv1.Structures, definition.Structure{
 		Name: "s1",
 	})
-	srv1.Structures = append(srv1.Structures, Structure{
+	srv1.Structures = append(srv1.Structures, definition.Structure{
 		Name:       "s2",
 		IsImported: true,
 	})
-	srv1.Structures = append(srv1.Structures, Structure{
+	srv1.Structures = append(srv1.Structures, definition.Structure{
 		Name: "s1",
 	})
-	srv1.Structures = append(srv1.Structures, Structure{
+	srv1.Structures = append(srv1.Structures, definition.Structure{
 		Name: "s3",
 	})
-	var srv2 Service
-	srv2.Structures = append(srv2.Structures, Structure{
+	var srv2 definition.Service
+	srv2.Structures = append(srv2.Structures, definition.Structure{
 		Name: "s1",
 	})
-	srv2.Structures = append(srv2.Structures, Structure{
+	srv2.Structures = append(srv2.Structures, definition.Structure{
 		Name:       "s2",
 		IsImported: true,
 	})
-	srv2.Structures = append(srv2.Structures, Structure{
+	srv2.Structures = append(srv2.Structures, definition.Structure{
 		Name:       "s1",
 		IsImported: true,
 	})
-	srv2.Structures = append(srv2.Structures, Structure{
+	srv2.Structures = append(srv2.Structures, definition.Structure{
 		Name: "s3",
 	})
 	def.Services = append(def.Services, srv1, srv2)
@@ -69,13 +70,13 @@ func TestHelperUniqueStructures(t *testing.T) {
 
 func TestGoTypeString(t *testing.T) {
 	is := is.New(t)
-	typ := Type{
+	typ := definition.Type{
 		Name:       "string",
 		IsMultiple: false,
 		IsStruct:   false,
 	}
 	is.Equal(goTypeString(typ), "string")
-	typ = Type{
+	typ = definition.Type{
 		Name:       "string",
 		IsMultiple: true,
 		IsStruct:   false,
