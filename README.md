@@ -7,7 +7,20 @@ Ultra-simple but complete RPC ecosystem.
 * Generates human-readable code
 * Lots of [templates](templates) to use today
 
-## Definition
+## Who is Remoto for?
+
+Remoto is for teams who want to:
+
+* Deliver mobile and web RPC services
+* Automate SDK and client library generation
+* Stick with simple and familiar technology
+
+## In this document
+
+* [Remoto Definition Files](#remoto-definition-files) - An overview of the Remoto definition files
+* [Remoto command](#remoto-command) - The `remoto` command line tool
+
+# Remoto definition files
 
 Definition files are Go source with `.remoto.go` file extension.
 
@@ -39,7 +52,7 @@ type GreetResponse struct {
 * `type GreetRequest struct` - describes the request data
 * `type GreetResponse struct` - describes the response data
 
-### Rules
+## Rules
 
 * Each service is an `interface`
 * Each method is an endpoint
@@ -63,3 +76,18 @@ single binary file that will be streamed to the client.
 ## Tips
 
 * Avoid importing common types - describe all the required types in a single `.remoto.go` file
+
+# Remoto command
+
+## `remoto generate` 
+
+The generate command generates source code from a given template.
+
+```
+usage:
+	remoto generate definition template -o output-file
+```
+
+* `definition` - Path to the definition folder
+* `template` - Path to the template to render
+* `output-file` - Where to save the output (folders will be created and files will be overwritten without warning)
