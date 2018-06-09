@@ -1,14 +1,12 @@
 package files
 
 import (
-	"context"
-
 	"github.com/machinebox/remoto/remototypes"
 )
 
 // Images provides image services.
 type Images interface {
-	Flip(context.Context, *FlipRequest) (*remototypes.FileResponse, error)
+	Flip(*FlipRequest) *remototypes.FileResponse
 }
 
 // FlipRequest is the request for Images.Flip.

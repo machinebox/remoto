@@ -59,7 +59,6 @@ func RegisterGreeterServer(server *remotohttp.Server, service Greeter) {
 		service: service,
 		server:  server,
 	}
-
 	server.Register("/remoto/Greeter.Greet", http.HandlerFunc(srv.handleGreet))
 
 }

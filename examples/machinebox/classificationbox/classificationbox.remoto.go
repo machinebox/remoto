@@ -1,23 +1,21 @@
 package classificationbox
 
 import (
-	"context"
-
 	"github.com/machinebox/remoto/remototypes"
 )
 
 // Classificationbox lets you use machine learning to automatically classify
 // various types of data, such as text, images, structured and unstructured data.
 type Classificationbox interface {
-	CreateModel(context.Context, *CreateModelRequest) (*CreateModelResponse, error)
-	Teach(context.Context, *TeachRequest) (*TeachResponse, error)
-	Predict(context.Context, *PredictRequest) (*PredictResponse, error)
+	CreateModel(*CreateModelRequest) *CreateModelResponse
+	Teach(*TeachRequest) *TeachResponse
+	Predict(*PredictRequest) *PredictResponse
 
-	ListModels(context.Context, *ListModelsRequest) (*ListModelsResponse, error)
-	DeleteModel(context.Context, *DeleteModelRequest) (*DeleteModelResponse, error)
+	ListModels(*ListModelsRequest) *ListModelsResponse
+	DeleteModel(*DeleteModelRequest) *DeleteModelResponse
 
-	GetState(context.Context, *GetStateRequest) (*remototypes.FileResponse, error)
-	PutState(context.Context, *PutStateRequest) (*PutStateResponse, error)
+	GetState(*GetStateRequest) *remototypes.FileResponse
+	PutState(*PutStateRequest) *PutStateResponse
 }
 
 type CreateModelRequest struct {
