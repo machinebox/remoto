@@ -1,11 +1,4050 @@
+
+
+
+
 <html>
 <head>
-	<title>facebox • Remoto jQuery Playground</title>
-
-	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css'>
+	<title>facebox • Remoto by Machine Box</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<style>
+		.page-body {
+			margin-top: 20px;
+		}
+		.content {
+			padding: 20px;
+		}
+	</style>
 </head>
 <body>
+	<!--
+	<nav class='navbar sticky-top navbar-light bg-light'>
+		<div class='container'>
+			<a class="navbar-brand" href="#home">Remoto</a>
+		</div>
+	</nav>
+	-->
+	<div class='page-body container'>
+		<div class='row'>
+			<div class='col col-3'>
+			<ul class='nav flex-column'>
+				
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_CheckFaceprint'>
+								<span class='text-muted'>Facebox.</span>CheckFaceprint<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_CheckFile'>
+								<span class='text-muted'>Facebox.</span>CheckFile<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_CheckURL'>
+								<span class='text-muted'>Facebox.</span>CheckURL<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_FaceprintCompare'>
+								<span class='text-muted'>Facebox.</span>FaceprintCompare<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_GetState'>
+								<span class='text-muted'>Facebox.</span>GetState<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_PutState'>
+								<span class='text-muted'>Facebox.</span>PutState<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_RemoveID'>
+								<span class='text-muted'>Facebox.</span>RemoveID<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_Rename'>
+								<span class='text-muted'>Facebox.</span>Rename<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_RenameID'>
+								<span class='text-muted'>Facebox.</span>RenameID<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_SimilarFile'>
+								<span class='text-muted'>Facebox.</span>SimilarFile<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_SimilarID'>
+								<span class='text-muted'>Facebox.</span>SimilarID<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_SimilarURL'>
+								<span class='text-muted'>Facebox.</span>SimilarURL<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_TeachFaceprint'>
+								<span class='text-muted'>Facebox.</span>TeachFaceprint<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_TeachFile'>
+								<span class='text-muted'>Facebox.</span>TeachFile<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Facebox_TeachURL'>
+								<span class='text-muted'>Facebox.</span>TeachURL<span class='text-muted'>()</span>
+							</a>
+						</li>
+						
+				
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_CheckFaceprint'>
+								<span class='text-muted'>Suggestionbox.</span>CheckFaceprint<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_CheckFile'>
+								<span class='text-muted'>Suggestionbox.</span>CheckFile<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_CheckURL'>
+								<span class='text-muted'>Suggestionbox.</span>CheckURL<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_FaceprintCompare'>
+								<span class='text-muted'>Suggestionbox.</span>FaceprintCompare<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_GetState'>
+								<span class='text-muted'>Suggestionbox.</span>GetState<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_PutState'>
+								<span class='text-muted'>Suggestionbox.</span>PutState<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_RemoveID'>
+								<span class='text-muted'>Suggestionbox.</span>RemoveID<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_Rename'>
+								<span class='text-muted'>Suggestionbox.</span>Rename<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_RenameID'>
+								<span class='text-muted'>Suggestionbox.</span>RenameID<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_SimilarFile'>
+								<span class='text-muted'>Suggestionbox.</span>SimilarFile<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_SimilarID'>
+								<span class='text-muted'>Suggestionbox.</span>SimilarID<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_SimilarURL'>
+								<span class='text-muted'>Suggestionbox.</span>SimilarURL<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_TeachFaceprint'>
+								<span class='text-muted'>Suggestionbox.</span>TeachFaceprint<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_TeachFile'>
+								<span class='text-muted'>Suggestionbox.</span>TeachFile<span class='text-muted'>()</span>
+							</a>
+						</li>
+					
+						<li class='nav-item'>
+							<a class='nav-link' href='#facebox_Suggestionbox_TeachURL'>
+								<span class='text-muted'>Suggestionbox.</span>TeachURL<span class='text-muted'>()</span>
+							</a>
+						</li>
+						
+				
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_CheckFaceprintRequest'>
+							<span class='text-muted'></span>CheckFaceprintRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_CheckFaceprintResponse'>
+							<span class='text-muted'></span>CheckFaceprintResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_CheckFileRequest'>
+							<span class='text-muted'></span>CheckFileRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_CheckFileResponse'>
+							<span class='text-muted'></span>CheckFileResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_CheckURLRequest'>
+							<span class='text-muted'></span>CheckURLRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_CheckURLResponse'>
+							<span class='text-muted'></span>CheckURLResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_Face'>
+							<span class='text-muted'></span>Face
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_FaceprintCompareRequest'>
+							<span class='text-muted'></span>FaceprintCompareRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_FaceprintCompareResponse'>
+							<span class='text-muted'></span>FaceprintCompareResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_FaceprintFace'>
+							<span class='text-muted'></span>FaceprintFace
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_GetStateRequest'>
+							<span class='text-muted'></span>GetStateRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_PutStateRequest'>
+							<span class='text-muted'></span>PutStateRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_PutStateResponse'>
+							<span class='text-muted'></span>PutStateResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_Rect'>
+							<span class='text-muted'></span>Rect
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_RemoveIDRequest'>
+							<span class='text-muted'></span>RemoveIDRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_RemoveIDResponse'>
+							<span class='text-muted'></span>RemoveIDResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_RenameIDRequest'>
+							<span class='text-muted'></span>RenameIDRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_RenameIDResponse'>
+							<span class='text-muted'></span>RenameIDResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_RenameRequest'>
+							<span class='text-muted'></span>RenameRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_RenameResponse'>
+							<span class='text-muted'></span>RenameResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_SimilarFace'>
+							<span class='text-muted'></span>SimilarFace
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_SimilarFileRequest'>
+							<span class='text-muted'></span>SimilarFileRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_SimilarFileResponse'>
+							<span class='text-muted'></span>SimilarFileResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_SimilarIDRequest'>
+							<span class='text-muted'></span>SimilarIDRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_SimilarIDResponse'>
+							<span class='text-muted'></span>SimilarIDResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_SimilarURLRequest'>
+							<span class='text-muted'></span>SimilarURLRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_SimilarURLResponse'>
+							<span class='text-muted'></span>SimilarURLResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_TeachFaceprintRequest'>
+							<span class='text-muted'></span>TeachFaceprintRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_TeachFaceprintResponse'>
+							<span class='text-muted'></span>TeachFaceprintResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_TeachFileRequest'>
+							<span class='text-muted'></span>TeachFileRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_TeachFileResponse'>
+							<span class='text-muted'></span>TeachFileResponse
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_TeachURLRequest'>
+							<span class='text-muted'></span>TeachURLRequest
+						</a>
+					</li>
+				
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_TeachURLResponse'>
+							<span class='text-muted'></span>TeachURLResponse
+						</a>
+					</li>
+				
+				</ul>
+			</div>
+			<div class='col'>
+				<div class='content sticky-top'>
+					<section class='page' id='home'>
+						<div class='jumbotron'>
+							<h1 class='display-4'>FACEBOX</h1>
+							<p class='lead'>
+								
+							</p>
+							<p>
+								<input id='jump-to' list='symbols' type='text' class='form-control' placeholder='Jump to&hellip;'>
+							</p>
+						</div>
+					</section>
+					<h2 class='display-4'>Methods</h2>
+					<p>
+						This section describes the methods in the facebox service.
+					</p>
+					
+						
+							<section class='page' id='facebox_Facebox_CheckFaceprint'>
+								<h3 class='title'>
+									CheckFaceprint
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.CheckFaceprint(<a href='#facebox_CheckFaceprintRequest'>CheckFaceprintRequest</a>) <a href='#facebox_CheckFaceprintResponse'>CheckFaceprintResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faceprints</code>
+	
+	Array of
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_FaceprintFace'>FaceprintFace</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_CheckFile'>
+								<h3 class='title'>
+									CheckFile
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.CheckFile(<a href='#facebox_CheckFileRequest'>CheckFileRequest</a>) <a href='#facebox_CheckFileResponse'>CheckFileResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_Face'>Face</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_CheckURL'>
+								<h3 class='title'>
+									CheckURL
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.CheckURL(<a href='#facebox_CheckURLRequest'>CheckURLRequest</a>) <a href='#facebox_CheckURLResponse'>CheckURLResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_Face'>Face</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_FaceprintCompare'>
+								<h3 class='title'>
+									FaceprintCompare
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.FaceprintCompare(<a href='#facebox_FaceprintCompareRequest'>FaceprintCompareRequest</a>) <a href='#facebox_FaceprintCompareResponse'>FaceprintCompareResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>target</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>faceprints</code>
+	
+	Array of
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>confidences</code>
+	
+	Array of
+	
+	
+		
+			float64
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_GetState'>
+								<h3 class='title'>
+									GetState
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.GetState(<a href='#facebox_GetStateRequest'>GetStateRequest</a>) <a href='#facebox_remototypes.FileResponse'>remototypes.FileResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>filename</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>content_type</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>content_length</code>
+	
+	
+		
+			int
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>data</code>
+	
+	
+		
+			io.Reader
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_PutState'>
+								<h3 class='title'>
+									PutState
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.PutState(<a href='#facebox_PutStateRequest'>PutStateRequest</a>) <a href='#facebox_PutStateResponse'>PutStateResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>state_file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_RemoveID'>
+								<h3 class='title'>
+									RemoveID
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.RemoveID(<a href='#facebox_RemoveIDRequest'>RemoveIDRequest</a>) <a href='#facebox_RemoveIDResponse'>RemoveIDResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_Rename'>
+								<h3 class='title'>
+									Rename
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.Rename(<a href='#facebox_RenameRequest'>RenameRequest</a>) <a href='#facebox_RenameResponse'>RenameResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>from</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>to</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_RenameID'>
+								<h3 class='title'>
+									RenameID
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.RenameID(<a href='#facebox_RenameIDRequest'>RenameIDRequest</a>) <a href='#facebox_RenameIDResponse'>RenameIDResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_SimilarFile'>
+								<h3 class='title'>
+									SimilarFile
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.SimilarFile(<a href='#facebox_SimilarFileRequest'>SimilarFileRequest</a>) <a href='#facebox_SimilarFileResponse'>SimilarFileResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_SimilarFace'>SimilarFace</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_SimilarID'>
+								<h3 class='title'>
+									SimilarID
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.SimilarID(<a href='#facebox_SimilarIDRequest'>SimilarIDRequest</a>) <a href='#facebox_SimilarIDResponse'>SimilarIDResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_SimilarFace'>SimilarFace</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_SimilarURL'>
+								<h3 class='title'>
+									SimilarURL
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.SimilarURL(<a href='#facebox_SimilarURLRequest'>SimilarURLRequest</a>) <a href='#facebox_SimilarURLResponse'>SimilarURLResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>url</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_SimilarFace'>SimilarFace</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_TeachFaceprint'>
+								<h3 class='title'>
+									TeachFaceprint
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.TeachFaceprint(<a href='#facebox_TeachFaceprintRequest'>TeachFaceprintRequest</a>) <a href='#facebox_TeachFaceprintResponse'>TeachFaceprintResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>faceprint</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_TeachFile'>
+								<h3 class='title'>
+									TeachFile
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.TeachFile(<a href='#facebox_TeachFileRequest'>TeachFileRequest</a>) <a href='#facebox_TeachFileResponse'>TeachFileResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Facebox_TeachURL'>
+								<h3 class='title'>
+									TeachURL
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Facebox.TeachURL(<a href='#facebox_TeachURLRequest'>TeachURLRequest</a>) <a href='#facebox_TeachURLResponse'>TeachURLResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>url</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+					
+						
+							<section class='page' id='facebox_Suggestionbox_CheckFaceprint'>
+								<h3 class='title'>
+									CheckFaceprint
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.CheckFaceprint(<a href='#facebox_CheckFaceprintRequest'>CheckFaceprintRequest</a>) <a href='#facebox_CheckFaceprintResponse'>CheckFaceprintResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faceprints</code>
+	
+	Array of
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_FaceprintFace'>FaceprintFace</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_CheckFile'>
+								<h3 class='title'>
+									CheckFile
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.CheckFile(<a href='#facebox_CheckFileRequest'>CheckFileRequest</a>) <a href='#facebox_CheckFileResponse'>CheckFileResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_Face'>Face</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_CheckURL'>
+								<h3 class='title'>
+									CheckURL
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.CheckURL(<a href='#facebox_CheckURLRequest'>CheckURLRequest</a>) <a href='#facebox_CheckURLResponse'>CheckURLResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_Face'>Face</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_FaceprintCompare'>
+								<h3 class='title'>
+									FaceprintCompare
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.FaceprintCompare(<a href='#facebox_FaceprintCompareRequest'>FaceprintCompareRequest</a>) <a href='#facebox_FaceprintCompareResponse'>FaceprintCompareResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>target</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>faceprints</code>
+	
+	Array of
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>confidences</code>
+	
+	Array of
+	
+	
+		
+			float64
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_GetState'>
+								<h3 class='title'>
+									GetState
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.GetState(<a href='#facebox_GetStateRequest'>GetStateRequest</a>) <a href='#facebox_remototypes.FileResponse'>remototypes.FileResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>filename</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>content_type</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>content_length</code>
+	
+	
+		
+			int
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>data</code>
+	
+	
+		
+			io.Reader
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_PutState'>
+								<h3 class='title'>
+									PutState
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.PutState(<a href='#facebox_PutStateRequest'>PutStateRequest</a>) <a href='#facebox_PutStateResponse'>PutStateResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>state_file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_RemoveID'>
+								<h3 class='title'>
+									RemoveID
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.RemoveID(<a href='#facebox_RemoveIDRequest'>RemoveIDRequest</a>) <a href='#facebox_RemoveIDResponse'>RemoveIDResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_Rename'>
+								<h3 class='title'>
+									Rename
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.Rename(<a href='#facebox_RenameRequest'>RenameRequest</a>) <a href='#facebox_RenameResponse'>RenameResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>from</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>to</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_RenameID'>
+								<h3 class='title'>
+									RenameID
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.RenameID(<a href='#facebox_RenameIDRequest'>RenameIDRequest</a>) <a href='#facebox_RenameIDResponse'>RenameIDResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_SimilarFile'>
+								<h3 class='title'>
+									SimilarFile
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.SimilarFile(<a href='#facebox_SimilarFileRequest'>SimilarFileRequest</a>) <a href='#facebox_SimilarFileResponse'>SimilarFileResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_SimilarFace'>SimilarFace</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_SimilarID'>
+								<h3 class='title'>
+									SimilarID
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.SimilarID(<a href='#facebox_SimilarIDRequest'>SimilarIDRequest</a>) <a href='#facebox_SimilarIDResponse'>SimilarIDResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_SimilarFace'>SimilarFace</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_SimilarURL'>
+								<h3 class='title'>
+									SimilarURL
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.SimilarURL(<a href='#facebox_SimilarURLRequest'>SimilarURLRequest</a>) <a href='#facebox_SimilarURLResponse'>SimilarURLResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>url</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_SimilarFace'>SimilarFace</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_TeachFaceprint'>
+								<h3 class='title'>
+									TeachFaceprint
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.TeachFaceprint(<a href='#facebox_TeachFaceprintRequest'>TeachFaceprintRequest</a>) <a href='#facebox_TeachFaceprintResponse'>TeachFaceprintResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>faceprint</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_TeachFile'>
+								<h3 class='title'>
+									TeachFile
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.TeachFile(<a href='#facebox_TeachFileRequest'>TeachFileRequest</a>) <a href='#facebox_TeachFileResponse'>TeachFileResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+							<section class='page' id='facebox_Suggestionbox_TeachURL'>
+								<h3 class='title'>
+									TeachURL
+								</h3>
+								<p>
+									
+								</p>
+								<p>
+									<code>facebox.Suggestionbox.TeachURL(<a href='#facebox_TeachURLRequest'>TeachURLRequest</a>) <a href='#facebox_TeachURLResponse'>TeachURLResponse</a></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>url</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+								<p>
+									Response:
+								</p>
+								
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+							</section>
+							<hr>
+						
+					
+					<h2 class='display-4'>Objects</h2>
+					<p>
+						This section describes all the objects that are used in the facebox service.
+					</p>
+					
+						<section class='page' id='facebox_CheckFaceprintRequest'>
+							
+	<h4>CheckFaceprintRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>faceprints</code>
+	
+	Array of
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_CheckFaceprintResponse'>
+							
+	<h4>CheckFaceprintResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_FaceprintFace'>FaceprintFace</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_CheckFileRequest'>
+							
+	<h4>CheckFileRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_CheckFileResponse'>
+							
+	<h4>CheckFileResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_Face'>Face</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_CheckURLRequest'>
+							
+	<h4>CheckURLRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_CheckURLResponse'>
+							
+	<h4>CheckURLResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_Face'>Face</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_Face'>
+							
+	<h4>Face</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>matched</code>
+	
+	
+		
+			bool
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>faceprint</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>rect</code>
+	
+	
+		
+			<a href='#facebox_Rect'>Rect</a>
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_FaceprintCompareRequest'>
+							
+	<h4>FaceprintCompareRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>target</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>faceprints</code>
+	
+	Array of
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_FaceprintCompareResponse'>
+							
+	<h4>FaceprintCompareResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>confidences</code>
+	
+	Array of
+	
+	
+		
+			float64
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_FaceprintFace'>
+							
+	<h4>FaceprintFace</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>matched</code>
+	
+	
+		
+			bool
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>confidence</code>
+	
+	
+		
+			float64
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_GetStateRequest'>
+							
+	<h4>GetStateRequest</h4>
+	<p></p>
+	
+		<ul>
+			<li class='text-muted'>
+				No fields
+			</li>
+		</ul>
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_PutStateRequest'>
+							
+	<h4>PutStateRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>state_file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_PutStateResponse'>
+							
+	<h4>PutStateResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_Rect'>
+							
+	<h4>Rect</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>top</code>
+	
+	
+		
+			int
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>left</code>
+	
+	
+		
+			int
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>width</code>
+	
+	
+		
+			int
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>height</code>
+	
+	
+		
+			int
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_RemoveIDRequest'>
+							
+	<h4>RemoveIDRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_RemoveIDResponse'>
+							
+	<h4>RemoveIDResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_RenameIDRequest'>
+							
+	<h4>RenameIDRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_RenameIDResponse'>
+							
+	<h4>RenameIDResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_RenameRequest'>
+							
+	<h4>RenameRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>from</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>to</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_RenameResponse'>
+							
+	<h4>RenameResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_SimilarFace'>
+							
+	<h4>SimilarFace</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>rect</code>
+	
+	
+		
+			<a href='#facebox_Rect'>Rect</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>similar_faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_Face'>Face</a>
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_SimilarFileRequest'>
+							
+	<h4>SimilarFileRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_SimilarFileResponse'>
+							
+	<h4>SimilarFileResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_SimilarFace'>SimilarFace</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_SimilarIDRequest'>
+							
+	<h4>SimilarIDRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_SimilarIDResponse'>
+							
+	<h4>SimilarIDResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_SimilarFace'>SimilarFace</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_SimilarURLRequest'>
+							
+	<h4>SimilarURLRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>url</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_SimilarURLResponse'>
+							
+	<h4>SimilarURLResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>faces</code>
+	
+	Array of
+	
+	
+		
+			<a href='#facebox_SimilarFace'>SimilarFace</a>
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_TeachFaceprintRequest'>
+							
+	<h4>TeachFaceprintRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>faceprint</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_TeachFaceprintResponse'>
+							
+	<h4>TeachFaceprintResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_TeachFileRequest'>
+							
+	<h4>TeachFileRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>file</code>
+	
+	
+		File
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_TeachFileResponse'>
+							
+	<h4>TeachFileResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_TeachURLRequest'>
+							
+	<h4>TeachURLRequest</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>id</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>name</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+		<li>
+		
+	<code>url</code>
+	
+	
+		
+			string
+		
+		
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+						<section class='page' id='facebox_TeachURLResponse'>
+							
+	<h4>TeachURLResponse</h4>
+	<p></p>
+	
+		
+	<ul>
+	
+		<li>
+		
+	<code>error</code>
+	
+	
+		
+			string
+		
+		&mdash;Error is an error message if one occurred.
+	
+
+		</li>
+	
+	</ul>
+
+	
+
+						</section>
+						<hr>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class='footer'>
+		<div class='container'>
+			<p class='text-muted float-right'>
+				<small>
+					Powered by <a href='https://github.com/machinebox/remoto'>Remoto by Machine Box</a>
+				</small>
+			</p>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	
 	<!-- if you named your jQuery client something else, please update it here -->
 	<script src='facebox.jquery.js'></script>
+
+	<script>
+		$(function(){
+
+			$.fn.hide = function(){
+				$(this).addClass('d-none')
+			}
+			$.fn.show = function(){
+				$(this).removeClass('d-none')
+			}
+
+			function checkJumpTo(){
+				var val = $(this).val().replace('.','_')
+				var hit = null
+				try{ hit = $('#facebox_' + val) }catch{}
+				if (hit && hit.length > 0) {
+					hit.niceScroll()
+				}
+			}
+			$('#jump-to').keyup(debounce(checkJumpTo, 500)).keyup(function(e){
+				if (e.keyCode == 10 || e.keyCode == 13) {
+					checkJumpTo.apply(this, arguments)
+				}
+			})
+
+
+	/// TODO: remove the router, not used.
+			//
+			// Very simple routing
+			// The location.hash will show the .page element with that id.
+			//
+			function changeRoute(route) {
+				//$('.page').hide()
+				//$(route).show()
+				//$('.nav-link').removeClass('active')
+				//$('a[href="'+route+'"]').addClass('active')
+			}
+			$(window).bind('hashchange', function() {
+				changeRoute(location.hash)
+			})
+			var hash = location.hash
+			if (hash.length > 0) {
+				changeRoute(hash)
+			} else {
+				changeRoute('#home')
+			}
+
+			// gentle scrolling
+			// Anything with an href that points to something on the page
+			// is gently scrolled to, rather than jumping.
+			// Everything else is left alone.
+			$("a[href]").click(function(e) { 
+				var dest = $(this).attr('href')
+				dest = dest.substr(dest.indexOf('#')+1)
+				var destEl = $('[id="'+dest+'"]')
+				if (destEl.length > 0) {
+					e.preventDefault()
+					$('html,body').animate({ 
+						scrollTop: destEl.offset().top 
+					}, 'slow')
+					if (history.pushState) {
+						history.pushState(null, null, '#'+dest);
+					} else {
+						location.hash = '#'+dest;
+					}
+				}
+			})
+			
+			// $.scrollToTop scrolls the page to the top.
+			$.scrollToTop = function(){
+				$('html,body').animate({ 
+					scrollTop: 0
+				}, 'slow')
+			}
+
+			// niceScroll gently scrolls the page to this element.
+			$.fn.niceScroll = function(){
+				$('html,body').animate({ 
+					scrollTop: $(this).offset().top 
+				}, 'slow')
+			}
+
+			// from https://davidwalsh.name/javascript-debounce-function
+			// Returns a function, that, as long as it continues to be invoked, will not
+			// be triggered. The function will be called after it stops being called for
+			// N milliseconds. If `immediate` is passed, trigger the function on the
+			// leading edge, instead of the trailing.
+			function debounce(func, wait, immediate) {
+				var timeout
+				return function() {
+					var context = this, args = arguments;
+					var later = function() {
+						timeout = null
+						if (!immediate) func.apply(context, args)
+					};
+					var callNow = immediate && !timeout
+					clearTimeout(timeout)
+					timeout = setTimeout(later, wait)
+					if (callNow) func.apply(context, args)
+				}
+			}
+
+		})
+	</script>
+	<datalist id='symbols'>
+		
+		
+		<option value='Facebox.CheckFaceprint'>
+		
+		<option value='Facebox.CheckFile'>
+		
+		<option value='Facebox.CheckURL'>
+		
+		<option value='Facebox.FaceprintCompare'>
+		
+		<option value='Facebox.GetState'>
+		
+		<option value='Facebox.PutState'>
+		
+		<option value='Facebox.RemoveID'>
+		
+		<option value='Facebox.Rename'>
+		
+		<option value='Facebox.RenameID'>
+		
+		<option value='Facebox.SimilarFile'>
+		
+		<option value='Facebox.SimilarID'>
+		
+		<option value='Facebox.SimilarURL'>
+		
+		<option value='Facebox.TeachFaceprint'>
+		
+		<option value='Facebox.TeachFile'>
+		
+		<option value='Facebox.TeachURL'>
+		
+		
+		
+		<option value='Suggestionbox.CheckFaceprint'>
+		
+		<option value='Suggestionbox.CheckFile'>
+		
+		<option value='Suggestionbox.CheckURL'>
+		
+		<option value='Suggestionbox.FaceprintCompare'>
+		
+		<option value='Suggestionbox.GetState'>
+		
+		<option value='Suggestionbox.PutState'>
+		
+		<option value='Suggestionbox.RemoveID'>
+		
+		<option value='Suggestionbox.Rename'>
+		
+		<option value='Suggestionbox.RenameID'>
+		
+		<option value='Suggestionbox.SimilarFile'>
+		
+		<option value='Suggestionbox.SimilarID'>
+		
+		<option value='Suggestionbox.SimilarURL'>
+		
+		<option value='Suggestionbox.TeachFaceprint'>
+		
+		<option value='Suggestionbox.TeachFile'>
+		
+		<option value='Suggestionbox.TeachURL'>
+		
+		
+	</datalist>
 </body>
 </html>

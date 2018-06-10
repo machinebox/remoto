@@ -15,7 +15,7 @@ func TestRender(t *testing.T) {
 	b, err := ioutil.ReadFile("testdata/templates/list.txt")
 	is.NoErr(err)
 	var buf bytes.Buffer
-	err = Render(&buf, string(b), def)
+	err = Render(&buf, "", string(b), def)
 	is.NoErr(err)
 	is.Equal(buf.String(), `package: greeter
 	service: GreetFormatter

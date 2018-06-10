@@ -44,7 +44,7 @@ func init() {
 				fmt.Fprintf(os.Stderr, "template: %v\n", err)
 				os.Exit(1)
 			}
-			if err := generator.Render(o, string(b), def); err != nil {
+			if err := generator.Render(o, template, string(b), def); err != nil {
 				fmt.Fprintf(os.Stderr, "render template: %v\n", err)
 				os.Exit(1)
 			}

@@ -524,6 +524,519 @@ export class FaceboxClient {
 	
 }
 
+// SuggestionboxClientOptions are the options for the SuggestionboxClient.
+export class SuggestionboxClientOptions {
+	constructor(data = {}) {
+		this._data = data
+		this._data.endpoint = this._data.endpoint || "http://localhost:8080"
+	}
+	get endpoint() { return this._data.endpoint }
+	set endpoint(endpoint) { this._data.endpoint = endpoint }
+}
+
+// Suggestionbox provides facial detection and recognition in images.
+export class SuggestionboxClient {
+	constructor(options) {
+		this.options = options
+	}
+	
+	CheckFaceprint(checkFaceprintRequest = null) {
+		return this.CheckFaceprintMulti([checkFaceprintRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// CheckFaceprintMulti is the batch version of CheckFaceprint.
+	CheckFaceprintMulti(checkFaceprintRequests) {
+		var data = new FormData()
+		checkFaceprintRequests.forEach(function(request){
+			if (request && !request instanceof CheckFaceprintRequest) {
+				throw 'SuggestionboxClient.CheckFaceprint: requests must be instances of CheckFaceprintRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(checkFaceprintRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.CheckFaceprint', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new CheckFaceprintResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.CheckFaceprint: ' + error.message
+		})
+	}
+	
+	CheckFile(checkFileRequest = null) {
+		return this.CheckFileMulti([checkFileRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// CheckFileMulti is the batch version of CheckFile.
+	CheckFileMulti(checkFileRequests) {
+		var data = new FormData()
+		checkFileRequests.forEach(function(request){
+			if (request && !request instanceof CheckFileRequest) {
+				throw 'SuggestionboxClient.CheckFile: requests must be instances of CheckFileRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(checkFileRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.CheckFile', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new CheckFileResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.CheckFile: ' + error.message
+		})
+	}
+	
+	CheckURL(checkURLRequest = null) {
+		return this.CheckURLMulti([checkURLRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// CheckURLMulti is the batch version of CheckURL.
+	CheckURLMulti(checkURLRequests) {
+		var data = new FormData()
+		checkURLRequests.forEach(function(request){
+			if (request && !request instanceof CheckURLRequest) {
+				throw 'SuggestionboxClient.CheckURL: requests must be instances of CheckURLRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(checkURLRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.CheckURL', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new CheckURLResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.CheckURL: ' + error.message
+		})
+	}
+	
+	FaceprintCompare(faceprintCompareRequest = null) {
+		return this.FaceprintCompareMulti([faceprintCompareRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// FaceprintCompareMulti is the batch version of FaceprintCompare.
+	FaceprintCompareMulti(faceprintCompareRequests) {
+		var data = new FormData()
+		faceprintCompareRequests.forEach(function(request){
+			if (request && !request instanceof FaceprintCompareRequest) {
+				throw 'SuggestionboxClient.FaceprintCompare: requests must be instances of FaceprintCompareRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(faceprintCompareRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.FaceprintCompare', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new FaceprintCompareResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.FaceprintCompare: ' + error.message
+		})
+	}
+	
+	GetState(getStateRequest = null) {
+		return this.GetStateMulti([getStateRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// GetStateMulti is the batch version of GetState.
+	GetStateMulti(getStateRequests) {
+		var data = new FormData()
+		getStateRequests.forEach(function(request){
+			if (request && !request instanceof GetStateRequest) {
+				throw 'SuggestionboxClient.GetState: requests must be instances of GetStateRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(getStateRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.GetState', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new remototypes.FileResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.GetState: ' + error.message
+		})
+	}
+	
+	PutState(putStateRequest = null) {
+		return this.PutStateMulti([putStateRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// PutStateMulti is the batch version of PutState.
+	PutStateMulti(putStateRequests) {
+		var data = new FormData()
+		putStateRequests.forEach(function(request){
+			if (request && !request instanceof PutStateRequest) {
+				throw 'SuggestionboxClient.PutState: requests must be instances of PutStateRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(putStateRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.PutState', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new PutStateResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.PutState: ' + error.message
+		})
+	}
+	
+	RemoveID(removeIDRequest = null) {
+		return this.RemoveIDMulti([removeIDRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// RemoveIDMulti is the batch version of RemoveID.
+	RemoveIDMulti(removeIDRequests) {
+		var data = new FormData()
+		removeIDRequests.forEach(function(request){
+			if (request && !request instanceof RemoveIDRequest) {
+				throw 'SuggestionboxClient.RemoveID: requests must be instances of RemoveIDRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(removeIDRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.RemoveID', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new RemoveIDResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.RemoveID: ' + error.message
+		})
+	}
+	
+	Rename(renameRequest = null) {
+		return this.RenameMulti([renameRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// RenameMulti is the batch version of Rename.
+	RenameMulti(renameRequests) {
+		var data = new FormData()
+		renameRequests.forEach(function(request){
+			if (request && !request instanceof RenameRequest) {
+				throw 'SuggestionboxClient.Rename: requests must be instances of RenameRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(renameRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.Rename', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new RenameResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.Rename: ' + error.message
+		})
+	}
+	
+	RenameID(renameIDRequest = null) {
+		return this.RenameIDMulti([renameIDRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// RenameIDMulti is the batch version of RenameID.
+	RenameIDMulti(renameIDRequests) {
+		var data = new FormData()
+		renameIDRequests.forEach(function(request){
+			if (request && !request instanceof RenameIDRequest) {
+				throw 'SuggestionboxClient.RenameID: requests must be instances of RenameIDRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(renameIDRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.RenameID', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new RenameIDResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.RenameID: ' + error.message
+		})
+	}
+	
+	SimilarFile(similarFileRequest = null) {
+		return this.SimilarFileMulti([similarFileRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// SimilarFileMulti is the batch version of SimilarFile.
+	SimilarFileMulti(similarFileRequests) {
+		var data = new FormData()
+		similarFileRequests.forEach(function(request){
+			if (request && !request instanceof SimilarFileRequest) {
+				throw 'SuggestionboxClient.SimilarFile: requests must be instances of SimilarFileRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(similarFileRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.SimilarFile', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new SimilarFileResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.SimilarFile: ' + error.message
+		})
+	}
+	
+	SimilarID(similarIDRequest = null) {
+		return this.SimilarIDMulti([similarIDRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// SimilarIDMulti is the batch version of SimilarID.
+	SimilarIDMulti(similarIDRequests) {
+		var data = new FormData()
+		similarIDRequests.forEach(function(request){
+			if (request && !request instanceof SimilarIDRequest) {
+				throw 'SuggestionboxClient.SimilarID: requests must be instances of SimilarIDRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(similarIDRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.SimilarID', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new SimilarIDResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.SimilarID: ' + error.message
+		})
+	}
+	
+	SimilarURL(similarURLRequest = null) {
+		return this.SimilarURLMulti([similarURLRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// SimilarURLMulti is the batch version of SimilarURL.
+	SimilarURLMulti(similarURLRequests) {
+		var data = new FormData()
+		similarURLRequests.forEach(function(request){
+			if (request && !request instanceof SimilarURLRequest) {
+				throw 'SuggestionboxClient.SimilarURL: requests must be instances of SimilarURLRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(similarURLRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.SimilarURL', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new SimilarURLResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.SimilarURL: ' + error.message
+		})
+	}
+	
+	TeachFaceprint(teachFaceprintRequest = null) {
+		return this.TeachFaceprintMulti([teachFaceprintRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// TeachFaceprintMulti is the batch version of TeachFaceprint.
+	TeachFaceprintMulti(teachFaceprintRequests) {
+		var data = new FormData()
+		teachFaceprintRequests.forEach(function(request){
+			if (request && !request instanceof TeachFaceprintRequest) {
+				throw 'SuggestionboxClient.TeachFaceprint: requests must be instances of TeachFaceprintRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(teachFaceprintRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.TeachFaceprint', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new TeachFaceprintResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.TeachFaceprint: ' + error.message
+		})
+	}
+	
+	TeachFile(teachFileRequest = null) {
+		return this.TeachFileMulti([teachFileRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// TeachFileMulti is the batch version of TeachFile.
+	TeachFileMulti(teachFileRequests) {
+		var data = new FormData()
+		teachFileRequests.forEach(function(request){
+			if (request && !request instanceof TeachFileRequest) {
+				throw 'SuggestionboxClient.TeachFile: requests must be instances of TeachFileRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(teachFileRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.TeachFile', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new TeachFileResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.TeachFile: ' + error.message
+		})
+	}
+	
+	TeachURL(teachURLRequest = null) {
+		return this.TeachURLMulti([teachURLRequest]).then(function(responses) {
+			return responses[0]
+		})
+	}
+
+	// TeachURLMulti is the batch version of TeachURL.
+	TeachURLMulti(teachURLRequests) {
+		var data = new FormData()
+		teachURLRequests.forEach(function(request){
+			if (request && !request instanceof TeachURLRequest) {
+				throw 'SuggestionboxClient.TeachURL: requests must be instances of TeachURLRequest'
+			}
+			let allfiles = request.allFiles()
+			allfiles.forEach(function(fieldname) {
+				data.set(fieldname, allfiles[fieldname])
+			})
+		})
+		data.set('json', JSON.stringify(teachURLRequests))
+		return fetch(this.options.endpoint() + '/remoto/Suggestionbox.TeachURL', {
+			method: 'post', body: data,
+			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		}).then(function(responseData){ // success
+			var responses = []
+			responseData.json().forEach(function(response){
+				responses.push(new TeachURLResponse(response))
+			})
+			return responses
+		}, function(error){ // error
+			throw 'SuggestionboxClient.TeachURL: ' + error.message
+		})
+	}
+	
+}
+
 
 export class CheckFaceprintRequest {
 	constructor(data = {}) {

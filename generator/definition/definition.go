@@ -1,6 +1,9 @@
 package definition
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // Definition is the definition of one or more services.
 // In templates, it is usually accessed via the `def` variable.
@@ -19,6 +22,18 @@ func (d Definition) String() string {
 		s += d.Services[i].String()
 	}
 	return s
+}
+
+// Structure gets a Structure by name.
+func (d Definition) Structure(name string) *Structure {
+	for _, service := range d.Services {
+		for _, structure := range service.Structures {
+			if structure.Name == name {
+				return &structure
+			}
+		}
+	}
+	return nil
 }
 
 // Service describes a logically grouped set of endpoints.
@@ -62,7 +77,7 @@ type Method struct {
 	Comment      string
 	RequestType  Structure
 	ResponseType Structure
-}
+} // TODO: change RequestType and ResponseType to RequestStructure and ResponseStructure
 
 func (m Method) String() string {
 	var str string
@@ -132,6 +147,11 @@ type Field struct {
 
 func (f Field) String() string {
 	return fmt.Sprintf("%s %s", f.Name, f.Type.code())
+}
+
+// IsExported gets whether the field is exported or not.
+func (f Field) IsExported() bool {
+	return strings.ToUpper(f.Name[0:1]) == f.Name[0:1]
 }
 
 // Type describes the type of a Field.

@@ -1,3 +1,4 @@
+// Package facebox provides access to Facebox Remoto services.
 package facebox
 
 import (
@@ -6,6 +7,31 @@ import (
 
 // Facebox provides facial detection and recognition in images.
 type Facebox interface {
+	TeachFile(*TeachFileRequest) *TeachFileResponse
+	TeachURL(*TeachURLRequest) *TeachURLResponse
+	TeachFaceprint(*TeachFaceprintRequest) *TeachFaceprintResponse
+
+	CheckFile(*CheckFileRequest) *CheckFileResponse
+	CheckURL(*CheckURLRequest) *CheckURLResponse
+
+	SimilarID(*SimilarIDRequest) *SimilarIDResponse
+	SimilarFile(*SimilarFileRequest) *SimilarFileResponse
+	SimilarURL(*SimilarURLRequest) *SimilarURLResponse
+
+	Rename(*RenameRequest) *RenameResponse
+	RenameID(*RenameIDRequest) *RenameIDResponse
+
+	RemoveID(*RemoveIDRequest) *RemoveIDResponse
+
+	FaceprintCompare(*FaceprintCompareRequest) *FaceprintCompareResponse
+	CheckFaceprint(*CheckFaceprintRequest) *CheckFaceprintResponse
+
+	GetState(*GetStateRequest) *remototypes.FileResponse
+	PutState(*PutStateRequest) *PutStateResponse
+}
+
+// Suggestionbox provides facial detection and recognition in images.
+type Suggestionbox interface {
 	TeachFile(*TeachFileRequest) *TeachFileResponse
 	TeachURL(*TeachURLRequest) *TeachURLResponse
 	TeachFaceprint(*TeachFaceprintRequest) *TeachFaceprintResponse

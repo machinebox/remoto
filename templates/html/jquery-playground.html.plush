@@ -1,14 +1,264 @@
-<% contentFor("structure") { %>
-
+<% contentFor("describe-field") { %>
+	<code><%= underscore(field.Name) %></code>
+	<%= if (field.Type.IsMultiple) { %>
+	Array of
+	<% } %>
+	<%= if (field.Type.Name == "remototypes.File") { %>
+		File
+	<% } else { %>
+		<%= if (field.Type.IsStruct) { %>
+			<%= contentOf("structure-link", {"name":field.Type.Name}) %>
+		<% } else { %>
+			<%= field.Type.Name %>
+		<% } %>
+		<%= if (field.Comment != "") { %>&mdash;<%= field.Comment %><% } %>
+	<% } %>
 <% } %>
+<% contentFor("describe-structure") { %>
+	<h4><%= structure.Name %></h4>
+	<p><%= structure.Comment %></p>
+	<%= if (len(structure.Fields) == 0) { %>
+		<ul>
+			<li class='text-muted'>
+				No fields
+			</li>
+		</ul>
+	<% } else { %>
+		<%= contentOf("describe-fields", {"fields": structure.Fields}) %>
+	<% } %>
+<% } %>
+<% contentFor("describe-fields") { %>
+	<ul>
+	<%= for (field) in fields { %>
+		<li>
+		<%= contentOf("describe-field", {"field": field}) %>
+		</li>
+	<% } %>
+	</ul>
+<% } %>
+<% contentFor("structure-link") { %><a href='#<%= def.PackageName %>_<%= name %>'><%= name %></a><% } %>
 <html>
 <head>
-	<title><%= def.PackageName %> • Remoto jQuery Playground</title>
-
-	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css'>
+	<title><%= def.PackageName %> • Remoto by Machine Box</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<style>
+		.page-body {
+			margin-top: 20px;
+		}
+		.content {
+			padding: 20px;
+		}
+	</style>
 </head>
 <body>
+	<!--
+	<nav class='navbar sticky-top navbar-light bg-light'>
+		<div class='container'>
+			<a class="navbar-brand" href="#home">Remoto</a>
+		</div>
+	</nav>
+	-->
+	<div class='page-body container'>
+		<div class='row'>
+			<div class='col col-3'>
+			<ul class='nav flex-column'>
+				<%= for (service) in def.Services { %>
+					<%= for (method) in service.Methods { %>
+						<li class='nav-item'>
+							<a class='nav-link' href='#<%= def.PackageName %>_<%= service.Name %>_<%= method.Name %>'>
+								<span class='text-muted'><%= service.Name %>.</span><%= method.Name %><span class='text-muted'>()</span>
+							</a>
+						</li>
+					<% } %>	
+				<% } %>
+				<%= for (structure) in unique_structures(def) { %>
+					<li class='nav-item'>
+						<a class='nav-link' href='#<%= def.PackageName %>_<%= structure.Name %>'>
+							<span class='text-muted'></span><%= structure.Name %>
+						</a>
+					</li>
+				<% } %>
+				</ul>
+			</div>
+			<div class='col'>
+				<div class='content sticky-top'>
+					<section class='page' id='home'>
+						<div class='jumbotron'>
+							<h1 class='display-4'><%= upcase(def.PackageName) %></h1>
+							<p class='lead'>
+								<%= def.PackageComment %>
+							</p>
+							<p>
+								<input id='jump-to' list='symbols' type='text' class='form-control' placeholder='Jump to&hellip;'>
+							</p>
+						</div>
+					</section>
+					<h2 class='display-4'>Methods</h2>
+					<p>
+						This section describes the methods in the <%= def.PackageName %> service.
+					</p>
+					<%= for (service) in def.Services { %>
+						<%= for (method) in service.Methods { %>
+							<section class='page' id='<%= def.PackageName %>_<%= service.Name %>_<%= method.Name %>'>
+								<h3 class='title'>
+									<%= method.Name %>
+								</h3>
+								<p>
+									<%= method.Comment %>
+								</p>
+								<p>
+									<code><%= def.PackageName %>.<%= service.Name %>.<%= method.Name %>(<%= contentOf("structure-link", {"name":method.RequestType.Name}) %>) <%= contentOf("structure-link", {"name":method.ResponseType.Name}) %></code>
+								</p>
+								<p>
+									Request:
+								</p>
+								<%= contentOf("describe-fields", {"fields": method.RequestType.Fields}) %>
+								<p>
+									Response:
+								</p>
+								<%= contentOf("describe-fields", {"fields": method.ResponseType.Fields}) %>
+							</section>
+							<hr>
+						<% } %>
+					<% } %>
+					<h2 class='display-4'>Objects</h2>
+					<p>
+						This section describes all the objects that are used in the <%= def.PackageName %> service.
+					</p>
+					<%= for (structure) in unique_structures(def) { %>
+						<section class='page' id='<%= def.PackageName %>_<%= structure.Name %>'>
+							<%= contentOf("describe-structure", {"structure": structure}) %>
+						</section>
+						<hr>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class='footer'>
+		<div class='container'>
+			<p class='text-muted float-right'>
+				<small>
+					Powered by <a href='https://github.com/machinebox/remoto'>Remoto by Machine Box</a>
+				</small>
+			</p>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	
 	<!-- if you named your jQuery client something else, please update it here -->
 	<script src='<%= def.PackageName %>.jquery.js'></script>
+
+	<script>
+		$(function(){
+
+			$.fn.hide = function(){
+				$(this).addClass('d-none')
+			}
+			$.fn.show = function(){
+				$(this).removeClass('d-none')
+			}
+
+			function checkJumpTo(){
+				var val = $(this).val().replace('.','_')
+				var hit = null
+				try{ hit = $('#<%= def.PackageName %>_' + val) }catch{}
+				if (hit && hit.length > 0) {
+					hit.niceScroll()
+				}
+			}
+			$('#jump-to').keyup(debounce(checkJumpTo, 500)).keyup(function(e){
+				if (e.keyCode == 10 || e.keyCode == 13) {
+					checkJumpTo.apply(this, arguments)
+				}
+			})
+
+
+	/// TODO: remove the router, not used.
+			//
+			// Very simple routing
+			// The location.hash will show the .page element with that id.
+			//
+			function changeRoute(route) {
+				//$('.page').hide()
+				//$(route).show()
+				//$('.nav-link').removeClass('active')
+				//$('a[href="'+route+'"]').addClass('active')
+			}
+			$(window).bind('hashchange', function() {
+				changeRoute(location.hash)
+			})
+			var hash = location.hash
+			if (hash.length > 0) {
+				changeRoute(hash)
+			} else {
+				changeRoute('#home')
+			}
+
+			// gentle scrolling
+			// Anything with an href that points to something on the page
+			// is gently scrolled to, rather than jumping.
+			// Everything else is left alone.
+			$("a[href]").click(function(e) { 
+				var dest = $(this).attr('href')
+				dest = dest.substr(dest.indexOf('#')+1)
+				var destEl = $('[id="'+dest+'"]')
+				if (destEl.length > 0) {
+					e.preventDefault()
+					$('html,body').animate({ 
+						scrollTop: destEl.offset().top 
+					}, 'slow')
+					if (history.pushState) {
+						history.pushState(null, null, '#'+dest);
+					} else {
+						location.hash = '#'+dest;
+					}
+				}
+			})
+			
+			// $.scrollToTop scrolls the page to the top.
+			$.scrollToTop = function(){
+				$('html,body').animate({ 
+					scrollTop: 0
+				}, 'slow')
+			}
+
+			// niceScroll gently scrolls the page to this element.
+			$.fn.niceScroll = function(){
+				$('html,body').animate({ 
+					scrollTop: $(this).offset().top 
+				}, 'slow')
+			}
+
+			// from https://davidwalsh.name/javascript-debounce-function
+			// Returns a function, that, as long as it continues to be invoked, will not
+			// be triggered. The function will be called after it stops being called for
+			// N milliseconds. If `immediate` is passed, trigger the function on the
+			// leading edge, instead of the trailing.
+			function debounce(func, wait, immediate) {
+				var timeout
+				return function() {
+					var context = this, args = arguments;
+					var later = function() {
+						timeout = null
+						if (!immediate) func.apply(context, args)
+					};
+					var callNow = immediate && !timeout
+					clearTimeout(timeout)
+					timeout = setTimeout(later, wait)
+					if (callNow) func.apply(context, args)
+				}
+			}
+
+		})
+	</script>
+	<datalist id='symbols'>
+		<%= for (service) in def.Services { %>
+		<%= for (method) in service.Methods { %>
+		<option value='<%= service.Name %>.<%= method.Name %>'>
+		<% } %>
+		<% } %>
+	</datalist>
 </body>
 </html>

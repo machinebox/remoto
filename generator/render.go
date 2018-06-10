@@ -9,13 +9,13 @@ import (
 )
 
 // Render renders the tpl template with the Definition into w.
-func Render(w io.Writer, tpl string, def definition.Definition) error {
+func Render(w io.Writer, templateName, tpl string, def definition.Definition) error {
 	ctx := plush.NewContext()
 	ctx.Set("def", def)
 	addHelpers(ctx)
 	out, err := plush.Render(tpl, ctx)
 	if err != nil {
-		return errors.Wrap(err, "plush.Render")
+		return errors.Wrapf(err, "plush.Render (%s)", templateName)
 	}
 	if _, err := io.WriteString(w, out); err != nil {
 		return err

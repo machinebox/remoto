@@ -1,4 +1,5 @@
 (function($){
+	$.<%= def.PackageName %> = $.<%= def.PackageName %> || {}
 	<%= for (service) in def.Services { %>
 	// $.<%= def.PackageName %>.<%= service.Name %>Client is a client capable of
 	// interacting with <%= service.Name %> services.
@@ -82,9 +83,9 @@
 	$.<%= def.PackageName %>.<%= structure.Name %>.prototype.set<%= field.Name %> = function(<%= camelize_down_first(field.Name) %>) {
 		this.data.<%= camelize_down_first(field.Name) %> = <%= camelize_down_first(field.Name) %>
 	}<% } %><% } %>
-	<% } %>
-	<% } %>
+	<% } %><% } %><% } %>
 	// _filesCount keeps track of the number of files being added, and is used
 	// to generate unique field names.
 	$.facebox._filesCount = 0
+
 })(jQuery)
