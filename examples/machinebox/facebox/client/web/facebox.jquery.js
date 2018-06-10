@@ -526,7 +526,8 @@
 	}
 	
 	
-	$.facebox.CheckFaceprintRequest = function(data) {
+	// CheckFaceprintRequest is the request object for CheckFaceprint calls.
+$.facebox.CheckFaceprintRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.CheckFaceprintRequest.prototype.toJSON = function() {
@@ -554,7 +555,8 @@
 		this.data.faceprints = faceprints
 	}
 	
-	$.facebox.CheckFaceprintResponse = function(data) {
+	// CheckFaceprintResponse is the response object for CheckFaceprint calls.
+$.facebox.CheckFaceprintResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.CheckFaceprintResponse.prototype.toJSON = function() {
@@ -574,7 +576,8 @@
 	}
 	
 	
-	$.facebox.CheckFileRequest = function(data) {
+	// CheckFileRequest is the request object for CheckFile calls.
+$.facebox.CheckFileRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.CheckFileRequest.prototype.toJSON = function() {
@@ -604,7 +607,8 @@
 	}
 	
 	
-	$.facebox.CheckFileResponse = function(data) {
+	// CheckFileResponse is the response object for CheckFile calls.
+$.facebox.CheckFileResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.CheckFileResponse.prototype.toJSON = function() {
@@ -624,7 +628,8 @@
 	}
 	
 	
-	$.facebox.CheckURLRequest = function(data) {
+	// CheckURLRequest is the request object for CheckURL calls.
+$.facebox.CheckURLRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.CheckURLRequest.prototype.toJSON = function() {
@@ -654,7 +659,8 @@
 	}
 	
 	
-	$.facebox.CheckURLResponse = function(data) {
+	// CheckURLResponse is the response object for CheckURL calls.
+$.facebox.CheckURLResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.CheckURLResponse.prototype.toJSON = function() {
@@ -674,7 +680,8 @@
 	}
 	
 	
-	$.facebox.Face = function(data) {
+	// Face describes a face.
+$.facebox.Face = function(data) {
 		this.data = data
 	}
 	$.facebox.Face.prototype.toJSON = function() {
@@ -737,7 +744,8 @@
 		this.data.rect = rect
 	}
 	
-	$.facebox.FaceprintCompareRequest = function(data) {
+	// FaceprintCompareRequest is the request object for FaceprintCompare calls.
+$.facebox.FaceprintCompareRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.FaceprintCompareRequest.prototype.toJSON = function() {
@@ -776,7 +784,8 @@
 		this.data.faceprints = faceprints
 	}
 	
-	$.facebox.FaceprintCompareResponse = function(data) {
+	// FaceprintCompareResponse is the response object for FaceprintCompare calls.
+$.facebox.FaceprintCompareResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.FaceprintCompareResponse.prototype.toJSON = function() {
@@ -796,7 +805,8 @@
 	}
 	
 	
-	$.facebox.FaceprintFace = function(data) {
+	// FaceprintFace is a face.
+$.facebox.FaceprintFace = function(data) {
 		this.data = data
 	}
 	$.facebox.FaceprintFace.prototype.toJSON = function() {
@@ -848,7 +858,8 @@
 		this.data.name = name
 	}
 	
-	$.facebox.GetStateRequest = function(data) {
+	// GetStateRequest is the request object for GetState calls.
+$.facebox.GetStateRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.GetStateRequest.prototype.toJSON = function() {
@@ -865,7 +876,8 @@
 	}
 	
 	
-	$.facebox.PutStateRequest = function(data) {
+	// PutStateRequest is the request object for PutState calls.
+$.facebox.PutStateRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.PutStateRequest.prototype.toJSON = function() {
@@ -895,7 +907,8 @@
 	}
 	
 	
-	$.facebox.PutStateResponse = function(data) {
+	// PutStateResponse is the response object for PutState calls.
+$.facebox.PutStateResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.PutStateResponse.prototype.toJSON = function() {
@@ -909,7 +922,8 @@
 	}
 	
 	
-	$.facebox.Rect = function(data) {
+	// Rect is a bounding box describing a rectangle of an image.
+$.facebox.Rect = function(data) {
 		this.data = data
 	}
 	$.facebox.Rect.prototype.toJSON = function() {
@@ -961,7 +975,8 @@
 		this.data.height = height
 	}
 	
-	$.facebox.RemoveIDRequest = function(data) {
+	// RemoveIDRequest is the request object for RemoveID calls.
+$.facebox.RemoveIDRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.RemoveIDRequest.prototype.toJSON = function() {
@@ -989,7 +1004,8 @@
 		this.data.iD = iD
 	}
 	
-	$.facebox.RemoveIDResponse = function(data) {
+	// RemoveIDResponse is the response object for RemoveID calls.
+$.facebox.RemoveIDResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.RemoveIDResponse.prototype.toJSON = function() {
@@ -1003,7 +1019,8 @@
 	}
 	
 	
-	$.facebox.RenameIDRequest = function(data) {
+	// RenameIDRequest is the request object for RenameID calls.
+$.facebox.RenameIDRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.RenameIDRequest.prototype.toJSON = function() {
@@ -1042,7 +1059,8 @@
 		this.data.name = name
 	}
 	
-	$.facebox.RenameIDResponse = function(data) {
+	// RenameIDResponse is the response object for RenameID calls.
+$.facebox.RenameIDResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.RenameIDResponse.prototype.toJSON = function() {
@@ -1056,7 +1074,8 @@
 	}
 	
 	
-	$.facebox.RenameRequest = function(data) {
+	// RenameRequest is the request object for Rename calls.
+$.facebox.RenameRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.RenameRequest.prototype.toJSON = function() {
@@ -1095,7 +1114,8 @@
 		this.data.to = to
 	}
 	
-	$.facebox.RenameResponse = function(data) {
+	// RenameResponse is the response object for Rename calls.
+$.facebox.RenameResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.RenameResponse.prototype.toJSON = function() {
@@ -1109,7 +1129,8 @@
 	}
 	
 	
-	$.facebox.SimilarFace = function(data) {
+	// SimilarFace is a detected face with similar matching faces.
+$.facebox.SimilarFace = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarFace.prototype.toJSON = function() {
@@ -1139,7 +1160,8 @@
 		this.data.similarFaces = similarFaces
 	}
 	
-	$.facebox.SimilarFileRequest = function(data) {
+	// SimilarFileRequest is the request object for SimilarFile calls.
+$.facebox.SimilarFileRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarFileRequest.prototype.toJSON = function() {
@@ -1169,7 +1191,8 @@
 	}
 	
 	
-	$.facebox.SimilarFileResponse = function(data) {
+	// SimilarFileResponse is the response object for SimilarFile calls.
+$.facebox.SimilarFileResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarFileResponse.prototype.toJSON = function() {
@@ -1189,7 +1212,8 @@
 	}
 	
 	
-	$.facebox.SimilarIDRequest = function(data) {
+	// SimilarIDRequest is the request object for SimilarID calls.
+$.facebox.SimilarIDRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarIDRequest.prototype.toJSON = function() {
@@ -1217,7 +1241,8 @@
 		this.data.iD = iD
 	}
 	
-	$.facebox.SimilarIDResponse = function(data) {
+	// SimilarIDResponse is the response object for SimilarID calls.
+$.facebox.SimilarIDResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarIDResponse.prototype.toJSON = function() {
@@ -1237,7 +1262,8 @@
 	}
 	
 	
-	$.facebox.SimilarURLRequest = function(data) {
+	// SimilarURLRequest is the request object for SimilarURL calls.
+$.facebox.SimilarURLRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarURLRequest.prototype.toJSON = function() {
@@ -1265,7 +1291,8 @@
 		this.data.uRL = uRL
 	}
 	
-	$.facebox.SimilarURLResponse = function(data) {
+	// SimilarURLResponse is the response object for SimilarURL calls.
+$.facebox.SimilarURLResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarURLResponse.prototype.toJSON = function() {
@@ -1285,7 +1312,8 @@
 	}
 	
 	
-	$.facebox.TeachFaceprintRequest = function(data) {
+	// TeachFaceprintRequest is the request object for TeachFaceprint calls.
+$.facebox.TeachFaceprintRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.TeachFaceprintRequest.prototype.toJSON = function() {
@@ -1335,7 +1363,8 @@
 		this.data.faceprint = faceprint
 	}
 	
-	$.facebox.TeachFaceprintResponse = function(data) {
+	// TeachFaceprintResponse is the response object for TeachFaceprint calls.
+$.facebox.TeachFaceprintResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.TeachFaceprintResponse.prototype.toJSON = function() {
@@ -1349,7 +1378,8 @@
 	}
 	
 	
-	$.facebox.TeachFileRequest = function(data) {
+	// TeachFileRequest is the request object for TeachFile calls.
+$.facebox.TeachFileRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.TeachFileRequest.prototype.toJSON = function() {
@@ -1401,7 +1431,8 @@
 	}
 	
 	
-	$.facebox.TeachFileResponse = function(data) {
+	// TeachFileResponse is the response object for TeachFile calls.
+$.facebox.TeachFileResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.TeachFileResponse.prototype.toJSON = function() {
@@ -1415,7 +1446,8 @@
 	}
 	
 	
-	$.facebox.TeachURLRequest = function(data) {
+	// TeachURLRequest is the request object for TeachURL calls.
+$.facebox.TeachURLRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.TeachURLRequest.prototype.toJSON = function() {
@@ -1465,7 +1497,8 @@
 		this.data.uRL = uRL
 	}
 	
-	$.facebox.TeachURLResponse = function(data) {
+	// TeachURLResponse is the response object for TeachURL calls.
+$.facebox.TeachURLResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.TeachURLResponse.prototype.toJSON = function() {
@@ -2004,7 +2037,8 @@
 	}
 	
 	
-	$.facebox.CheckFaceprintRequest = function(data) {
+	// CheckFaceprintRequest is the request object for CheckFaceprint calls.
+$.facebox.CheckFaceprintRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.CheckFaceprintRequest.prototype.toJSON = function() {
@@ -2032,7 +2066,8 @@
 		this.data.faceprints = faceprints
 	}
 	
-	$.facebox.CheckFaceprintResponse = function(data) {
+	// CheckFaceprintResponse is the response object for CheckFaceprint calls.
+$.facebox.CheckFaceprintResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.CheckFaceprintResponse.prototype.toJSON = function() {
@@ -2052,7 +2087,8 @@
 	}
 	
 	
-	$.facebox.CheckFileRequest = function(data) {
+	// CheckFileRequest is the request object for CheckFile calls.
+$.facebox.CheckFileRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.CheckFileRequest.prototype.toJSON = function() {
@@ -2082,7 +2118,8 @@
 	}
 	
 	
-	$.facebox.CheckFileResponse = function(data) {
+	// CheckFileResponse is the response object for CheckFile calls.
+$.facebox.CheckFileResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.CheckFileResponse.prototype.toJSON = function() {
@@ -2102,7 +2139,8 @@
 	}
 	
 	
-	$.facebox.CheckURLRequest = function(data) {
+	// CheckURLRequest is the request object for CheckURL calls.
+$.facebox.CheckURLRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.CheckURLRequest.prototype.toJSON = function() {
@@ -2132,7 +2170,8 @@
 	}
 	
 	
-	$.facebox.CheckURLResponse = function(data) {
+	// CheckURLResponse is the response object for CheckURL calls.
+$.facebox.CheckURLResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.CheckURLResponse.prototype.toJSON = function() {
@@ -2152,7 +2191,8 @@
 	}
 	
 	
-	$.facebox.Face = function(data) {
+	// Face describes a face.
+$.facebox.Face = function(data) {
 		this.data = data
 	}
 	$.facebox.Face.prototype.toJSON = function() {
@@ -2215,7 +2255,8 @@
 		this.data.rect = rect
 	}
 	
-	$.facebox.FaceprintCompareRequest = function(data) {
+	// FaceprintCompareRequest is the request object for FaceprintCompare calls.
+$.facebox.FaceprintCompareRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.FaceprintCompareRequest.prototype.toJSON = function() {
@@ -2254,7 +2295,8 @@
 		this.data.faceprints = faceprints
 	}
 	
-	$.facebox.FaceprintCompareResponse = function(data) {
+	// FaceprintCompareResponse is the response object for FaceprintCompare calls.
+$.facebox.FaceprintCompareResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.FaceprintCompareResponse.prototype.toJSON = function() {
@@ -2274,7 +2316,8 @@
 	}
 	
 	
-	$.facebox.FaceprintFace = function(data) {
+	// FaceprintFace is a face.
+$.facebox.FaceprintFace = function(data) {
 		this.data = data
 	}
 	$.facebox.FaceprintFace.prototype.toJSON = function() {
@@ -2326,7 +2369,8 @@
 		this.data.name = name
 	}
 	
-	$.facebox.GetStateRequest = function(data) {
+	// GetStateRequest is the request object for GetState calls.
+$.facebox.GetStateRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.GetStateRequest.prototype.toJSON = function() {
@@ -2343,7 +2387,8 @@
 	}
 	
 	
-	$.facebox.PutStateRequest = function(data) {
+	// PutStateRequest is the request object for PutState calls.
+$.facebox.PutStateRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.PutStateRequest.prototype.toJSON = function() {
@@ -2373,7 +2418,8 @@
 	}
 	
 	
-	$.facebox.PutStateResponse = function(data) {
+	// PutStateResponse is the response object for PutState calls.
+$.facebox.PutStateResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.PutStateResponse.prototype.toJSON = function() {
@@ -2387,7 +2433,8 @@
 	}
 	
 	
-	$.facebox.Rect = function(data) {
+	// Rect is a bounding box describing a rectangle of an image.
+$.facebox.Rect = function(data) {
 		this.data = data
 	}
 	$.facebox.Rect.prototype.toJSON = function() {
@@ -2439,7 +2486,8 @@
 		this.data.height = height
 	}
 	
-	$.facebox.RemoveIDRequest = function(data) {
+	// RemoveIDRequest is the request object for RemoveID calls.
+$.facebox.RemoveIDRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.RemoveIDRequest.prototype.toJSON = function() {
@@ -2467,7 +2515,8 @@
 		this.data.iD = iD
 	}
 	
-	$.facebox.RemoveIDResponse = function(data) {
+	// RemoveIDResponse is the response object for RemoveID calls.
+$.facebox.RemoveIDResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.RemoveIDResponse.prototype.toJSON = function() {
@@ -2481,7 +2530,8 @@
 	}
 	
 	
-	$.facebox.RenameIDRequest = function(data) {
+	// RenameIDRequest is the request object for RenameID calls.
+$.facebox.RenameIDRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.RenameIDRequest.prototype.toJSON = function() {
@@ -2520,7 +2570,8 @@
 		this.data.name = name
 	}
 	
-	$.facebox.RenameIDResponse = function(data) {
+	// RenameIDResponse is the response object for RenameID calls.
+$.facebox.RenameIDResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.RenameIDResponse.prototype.toJSON = function() {
@@ -2534,7 +2585,8 @@
 	}
 	
 	
-	$.facebox.RenameRequest = function(data) {
+	// RenameRequest is the request object for Rename calls.
+$.facebox.RenameRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.RenameRequest.prototype.toJSON = function() {
@@ -2573,7 +2625,8 @@
 		this.data.to = to
 	}
 	
-	$.facebox.RenameResponse = function(data) {
+	// RenameResponse is the response object for Rename calls.
+$.facebox.RenameResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.RenameResponse.prototype.toJSON = function() {
@@ -2587,7 +2640,8 @@
 	}
 	
 	
-	$.facebox.SimilarFace = function(data) {
+	// SimilarFace is a detected face with similar matching faces.
+$.facebox.SimilarFace = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarFace.prototype.toJSON = function() {
@@ -2617,7 +2671,8 @@
 		this.data.similarFaces = similarFaces
 	}
 	
-	$.facebox.SimilarFileRequest = function(data) {
+	// SimilarFileRequest is the request object for SimilarFile calls.
+$.facebox.SimilarFileRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarFileRequest.prototype.toJSON = function() {
@@ -2647,7 +2702,8 @@
 	}
 	
 	
-	$.facebox.SimilarFileResponse = function(data) {
+	// SimilarFileResponse is the response object for SimilarFile calls.
+$.facebox.SimilarFileResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarFileResponse.prototype.toJSON = function() {
@@ -2667,7 +2723,8 @@
 	}
 	
 	
-	$.facebox.SimilarIDRequest = function(data) {
+	// SimilarIDRequest is the request object for SimilarID calls.
+$.facebox.SimilarIDRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarIDRequest.prototype.toJSON = function() {
@@ -2695,7 +2752,8 @@
 		this.data.iD = iD
 	}
 	
-	$.facebox.SimilarIDResponse = function(data) {
+	// SimilarIDResponse is the response object for SimilarID calls.
+$.facebox.SimilarIDResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarIDResponse.prototype.toJSON = function() {
@@ -2715,7 +2773,8 @@
 	}
 	
 	
-	$.facebox.SimilarURLRequest = function(data) {
+	// SimilarURLRequest is the request object for SimilarURL calls.
+$.facebox.SimilarURLRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarURLRequest.prototype.toJSON = function() {
@@ -2743,7 +2802,8 @@
 		this.data.uRL = uRL
 	}
 	
-	$.facebox.SimilarURLResponse = function(data) {
+	// SimilarURLResponse is the response object for SimilarURL calls.
+$.facebox.SimilarURLResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.SimilarURLResponse.prototype.toJSON = function() {
@@ -2763,7 +2823,8 @@
 	}
 	
 	
-	$.facebox.TeachFaceprintRequest = function(data) {
+	// TeachFaceprintRequest is the request object for TeachFaceprint calls.
+$.facebox.TeachFaceprintRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.TeachFaceprintRequest.prototype.toJSON = function() {
@@ -2813,7 +2874,8 @@
 		this.data.faceprint = faceprint
 	}
 	
-	$.facebox.TeachFaceprintResponse = function(data) {
+	// TeachFaceprintResponse is the response object for TeachFaceprint calls.
+$.facebox.TeachFaceprintResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.TeachFaceprintResponse.prototype.toJSON = function() {
@@ -2827,7 +2889,8 @@
 	}
 	
 	
-	$.facebox.TeachFileRequest = function(data) {
+	// TeachFileRequest is the request object for TeachFile calls.
+$.facebox.TeachFileRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.TeachFileRequest.prototype.toJSON = function() {
@@ -2879,7 +2942,8 @@
 	}
 	
 	
-	$.facebox.TeachFileResponse = function(data) {
+	// TeachFileResponse is the response object for TeachFile calls.
+$.facebox.TeachFileResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.TeachFileResponse.prototype.toJSON = function() {
@@ -2893,7 +2957,8 @@
 	}
 	
 	
-	$.facebox.TeachURLRequest = function(data) {
+	// TeachURLRequest is the request object for TeachURL calls.
+$.facebox.TeachURLRequest = function(data) {
 		this.data = data
 	}
 	$.facebox.TeachURLRequest.prototype.toJSON = function() {
@@ -2943,7 +3008,8 @@
 		this.data.uRL = uRL
 	}
 	
-	$.facebox.TeachURLResponse = function(data) {
+	// TeachURLResponse is the response object for TeachURL calls.
+$.facebox.TeachURLResponse = function(data) {
 		this.data = data
 	}
 	$.facebox.TeachURLResponse.prototype.toJSON = function() {

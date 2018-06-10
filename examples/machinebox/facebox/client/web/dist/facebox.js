@@ -1330,6 +1330,9 @@ var SuggestionboxClient = exports.SuggestionboxClient = function () {
 	return SuggestionboxClient;
 }();
 
+// CheckFaceprintRequest is the request object for CheckFaceprint calls.
+
+
 var CheckFaceprintRequest = exports.CheckFaceprintRequest = function () {
 	function CheckFaceprintRequest() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -1389,6 +1392,9 @@ var CheckFaceprintRequest = exports.CheckFaceprintRequest = function () {
 	return CheckFaceprintRequest;
 }();
 
+// CheckFaceprintResponse is the response object for CheckFaceprint calls.
+
+
 var CheckFaceprintResponse = exports.CheckFaceprintResponse = function () {
 	function CheckFaceprintResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -1421,6 +1427,9 @@ var CheckFaceprintResponse = exports.CheckFaceprintResponse = function () {
 
 	return CheckFaceprintResponse;
 }();
+
+// CheckFileRequest is the request object for CheckFile calls.
+
 
 var CheckFileRequest = exports.CheckFileRequest = function () {
 	function CheckFileRequest() {
@@ -1483,6 +1492,9 @@ var CheckFileRequest = exports.CheckFileRequest = function () {
 	return CheckFileRequest;
 }();
 
+// CheckFileResponse is the response object for CheckFile calls.
+
+
 var CheckFileResponse = exports.CheckFileResponse = function () {
 	function CheckFileResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -1515,6 +1527,9 @@ var CheckFileResponse = exports.CheckFileResponse = function () {
 
 	return CheckFileResponse;
 }();
+
+// CheckURLRequest is the request object for CheckURL calls.
+
 
 var CheckURLRequest = exports.CheckURLRequest = function () {
 	function CheckURLRequest() {
@@ -1577,6 +1592,9 @@ var CheckURLRequest = exports.CheckURLRequest = function () {
 	return CheckURLRequest;
 }();
 
+// CheckURLResponse is the response object for CheckURL calls.
+
+
 var CheckURLResponse = exports.CheckURLResponse = function () {
 	function CheckURLResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -1609,6 +1627,9 @@ var CheckURLResponse = exports.CheckURLResponse = function () {
 
 	return CheckURLResponse;
 }();
+
+// Face describes a face.
+
 
 var Face = exports.Face = function () {
 	function Face() {
@@ -1672,6 +1693,9 @@ var Face = exports.Face = function () {
 
 	return Face;
 }();
+
+// FaceprintCompareRequest is the request object for FaceprintCompare calls.
+
 
 var FaceprintCompareRequest = exports.FaceprintCompareRequest = function () {
 	function FaceprintCompareRequest() {
@@ -1740,6 +1764,9 @@ var FaceprintCompareRequest = exports.FaceprintCompareRequest = function () {
 	return FaceprintCompareRequest;
 }();
 
+// FaceprintCompareResponse is the response object for FaceprintCompare calls.
+
+
 var FaceprintCompareResponse = exports.FaceprintCompareResponse = function () {
 	function FaceprintCompareResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -1772,6 +1799,9 @@ var FaceprintCompareResponse = exports.FaceprintCompareResponse = function () {
 
 	return FaceprintCompareResponse;
 }();
+
+// FaceprintFace is a face.
+
 
 var FaceprintFace = exports.FaceprintFace = function () {
 	function FaceprintFace() {
@@ -1828,6 +1858,9 @@ var FaceprintFace = exports.FaceprintFace = function () {
 	return FaceprintFace;
 }();
 
+// GetStateRequest is the request object for GetState calls.
+
+
 var GetStateRequest = exports.GetStateRequest = function () {
 	function GetStateRequest() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -1878,6 +1911,9 @@ var GetStateRequest = exports.GetStateRequest = function () {
 
 	return GetStateRequest;
 }();
+
+// PutStateRequest is the request object for PutState calls.
+
 
 var PutStateRequest = exports.PutStateRequest = function () {
 	function PutStateRequest() {
@@ -1940,6 +1976,9 @@ var PutStateRequest = exports.PutStateRequest = function () {
 	return PutStateRequest;
 }();
 
+// PutStateResponse is the response object for PutState calls.
+
+
 var PutStateResponse = exports.PutStateResponse = function () {
 	function PutStateResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -1967,6 +2006,9 @@ var PutStateResponse = exports.PutStateResponse = function () {
 
 	return PutStateResponse;
 }();
+
+// Rect is a bounding box describing a rectangle of an image.
+
 
 var Rect = exports.Rect = function () {
 	function Rect() {
@@ -2022,6 +2064,9 @@ var Rect = exports.Rect = function () {
 
 	return Rect;
 }();
+
+// RemoveIDRequest is the request object for RemoveID calls.
+
 
 var RemoveIDRequest = exports.RemoveIDRequest = function () {
 	function RemoveIDRequest() {
@@ -2082,6 +2127,9 @@ var RemoveIDRequest = exports.RemoveIDRequest = function () {
 	return RemoveIDRequest;
 }();
 
+// RemoveIDResponse is the response object for RemoveID calls.
+
+
 var RemoveIDResponse = exports.RemoveIDResponse = function () {
 	function RemoveIDResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -2109,6 +2157,9 @@ var RemoveIDResponse = exports.RemoveIDResponse = function () {
 
 	return RemoveIDResponse;
 }();
+
+// RenameIDRequest is the request object for RenameID calls.
+
 
 var RenameIDRequest = exports.RenameIDRequest = function () {
 	function RenameIDRequest() {
@@ -2177,6 +2228,9 @@ var RenameIDRequest = exports.RenameIDRequest = function () {
 	return RenameIDRequest;
 }();
 
+// RenameIDResponse is the response object for RenameID calls.
+
+
 var RenameIDResponse = exports.RenameIDResponse = function () {
 	function RenameIDResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -2204,6 +2258,9 @@ var RenameIDResponse = exports.RenameIDResponse = function () {
 
 	return RenameIDResponse;
 }();
+
+// RenameRequest is the request object for Rename calls.
+
 
 var RenameRequest = exports.RenameRequest = function () {
 	function RenameRequest() {
@@ -2272,6 +2329,9 @@ var RenameRequest = exports.RenameRequest = function () {
 	return RenameRequest;
 }();
 
+// RenameResponse is the response object for Rename calls.
+
+
 var RenameResponse = exports.RenameResponse = function () {
 	function RenameResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -2299,6 +2359,9 @@ var RenameResponse = exports.RenameResponse = function () {
 
 	return RenameResponse;
 }();
+
+// SimilarFace is a detected face with similar matching faces.
+
 
 var SimilarFace = exports.SimilarFace = function () {
 	function SimilarFace() {
@@ -2338,6 +2401,9 @@ var SimilarFace = exports.SimilarFace = function () {
 
 	return SimilarFace;
 }();
+
+// SimilarFileRequest is the request object for SimilarFile calls.
+
 
 var SimilarFileRequest = exports.SimilarFileRequest = function () {
 	function SimilarFileRequest() {
@@ -2400,6 +2466,9 @@ var SimilarFileRequest = exports.SimilarFileRequest = function () {
 	return SimilarFileRequest;
 }();
 
+// SimilarFileResponse is the response object for SimilarFile calls.
+
+
 var SimilarFileResponse = exports.SimilarFileResponse = function () {
 	function SimilarFileResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -2432,6 +2501,9 @@ var SimilarFileResponse = exports.SimilarFileResponse = function () {
 
 	return SimilarFileResponse;
 }();
+
+// SimilarIDRequest is the request object for SimilarID calls.
+
 
 var SimilarIDRequest = exports.SimilarIDRequest = function () {
 	function SimilarIDRequest() {
@@ -2492,6 +2564,9 @@ var SimilarIDRequest = exports.SimilarIDRequest = function () {
 	return SimilarIDRequest;
 }();
 
+// SimilarIDResponse is the response object for SimilarID calls.
+
+
 var SimilarIDResponse = exports.SimilarIDResponse = function () {
 	function SimilarIDResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -2524,6 +2599,9 @@ var SimilarIDResponse = exports.SimilarIDResponse = function () {
 
 	return SimilarIDResponse;
 }();
+
+// SimilarURLRequest is the request object for SimilarURL calls.
+
 
 var SimilarURLRequest = exports.SimilarURLRequest = function () {
 	function SimilarURLRequest() {
@@ -2584,6 +2662,9 @@ var SimilarURLRequest = exports.SimilarURLRequest = function () {
 	return SimilarURLRequest;
 }();
 
+// SimilarURLResponse is the response object for SimilarURL calls.
+
+
 var SimilarURLResponse = exports.SimilarURLResponse = function () {
 	function SimilarURLResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -2616,6 +2697,9 @@ var SimilarURLResponse = exports.SimilarURLResponse = function () {
 
 	return SimilarURLResponse;
 }();
+
+// TeachFaceprintRequest is the request object for TeachFaceprint calls.
+
 
 var TeachFaceprintRequest = exports.TeachFaceprintRequest = function () {
 	function TeachFaceprintRequest() {
@@ -2692,6 +2776,9 @@ var TeachFaceprintRequest = exports.TeachFaceprintRequest = function () {
 	return TeachFaceprintRequest;
 }();
 
+// TeachFaceprintResponse is the response object for TeachFaceprint calls.
+
+
 var TeachFaceprintResponse = exports.TeachFaceprintResponse = function () {
 	function TeachFaceprintResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -2719,6 +2806,9 @@ var TeachFaceprintResponse = exports.TeachFaceprintResponse = function () {
 
 	return TeachFaceprintResponse;
 }();
+
+// TeachFileRequest is the request object for TeachFile calls.
+
 
 var TeachFileRequest = exports.TeachFileRequest = function () {
 	function TeachFileRequest() {
@@ -2797,6 +2887,9 @@ var TeachFileRequest = exports.TeachFileRequest = function () {
 	return TeachFileRequest;
 }();
 
+// TeachFileResponse is the response object for TeachFile calls.
+
+
 var TeachFileResponse = exports.TeachFileResponse = function () {
 	function TeachFileResponse() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -2824,6 +2917,9 @@ var TeachFileResponse = exports.TeachFileResponse = function () {
 
 	return TeachFileResponse;
 }();
+
+// TeachURLRequest is the request object for TeachURL calls.
+
 
 var TeachURLRequest = exports.TeachURLRequest = function () {
 	function TeachURLRequest() {
@@ -2899,6 +2995,9 @@ var TeachURLRequest = exports.TeachURLRequest = function () {
 
 	return TeachURLRequest;
 }();
+
+// TeachURLResponse is the response object for TeachURL calls.
+
 
 var TeachURLResponse = exports.TeachURLResponse = function () {
 	function TeachURLResponse() {

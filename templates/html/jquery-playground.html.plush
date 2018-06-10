@@ -48,6 +48,14 @@
 		.content {
 			padding: 20px;
 		}
+		.page {
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+		.page.highlight {
+			border-left: 5px black solid;
+			padding-left: 10px;
+		}
 	</style>
 </head>
 <body>
@@ -61,24 +69,30 @@
 	<div class='page-body container'>
 		<div class='row'>
 			<div class='col col-3'>
-			<ul class='nav flex-column'>
-				<%= for (service) in def.Services { %>
-					<%= for (method) in service.Methods { %>
-						<li class='nav-item'>
-							<a class='nav-link' href='#<%= def.PackageName %>_<%= service.Name %>_<%= method.Name %>'>
-								<span class='text-muted'><%= service.Name %>.</span><%= method.Name %><span class='text-muted'>()</span>
-							</a>
-						</li>
-					<% } %>	
-				<% } %>
-				<%= for (structure) in unique_structures(def) { %>
+				<ul class='nav flex-column'>
+					<%= for (service) in def.Services { %>
 					<li class='nav-item'>
-						<a class='nav-link' href='#<%= def.PackageName %>_<%= structure.Name %>'>
-							<span class='text-muted'></span><%= structure.Name %>
+						<a class='nav-link' href='#<%= def.PackageName %>_<%= service.Name %>'>
+							<%= service.Name %>
 						</a>
 					</li>
-				<% } %>
+					<% } %>
+					<li class='nav-item'>
+						<a class='nav-link' href='#objects'>
+							Objects
+						</a>
+					</li>
 				</ul>
+				<hr>
+				<footer class='footer'>
+					<div class='container'>
+						<p class='text-muted float-right'>
+							<small>
+								Powered by <a href='https://github.com/machinebox/remoto'>Remoto by Machine Box</a>
+							</small>
+						</p>
+					</div>
+				</footer>
 			</div>
 			<div class='col'>
 				<div class='content sticky-top'>
@@ -93,41 +107,45 @@
 							</p>
 						</div>
 					</section>
-					<h2 class='display-4'>Methods</h2>
-					<p>
-						This section describes the methods in the <%= def.PackageName %> service.
-					</p>
 					<%= for (service) in def.Services { %>
-						<%= for (method) in service.Methods { %>
-							<section class='page' id='<%= def.PackageName %>_<%= service.Name %>_<%= method.Name %>'>
-								<h3 class='title'>
-									<%= method.Name %>
-								</h3>
-								<p>
-									<%= method.Comment %>
-								</p>
-								<p>
-									<code><%= def.PackageName %>.<%= service.Name %>.<%= method.Name %>(<%= contentOf("structure-link", {"name":method.RequestType.Name}) %>) <%= contentOf("structure-link", {"name":method.ResponseType.Name}) %></code>
-								</p>
-								<p>
-									Request (<%= contentOf("structure-link", {"name":method.RequestType.Name}) %>)
-								</p>
-								<%= contentOf("describe-fields", {"fields": method.RequestType.Fields}) %>
-								<p>
-									Response (<%= contentOf("structure-link", {"name":method.ResponseType.Name}) %>)
-								</p>
-								<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
-									<ul>
-										<li>File</li>
-									</ul>
-								<% } else { %>
-									<%= contentOf("describe-fields", {"fields": method.ResponseType.Fields}) %>
-								<% } %>
-							</section>
-							<hr>
-						<% } %>
+						<section id='<%= def.PackageName %>_<%= service.Name %>'>
+							<h2 class='display-4'>
+								<%= service.Name %>
+							</h2>
+							<p class='lead'>
+								<%= service.Comment %>
+							</p>
+							<%= for (method) in service.Methods { %>
+								<section class='page' id='<%= def.PackageName %>_<%= service.Name %>_<%= method.Name %>'>
+									<h4 class='title'>
+										<%= method.Name %>
+									</h4>
+									<p>
+										<%= method.Comment %>
+									</p>
+									<p>
+										<code><%= def.PackageName %>.<%= service.Name %>.<%= method.Name %>(<%= contentOf("structure-link", {"name":method.RequestType.Name}) %>) <%= contentOf("structure-link", {"name":method.ResponseType.Name}) %></code>
+									</p>
+									<p>
+										Request (<%= contentOf("structure-link", {"name":method.RequestType.Name}) %>)
+									</p>
+									<%= contentOf("describe-fields", {"fields": method.RequestType.Fields}) %>
+									<p>
+										Response (<%= contentOf("structure-link", {"name":method.ResponseType.Name}) %>)
+									</p>
+									<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
+										<ul>
+											<li>File</li>
+										</ul>
+									<% } else { %>
+										<%= contentOf("describe-fields", {"fields": method.ResponseType.Fields}) %>
+									<% } %>
+								</section>
+								<hr>
+							<% } %>
+						</section>
 					<% } %>
-					<h2 class='display-4'>Objects</h2>
+					<h2 id='objects' class='display-4'>Objects</h2>
 					<p>
 						This section describes all the objects that are used in the <%= def.PackageName %> service.
 					</p>
@@ -141,15 +159,6 @@
 			</div>
 		</div>
 	</div>
-	<footer class='footer'>
-		<div class='container'>
-			<p class='text-muted float-right'>
-				<small>
-					Powered by <a href='https://github.com/machinebox/remoto'>Remoto by Machine Box</a>
-				</small>
-			</p>
-		</div>
-	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	
@@ -169,9 +178,12 @@
 			function checkJumpTo(){
 				var val = $(this).val().replace('.','_')
 				var hit = null
-				try{ hit = $('#<%= def.PackageName %>_' + val) }catch{}
+				var hash = '<%= def.PackageName %>_' + val
+				try{ hit = $('#'+hash) }catch{}
 				if (hit && hit.length > 0) {
+					$(this).val('')
 					hit.niceScroll()
+					location.hash = hash
 				}
 			}
 			$('#jump-to').keyup(debounce(checkJumpTo, 500)).keyup(function(e){
@@ -179,18 +191,20 @@
 					checkJumpTo.apply(this, arguments)
 				}
 			})
+			$('#jump-to').change(function(){
+				checkJumpTo.apply(this, arguments)
+			})
 
+			// niceScroll gently scrolls the page to this element.
+			$.fn.niceScroll = function(){
+				$('html,body').animate({ 
+					scrollTop: $(this).offset().top 
+				}, 'slow')
+			}
 
-	/// TODO: remove the router, not used.
-			//
-			// Very simple routing
-			// The location.hash will show the .page element with that id.
-			//
 			function changeRoute(route) {
-				//$('.page').hide()
-				//$(route).show()
-				//$('.nav-link').removeClass('active')
-				//$('a[href="'+route+'"]').addClass('active')
+				$('.page.highlight').removeClass('highlight')
+				$(route).addClass('highlight').niceScroll()
 			}
 			$(window).bind('hashchange', function() {
 				changeRoute(location.hash)
@@ -202,38 +216,10 @@
 				changeRoute('#home')
 			}
 
-			// gentle scrolling
-			// Anything with an href that points to something on the page
-			// is gently scrolled to, rather than jumping.
-			// Everything else is left alone.
-			$("a[href]").click(function(e) { 
-				var dest = $(this).attr('href')
-				dest = dest.substr(dest.indexOf('#')+1)
-				var destEl = $('[id="'+dest+'"]')
-				if (destEl.length > 0) {
-					e.preventDefault()
-					$('html,body').animate({ 
-						scrollTop: destEl.offset().top 
-					}, 'slow')
-					if (history.pushState) {
-						history.pushState(null, null, '#'+dest);
-					} else {
-						location.hash = '#'+dest;
-					}
-				}
-			})
-			
 			// $.scrollToTop scrolls the page to the top.
 			$.scrollToTop = function(){
 				$('html,body').animate({ 
 					scrollTop: 0
-				}, 'slow')
-			}
-
-			// niceScroll gently scrolls the page to this element.
-			$.fn.niceScroll = function(){
-				$('html,body').animate({ 
-					scrollTop: $(this).offset().top 
 				}, 'slow')
 			}
 
@@ -261,6 +247,7 @@
 	</script>
 	<datalist id='symbols'>
 		<%= for (service) in def.Services { %>
+		<option value='<%= service.Name %>'>
 		<%= for (method) in service.Methods { %>
 		<option value='<%= service.Name %>.<%= method.Name %>'>
 		<% } %>

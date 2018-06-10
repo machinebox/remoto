@@ -1038,6 +1038,7 @@ export class SuggestionboxClient {
 }
 
 
+// CheckFaceprintRequest is the request object for CheckFaceprint calls.
 export class CheckFaceprintRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1067,6 +1068,7 @@ export class CheckFaceprintRequest {
 	set faceprints(faceprints) { this._data.faceprints = faceprints }
 }
 
+// CheckFaceprintResponse is the response object for CheckFaceprint calls.
 export class CheckFaceprintResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1084,6 +1086,7 @@ export class CheckFaceprintResponse {
 	
 }
 
+// CheckFileRequest is the request object for CheckFile calls.
 export class CheckFileRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1113,6 +1116,7 @@ export class CheckFileRequest {
 	
 }
 
+// CheckFileResponse is the response object for CheckFile calls.
 export class CheckFileResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1130,6 +1134,7 @@ export class CheckFileResponse {
 	
 }
 
+// CheckURLRequest is the request object for CheckURL calls.
 export class CheckURLRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1159,6 +1164,7 @@ export class CheckURLRequest {
 	
 }
 
+// CheckURLResponse is the response object for CheckURL calls.
 export class CheckURLResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1176,6 +1182,7 @@ export class CheckURLResponse {
 	
 }
 
+// Face describes a face.
 export class Face {
 	constructor(data = {}) {
 		this._data = data
@@ -1202,6 +1209,7 @@ export class Face {
 	set rect(rect) { this._data.rect = rect }
 }
 
+// FaceprintCompareRequest is the request object for FaceprintCompare calls.
 export class FaceprintCompareRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1234,6 +1242,7 @@ export class FaceprintCompareRequest {
 	set faceprints(faceprints) { this._data.faceprints = faceprints }
 }
 
+// FaceprintCompareResponse is the response object for FaceprintCompare calls.
 export class FaceprintCompareResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1251,6 +1260,7 @@ export class FaceprintCompareResponse {
 	
 }
 
+// FaceprintFace is a face.
 export class FaceprintFace {
 	constructor(data = {}) {
 		this._data = data
@@ -1274,6 +1284,7 @@ export class FaceprintFace {
 	set name(name) { this._data.name = name }
 }
 
+// GetStateRequest is the request object for GetState calls.
 export class GetStateRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1300,6 +1311,7 @@ export class GetStateRequest {
 
 }
 
+// PutStateRequest is the request object for PutState calls.
 export class PutStateRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1329,6 +1341,7 @@ export class PutStateRequest {
 	
 }
 
+// PutStateResponse is the response object for PutState calls.
 export class PutStateResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1343,6 +1356,7 @@ export class PutStateResponse {
 	
 }
 
+// Rect is a bounding box describing a rectangle of an image.
 export class Rect {
 	constructor(data = {}) {
 		this._data = data
@@ -1366,6 +1380,7 @@ export class Rect {
 	set height(height) { this._data.height = height }
 }
 
+// RemoveIDRequest is the request object for RemoveID calls.
 export class RemoveIDRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1395,6 +1410,7 @@ export class RemoveIDRequest {
 	set iD(id) { this._data.id = id }
 }
 
+// RemoveIDResponse is the response object for RemoveID calls.
 export class RemoveIDResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1409,6 +1425,7 @@ export class RemoveIDResponse {
 	
 }
 
+// RenameIDRequest is the request object for RenameID calls.
 export class RenameIDRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1441,6 +1458,7 @@ export class RenameIDRequest {
 	set name(name) { this._data.name = name }
 }
 
+// RenameIDResponse is the response object for RenameID calls.
 export class RenameIDResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1455,6 +1473,7 @@ export class RenameIDResponse {
 	
 }
 
+// RenameRequest is the request object for Rename calls.
 export class RenameRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1487,6 +1506,7 @@ export class RenameRequest {
 	set to(to) { this._data.to = to }
 }
 
+// RenameResponse is the response object for Rename calls.
 export class RenameResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1501,6 +1521,7 @@ export class RenameResponse {
 	
 }
 
+// SimilarFace is a detected face with similar matching faces.
 export class SimilarFace {
 	constructor(data = {}) {
 		this._data = data
@@ -1518,6 +1539,7 @@ export class SimilarFace {
 	set similarFaces(similar_faces) { this._data.similar_faces = similar_faces }
 }
 
+// SimilarFileRequest is the request object for SimilarFile calls.
 export class SimilarFileRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1547,6 +1569,7 @@ export class SimilarFileRequest {
 	
 }
 
+// SimilarFileResponse is the response object for SimilarFile calls.
 export class SimilarFileResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1564,6 +1587,7 @@ export class SimilarFileResponse {
 	
 }
 
+// SimilarIDRequest is the request object for SimilarID calls.
 export class SimilarIDRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1593,6 +1617,7 @@ export class SimilarIDRequest {
 	set iD(id) { this._data.id = id }
 }
 
+// SimilarIDResponse is the response object for SimilarID calls.
 export class SimilarIDResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1610,6 +1635,7 @@ export class SimilarIDResponse {
 	
 }
 
+// SimilarURLRequest is the request object for SimilarURL calls.
 export class SimilarURLRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1639,6 +1665,7 @@ export class SimilarURLRequest {
 	set uRL(url) { this._data.url = url }
 }
 
+// SimilarURLResponse is the response object for SimilarURL calls.
 export class SimilarURLResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1656,6 +1683,7 @@ export class SimilarURLResponse {
 	
 }
 
+// TeachFaceprintRequest is the request object for TeachFaceprint calls.
 export class TeachFaceprintRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1691,6 +1719,7 @@ export class TeachFaceprintRequest {
 	set faceprint(faceprint) { this._data.faceprint = faceprint }
 }
 
+// TeachFaceprintResponse is the response object for TeachFaceprint calls.
 export class TeachFaceprintResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1705,6 +1734,7 @@ export class TeachFaceprintResponse {
 	
 }
 
+// TeachFileRequest is the request object for TeachFile calls.
 export class TeachFileRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1740,6 +1770,7 @@ export class TeachFileRequest {
 	
 }
 
+// TeachFileResponse is the response object for TeachFile calls.
 export class TeachFileResponse {
 	constructor(data = {}) {
 		this._data = data
@@ -1754,6 +1785,7 @@ export class TeachFileResponse {
 	
 }
 
+// TeachURLRequest is the request object for TeachURL calls.
 export class TeachURLRequest {
 	constructor(data = {}) {
 		this._data = data
@@ -1789,6 +1821,7 @@ export class TeachURLRequest {
 	set uRL(url) { this._data.url = url }
 }
 
+// TeachURLResponse is the response object for TeachURL calls.
 export class TeachURLResponse {
 	constructor(data = {}) {
 		this._data = data

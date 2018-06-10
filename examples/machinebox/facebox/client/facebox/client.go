@@ -1996,16 +1996,19 @@ func (c *SuggestionboxClient) TeachURLMulti(ctx context.Context, requests []*Tea
 	return resps, nil
 }
 
+// CheckFaceprintRequest is the request object for CheckFaceprint calls.
 type CheckFaceprintRequest struct {
 	Faceprints []string `json:"faceprints"`
 }
 
+// CheckFaceprintResponse is the response object for CheckFaceprint calls.
 type CheckFaceprintResponse struct {
 	Faces []FaceprintFace `json:"faces"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// CheckFileRequest is the request object for CheckFile calls.
 type CheckFileRequest struct {
 	File remototypes.File `json:"file"`
 }
@@ -2026,12 +2029,14 @@ func (s *CheckFileRequest) SetFile(ctx context.Context, filename string, r io.Re
 	return ctx
 }
 
+// CheckFileResponse is the response object for CheckFile calls.
 type CheckFileResponse struct {
 	Faces []Face `json:"faces"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// CheckURLRequest is the request object for CheckURL calls.
 type CheckURLRequest struct {
 	File remototypes.File `json:"file"`
 }
@@ -2052,12 +2057,14 @@ func (s *CheckURLRequest) SetFile(ctx context.Context, filename string, r io.Rea
 	return ctx
 }
 
+// CheckURLResponse is the response object for CheckURL calls.
 type CheckURLResponse struct {
 	Faces []Face `json:"faces"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// Face describes a face.
 type Face struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
@@ -2066,17 +2073,20 @@ type Face struct {
 	Rect      Rect   `json:"rect"`
 }
 
+// FaceprintCompareRequest is the request object for FaceprintCompare calls.
 type FaceprintCompareRequest struct {
 	Target     string   `json:"target"`
 	Faceprints []string `json:"faceprints"`
 }
 
+// FaceprintCompareResponse is the response object for FaceprintCompare calls.
 type FaceprintCompareResponse struct {
 	Confidences []float64 `json:"confidences"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// FaceprintFace is a face.
 type FaceprintFace struct {
 	Matched    bool    `json:"matched"`
 	Confidence float64 `json:"confidence"`
@@ -2084,9 +2094,11 @@ type FaceprintFace struct {
 	Name       string  `json:"name"`
 }
 
+// GetStateRequest is the request object for GetState calls.
 type GetStateRequest struct {
 }
 
+// PutStateRequest is the request object for PutState calls.
 type PutStateRequest struct {
 	StateFile remototypes.File `json:"state_file"`
 }
@@ -2107,12 +2119,14 @@ func (s *PutStateRequest) SetStateFile(ctx context.Context, filename string, r i
 	return ctx
 }
 
+// PutStateResponse is the response object for PutState calls.
 type PutStateResponse struct {
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// Rect is a bounding box describing a rectangle of an image.
 type Rect struct {
 	Top    int `json:"top"`
 	Left   int `json:"left"`
@@ -2120,43 +2134,51 @@ type Rect struct {
 	Height int `json:"height"`
 }
 
+// RemoveIDRequest is the request object for RemoveID calls.
 type RemoveIDRequest struct {
 	ID string `json:"id"`
 }
 
+// RemoveIDResponse is the response object for RemoveID calls.
 type RemoveIDResponse struct {
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// RenameIDRequest is the request object for RenameID calls.
 type RenameIDRequest struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
+// RenameIDResponse is the response object for RenameID calls.
 type RenameIDResponse struct {
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// RenameRequest is the request object for Rename calls.
 type RenameRequest struct {
 	From string `json:"from"`
 	To   string `json:"to"`
 }
 
+// RenameResponse is the response object for Rename calls.
 type RenameResponse struct {
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// SimilarFace is a detected face with similar matching faces.
 type SimilarFace struct {
 	Rect         Rect   `json:"rect"`
 	SimilarFaces []Face `json:"similar_faces"`
 }
 
+// SimilarFileRequest is the request object for SimilarFile calls.
 type SimilarFileRequest struct {
 	File remototypes.File `json:"file"`
 }
@@ -2177,44 +2199,52 @@ func (s *SimilarFileRequest) SetFile(ctx context.Context, filename string, r io.
 	return ctx
 }
 
+// SimilarFileResponse is the response object for SimilarFile calls.
 type SimilarFileResponse struct {
 	Faces []SimilarFace `json:"faces"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// SimilarIDRequest is the request object for SimilarID calls.
 type SimilarIDRequest struct {
 	ID string `json:"id"`
 }
 
+// SimilarIDResponse is the response object for SimilarID calls.
 type SimilarIDResponse struct {
 	Faces []SimilarFace `json:"faces"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// SimilarURLRequest is the request object for SimilarURL calls.
 type SimilarURLRequest struct {
 	URL string `json:"url"`
 }
 
+// SimilarURLResponse is the response object for SimilarURL calls.
 type SimilarURLResponse struct {
 	Faces []SimilarFace `json:"faces"`
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// TeachFaceprintRequest is the request object for TeachFaceprint calls.
 type TeachFaceprintRequest struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
 	Faceprint string `json:"faceprint"`
 }
 
+// TeachFaceprintResponse is the response object for TeachFaceprint calls.
 type TeachFaceprintResponse struct {
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// TeachFileRequest is the request object for TeachFile calls.
 type TeachFileRequest struct {
 	ID   string           `json:"id"`
 	Name string           `json:"name"`
@@ -2237,18 +2267,21 @@ func (s *TeachFileRequest) SetFile(ctx context.Context, filename string, r io.Re
 	return ctx
 }
 
+// TeachFileResponse is the response object for TeachFile calls.
 type TeachFileResponse struct {
 
 	// Error is an error message if one occurred.
 	Error string `json:"error"`
 }
 
+// TeachURLRequest is the request object for TeachURL calls.
 type TeachURLRequest struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 	URL  string `json:"url"`
 }
 
+// TeachURLResponse is the response object for TeachURL calls.
 type TeachURLResponse struct {
 
 	// Error is an error message if one occurred.

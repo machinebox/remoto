@@ -13,6 +13,14 @@
 		.content {
 			padding: 20px;
 		}
+		.page {
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+		.page.highlight {
+			border-left: 5px black solid;
+			padding-left: 10px;
+		}
 	</style>
 </head>
 <body>
@@ -26,392 +34,36 @@
 	<div class='page-body container'>
 		<div class='row'>
 			<div class='col col-3'>
-			<ul class='nav flex-column'>
-				
+				<ul class='nav flex-column'>
 					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_CheckFaceprint'>
-								<span class='text-muted'>Facebox.</span>CheckFaceprint<span class='text-muted'>()</span>
-							</a>
-						</li>
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_Facebox'>
+							Facebox
+						</a>
+					</li>
 					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_CheckFile'>
-								<span class='text-muted'>Facebox.</span>CheckFile<span class='text-muted'>()</span>
-							</a>
-						</li>
+					<li class='nav-item'>
+						<a class='nav-link' href='#facebox_Suggestionbox'>
+							Suggestionbox
+						</a>
+					</li>
 					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_CheckURL'>
-								<span class='text-muted'>Facebox.</span>CheckURL<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_FaceprintCompare'>
-								<span class='text-muted'>Facebox.</span>FaceprintCompare<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_GetState'>
-								<span class='text-muted'>Facebox.</span>GetState<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_PutState'>
-								<span class='text-muted'>Facebox.</span>PutState<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_RemoveID'>
-								<span class='text-muted'>Facebox.</span>RemoveID<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_Rename'>
-								<span class='text-muted'>Facebox.</span>Rename<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_RenameID'>
-								<span class='text-muted'>Facebox.</span>RenameID<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_SimilarFile'>
-								<span class='text-muted'>Facebox.</span>SimilarFile<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_SimilarID'>
-								<span class='text-muted'>Facebox.</span>SimilarID<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_SimilarURL'>
-								<span class='text-muted'>Facebox.</span>SimilarURL<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_TeachFaceprint'>
-								<span class='text-muted'>Facebox.</span>TeachFaceprint<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_TeachFile'>
-								<span class='text-muted'>Facebox.</span>TeachFile<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Facebox_TeachURL'>
-								<span class='text-muted'>Facebox.</span>TeachURL<span class='text-muted'>()</span>
-							</a>
-						</li>
-						
-				
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_CheckFaceprint'>
-								<span class='text-muted'>Suggestionbox.</span>CheckFaceprint<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_CheckFile'>
-								<span class='text-muted'>Suggestionbox.</span>CheckFile<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_CheckURL'>
-								<span class='text-muted'>Suggestionbox.</span>CheckURL<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_FaceprintCompare'>
-								<span class='text-muted'>Suggestionbox.</span>FaceprintCompare<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_GetState'>
-								<span class='text-muted'>Suggestionbox.</span>GetState<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_PutState'>
-								<span class='text-muted'>Suggestionbox.</span>PutState<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_RemoveID'>
-								<span class='text-muted'>Suggestionbox.</span>RemoveID<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_Rename'>
-								<span class='text-muted'>Suggestionbox.</span>Rename<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_RenameID'>
-								<span class='text-muted'>Suggestionbox.</span>RenameID<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_SimilarFile'>
-								<span class='text-muted'>Suggestionbox.</span>SimilarFile<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_SimilarID'>
-								<span class='text-muted'>Suggestionbox.</span>SimilarID<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_SimilarURL'>
-								<span class='text-muted'>Suggestionbox.</span>SimilarURL<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_TeachFaceprint'>
-								<span class='text-muted'>Suggestionbox.</span>TeachFaceprint<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_TeachFile'>
-								<span class='text-muted'>Suggestionbox.</span>TeachFile<span class='text-muted'>()</span>
-							</a>
-						</li>
-					
-						<li class='nav-item'>
-							<a class='nav-link' href='#facebox_Suggestionbox_TeachURL'>
-								<span class='text-muted'>Suggestionbox.</span>TeachURL<span class='text-muted'>()</span>
-							</a>
-						</li>
-						
-				
-				
 					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_CheckFaceprintRequest'>
-							<span class='text-muted'></span>CheckFaceprintRequest
+						<a class='nav-link' href='#objects'>
+							Objects
 						</a>
 					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_CheckFaceprintResponse'>
-							<span class='text-muted'></span>CheckFaceprintResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_CheckFileRequest'>
-							<span class='text-muted'></span>CheckFileRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_CheckFileResponse'>
-							<span class='text-muted'></span>CheckFileResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_CheckURLRequest'>
-							<span class='text-muted'></span>CheckURLRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_CheckURLResponse'>
-							<span class='text-muted'></span>CheckURLResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_Face'>
-							<span class='text-muted'></span>Face
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_FaceprintCompareRequest'>
-							<span class='text-muted'></span>FaceprintCompareRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_FaceprintCompareResponse'>
-							<span class='text-muted'></span>FaceprintCompareResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_FaceprintFace'>
-							<span class='text-muted'></span>FaceprintFace
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_GetStateRequest'>
-							<span class='text-muted'></span>GetStateRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_PutStateRequest'>
-							<span class='text-muted'></span>PutStateRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_PutStateResponse'>
-							<span class='text-muted'></span>PutStateResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_Rect'>
-							<span class='text-muted'></span>Rect
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_RemoveIDRequest'>
-							<span class='text-muted'></span>RemoveIDRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_RemoveIDResponse'>
-							<span class='text-muted'></span>RemoveIDResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_RenameIDRequest'>
-							<span class='text-muted'></span>RenameIDRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_RenameIDResponse'>
-							<span class='text-muted'></span>RenameIDResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_RenameRequest'>
-							<span class='text-muted'></span>RenameRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_RenameResponse'>
-							<span class='text-muted'></span>RenameResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_SimilarFace'>
-							<span class='text-muted'></span>SimilarFace
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_SimilarFileRequest'>
-							<span class='text-muted'></span>SimilarFileRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_SimilarFileResponse'>
-							<span class='text-muted'></span>SimilarFileResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_SimilarIDRequest'>
-							<span class='text-muted'></span>SimilarIDRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_SimilarIDResponse'>
-							<span class='text-muted'></span>SimilarIDResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_SimilarURLRequest'>
-							<span class='text-muted'></span>SimilarURLRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_SimilarURLResponse'>
-							<span class='text-muted'></span>SimilarURLResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_TeachFaceprintRequest'>
-							<span class='text-muted'></span>TeachFaceprintRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_TeachFaceprintResponse'>
-							<span class='text-muted'></span>TeachFaceprintResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_TeachFileRequest'>
-							<span class='text-muted'></span>TeachFileRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_TeachFileResponse'>
-							<span class='text-muted'></span>TeachFileResponse
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_TeachURLRequest'>
-							<span class='text-muted'></span>TeachURLRequest
-						</a>
-					</li>
-				
-					<li class='nav-item'>
-						<a class='nav-link' href='#facebox_TeachURLResponse'>
-							<span class='text-muted'></span>TeachURLResponse
-						</a>
-					</li>
-				
 				</ul>
+				<hr>
+				<footer class='footer'>
+					<div class='container'>
+						<p class='text-muted float-right'>
+							<small>
+								Powered by <a href='https://github.com/machinebox/remoto'>Remoto by Machine Box</a>
+							</small>
+						</p>
+					</div>
+				</footer>
 			</div>
 			<div class='col'>
 				<div class='content sticky-top'>
@@ -426,26 +78,29 @@
 							</p>
 						</div>
 					</section>
-					<h2 class='display-4'>Methods</h2>
-					<p>
-						This section describes the methods in the facebox service.
-					</p>
 					
-						
-							<section class='page' id='facebox_Facebox_CheckFaceprint'>
-								<h3 class='title'>
-									CheckFaceprint
-								</h3>
-								<p>
+						<section id='facebox_Facebox'>
+							<h2 class='display-4'>
+								Facebox
+							</h2>
+							<p class='lead'>
+								Facebox provides facial detection and recognition in images.
+							</p>
+							
+								<section class='page' id='facebox_Facebox_CheckFaceprint'>
+									<h4 class='title'>
+										CheckFaceprint
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.CheckFaceprint(<a href='#facebox_CheckFaceprintRequest'>CheckFaceprintRequest</a>) <a href='#facebox_CheckFaceprintResponse'>CheckFaceprintResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_CheckFaceprintRequest'>CheckFaceprintRequest</a>)
+									</p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.CheckFaceprint(<a href='#facebox_CheckFaceprintRequest'>CheckFaceprintRequest</a>) <a href='#facebox_CheckFaceprintResponse'>CheckFaceprintResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_CheckFaceprintRequest'>CheckFaceprintRequest</a>)
-								</p>
-								
 	<ul>
 	
 		<li>
@@ -465,11 +120,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_CheckFaceprintResponse'>CheckFaceprintResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_CheckFaceprintResponse'>CheckFaceprintResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -502,24 +157,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_CheckFile'>
-								<h3 class='title'>
-									CheckFile
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.CheckFile(<a href='#facebox_CheckFileRequest'>CheckFileRequest</a>) <a href='#facebox_CheckFileResponse'>CheckFileResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_CheckFileRequest'>CheckFileRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_CheckFile'>
+									<h4 class='title'>
+										CheckFile
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.CheckFile(<a href='#facebox_CheckFileRequest'>CheckFileRequest</a>) <a href='#facebox_CheckFileResponse'>CheckFileResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_CheckFileRequest'>CheckFileRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -534,11 +189,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_CheckFileResponse'>CheckFileResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_CheckFileResponse'>CheckFileResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -571,24 +226,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_CheckURL'>
-								<h3 class='title'>
-									CheckURL
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.CheckURL(<a href='#facebox_CheckURLRequest'>CheckURLRequest</a>) <a href='#facebox_CheckURLResponse'>CheckURLResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_CheckURLRequest'>CheckURLRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_CheckURL'>
+									<h4 class='title'>
+										CheckURL
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.CheckURL(<a href='#facebox_CheckURLRequest'>CheckURLRequest</a>) <a href='#facebox_CheckURLResponse'>CheckURLResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_CheckURLRequest'>CheckURLRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -603,11 +258,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_CheckURLResponse'>CheckURLResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_CheckURLResponse'>CheckURLResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -640,24 +295,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_FaceprintCompare'>
-								<h3 class='title'>
-									FaceprintCompare
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.FaceprintCompare(<a href='#facebox_FaceprintCompareRequest'>FaceprintCompareRequest</a>) <a href='#facebox_FaceprintCompareResponse'>FaceprintCompareResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_FaceprintCompareRequest'>FaceprintCompareRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_FaceprintCompare'>
+									<h4 class='title'>
+										FaceprintCompare
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.FaceprintCompare(<a href='#facebox_FaceprintCompareRequest'>FaceprintCompareRequest</a>) <a href='#facebox_FaceprintCompareResponse'>FaceprintCompareResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_FaceprintCompareRequest'>FaceprintCompareRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -690,11 +345,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_FaceprintCompareResponse'>FaceprintCompareResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_FaceprintCompareResponse'>FaceprintCompareResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -727,53 +382,53 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_GetState'>
-								<h3 class='title'>
-									GetState
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.GetState(<a href='#facebox_GetStateRequest'>GetStateRequest</a>) <a href='#facebox_remototypes.FileResponse'>remototypes.FileResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_GetStateRequest'>GetStateRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_GetState'>
+									<h4 class='title'>
+										GetState
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.GetState(<a href='#facebox_GetStateRequest'>GetStateRequest</a>) <a href='#facebox_remototypes.FileResponse'>remototypes.FileResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_GetStateRequest'>GetStateRequest</a>)
+									</p>
+									
 	<ul>
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_remototypes.FileResponse'>remototypes.FileResponse</a>)
-								</p>
-								
-									<ul>
-										<li>File</li>
-									</ul>
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_PutState'>
-								<h3 class='title'>
-									PutState
-								</h3>
-								<p>
+									<p>
+										Response (<a href='#facebox_remototypes.FileResponse'>remototypes.FileResponse</a>)
+									</p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.PutState(<a href='#facebox_PutStateRequest'>PutStateRequest</a>) <a href='#facebox_PutStateResponse'>PutStateResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_PutStateRequest'>PutStateRequest</a>)
-								</p>
-								
+										<ul>
+											<li>File</li>
+										</ul>
+									
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_PutState'>
+									<h4 class='title'>
+										PutState
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.PutState(<a href='#facebox_PutStateRequest'>PutStateRequest</a>) <a href='#facebox_PutStateResponse'>PutStateResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_PutStateRequest'>PutStateRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -788,11 +443,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_PutStateResponse'>PutStateResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_PutStateResponse'>PutStateResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -810,24 +465,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_RemoveID'>
-								<h3 class='title'>
-									RemoveID
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.RemoveID(<a href='#facebox_RemoveIDRequest'>RemoveIDRequest</a>) <a href='#facebox_RemoveIDResponse'>RemoveIDResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_RemoveIDRequest'>RemoveIDRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_RemoveID'>
+									<h4 class='title'>
+										RemoveID
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.RemoveID(<a href='#facebox_RemoveIDRequest'>RemoveIDRequest</a>) <a href='#facebox_RemoveIDResponse'>RemoveIDResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_RemoveIDRequest'>RemoveIDRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -845,11 +500,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_RemoveIDResponse'>RemoveIDResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_RemoveIDResponse'>RemoveIDResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -867,24 +522,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_Rename'>
-								<h3 class='title'>
-									Rename
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.Rename(<a href='#facebox_RenameRequest'>RenameRequest</a>) <a href='#facebox_RenameResponse'>RenameResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_RenameRequest'>RenameRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_Rename'>
+									<h4 class='title'>
+										Rename
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.Rename(<a href='#facebox_RenameRequest'>RenameRequest</a>) <a href='#facebox_RenameResponse'>RenameResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_RenameRequest'>RenameRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -915,11 +570,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_RenameResponse'>RenameResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_RenameResponse'>RenameResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -937,24 +592,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_RenameID'>
-								<h3 class='title'>
-									RenameID
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.RenameID(<a href='#facebox_RenameIDRequest'>RenameIDRequest</a>) <a href='#facebox_RenameIDResponse'>RenameIDResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_RenameIDRequest'>RenameIDRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_RenameID'>
+									<h4 class='title'>
+										RenameID
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.RenameID(<a href='#facebox_RenameIDRequest'>RenameIDRequest</a>) <a href='#facebox_RenameIDResponse'>RenameIDResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_RenameIDRequest'>RenameIDRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -985,11 +640,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_RenameIDResponse'>RenameIDResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_RenameIDResponse'>RenameIDResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1007,24 +662,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_SimilarFile'>
-								<h3 class='title'>
-									SimilarFile
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.SimilarFile(<a href='#facebox_SimilarFileRequest'>SimilarFileRequest</a>) <a href='#facebox_SimilarFileResponse'>SimilarFileResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_SimilarFileRequest'>SimilarFileRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_SimilarFile'>
+									<h4 class='title'>
+										SimilarFile
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.SimilarFile(<a href='#facebox_SimilarFileRequest'>SimilarFileRequest</a>) <a href='#facebox_SimilarFileResponse'>SimilarFileResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_SimilarFileRequest'>SimilarFileRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1039,11 +694,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_SimilarFileResponse'>SimilarFileResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_SimilarFileResponse'>SimilarFileResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1076,24 +731,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_SimilarID'>
-								<h3 class='title'>
-									SimilarID
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.SimilarID(<a href='#facebox_SimilarIDRequest'>SimilarIDRequest</a>) <a href='#facebox_SimilarIDResponse'>SimilarIDResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_SimilarIDRequest'>SimilarIDRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_SimilarID'>
+									<h4 class='title'>
+										SimilarID
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.SimilarID(<a href='#facebox_SimilarIDRequest'>SimilarIDRequest</a>) <a href='#facebox_SimilarIDResponse'>SimilarIDResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_SimilarIDRequest'>SimilarIDRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1111,11 +766,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_SimilarIDResponse'>SimilarIDResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_SimilarIDResponse'>SimilarIDResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1148,24 +803,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_SimilarURL'>
-								<h3 class='title'>
-									SimilarURL
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.SimilarURL(<a href='#facebox_SimilarURLRequest'>SimilarURLRequest</a>) <a href='#facebox_SimilarURLResponse'>SimilarURLResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_SimilarURLRequest'>SimilarURLRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_SimilarURL'>
+									<h4 class='title'>
+										SimilarURL
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.SimilarURL(<a href='#facebox_SimilarURLRequest'>SimilarURLRequest</a>) <a href='#facebox_SimilarURLResponse'>SimilarURLResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_SimilarURLRequest'>SimilarURLRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1183,11 +838,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_SimilarURLResponse'>SimilarURLResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_SimilarURLResponse'>SimilarURLResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1220,24 +875,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_TeachFaceprint'>
-								<h3 class='title'>
-									TeachFaceprint
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.TeachFaceprint(<a href='#facebox_TeachFaceprintRequest'>TeachFaceprintRequest</a>) <a href='#facebox_TeachFaceprintResponse'>TeachFaceprintResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_TeachFaceprintRequest'>TeachFaceprintRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_TeachFaceprint'>
+									<h4 class='title'>
+										TeachFaceprint
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.TeachFaceprint(<a href='#facebox_TeachFaceprintRequest'>TeachFaceprintRequest</a>) <a href='#facebox_TeachFaceprintResponse'>TeachFaceprintResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_TeachFaceprintRequest'>TeachFaceprintRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1281,11 +936,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_TeachFaceprintResponse'>TeachFaceprintResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_TeachFaceprintResponse'>TeachFaceprintResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1303,24 +958,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_TeachFile'>
-								<h3 class='title'>
-									TeachFile
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.TeachFile(<a href='#facebox_TeachFileRequest'>TeachFileRequest</a>) <a href='#facebox_TeachFileResponse'>TeachFileResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_TeachFileRequest'>TeachFileRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_TeachFile'>
+									<h4 class='title'>
+										TeachFile
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.TeachFile(<a href='#facebox_TeachFileRequest'>TeachFileRequest</a>) <a href='#facebox_TeachFileResponse'>TeachFileResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_TeachFileRequest'>TeachFileRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1361,11 +1016,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_TeachFileResponse'>TeachFileResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_TeachFileResponse'>TeachFileResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1383,24 +1038,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Facebox_TeachURL'>
-								<h3 class='title'>
-									TeachURL
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Facebox.TeachURL(<a href='#facebox_TeachURLRequest'>TeachURLRequest</a>) <a href='#facebox_TeachURLResponse'>TeachURLResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_TeachURLRequest'>TeachURLRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Facebox_TeachURL'>
+									<h4 class='title'>
+										TeachURL
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Facebox.TeachURL(<a href='#facebox_TeachURLRequest'>TeachURLRequest</a>) <a href='#facebox_TeachURLResponse'>TeachURLResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_TeachURLRequest'>TeachURLRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1444,11 +1099,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_TeachURLResponse'>TeachURLResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_TeachURLResponse'>TeachURLResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1466,26 +1121,34 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-					
-						
-							<section class='page' id='facebox_Suggestionbox_CheckFaceprint'>
-								<h3 class='title'>
-									CheckFaceprint
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.CheckFaceprint(<a href='#facebox_CheckFaceprintRequest'>CheckFaceprintRequest</a>) <a href='#facebox_CheckFaceprintResponse'>CheckFaceprintResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_CheckFaceprintRequest'>CheckFaceprintRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+						</section>
+					
+						<section id='facebox_Suggestionbox'>
+							<h2 class='display-4'>
+								Suggestionbox
+							</h2>
+							<p class='lead'>
+								Suggestionbox provides facial detection and recognition in images.
+							</p>
+							
+								<section class='page' id='facebox_Suggestionbox_CheckFaceprint'>
+									<h4 class='title'>
+										CheckFaceprint
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.CheckFaceprint(<a href='#facebox_CheckFaceprintRequest'>CheckFaceprintRequest</a>) <a href='#facebox_CheckFaceprintResponse'>CheckFaceprintResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_CheckFaceprintRequest'>CheckFaceprintRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1505,11 +1168,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_CheckFaceprintResponse'>CheckFaceprintResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_CheckFaceprintResponse'>CheckFaceprintResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1542,24 +1205,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_CheckFile'>
-								<h3 class='title'>
-									CheckFile
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.CheckFile(<a href='#facebox_CheckFileRequest'>CheckFileRequest</a>) <a href='#facebox_CheckFileResponse'>CheckFileResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_CheckFileRequest'>CheckFileRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_CheckFile'>
+									<h4 class='title'>
+										CheckFile
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.CheckFile(<a href='#facebox_CheckFileRequest'>CheckFileRequest</a>) <a href='#facebox_CheckFileResponse'>CheckFileResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_CheckFileRequest'>CheckFileRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1574,11 +1237,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_CheckFileResponse'>CheckFileResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_CheckFileResponse'>CheckFileResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1611,24 +1274,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_CheckURL'>
-								<h3 class='title'>
-									CheckURL
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.CheckURL(<a href='#facebox_CheckURLRequest'>CheckURLRequest</a>) <a href='#facebox_CheckURLResponse'>CheckURLResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_CheckURLRequest'>CheckURLRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_CheckURL'>
+									<h4 class='title'>
+										CheckURL
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.CheckURL(<a href='#facebox_CheckURLRequest'>CheckURLRequest</a>) <a href='#facebox_CheckURLResponse'>CheckURLResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_CheckURLRequest'>CheckURLRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1643,11 +1306,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_CheckURLResponse'>CheckURLResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_CheckURLResponse'>CheckURLResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1680,24 +1343,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_FaceprintCompare'>
-								<h3 class='title'>
-									FaceprintCompare
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.FaceprintCompare(<a href='#facebox_FaceprintCompareRequest'>FaceprintCompareRequest</a>) <a href='#facebox_FaceprintCompareResponse'>FaceprintCompareResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_FaceprintCompareRequest'>FaceprintCompareRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_FaceprintCompare'>
+									<h4 class='title'>
+										FaceprintCompare
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.FaceprintCompare(<a href='#facebox_FaceprintCompareRequest'>FaceprintCompareRequest</a>) <a href='#facebox_FaceprintCompareResponse'>FaceprintCompareResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_FaceprintCompareRequest'>FaceprintCompareRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1730,11 +1393,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_FaceprintCompareResponse'>FaceprintCompareResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_FaceprintCompareResponse'>FaceprintCompareResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1767,53 +1430,53 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_GetState'>
-								<h3 class='title'>
-									GetState
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.GetState(<a href='#facebox_GetStateRequest'>GetStateRequest</a>) <a href='#facebox_remototypes.FileResponse'>remototypes.FileResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_GetStateRequest'>GetStateRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_GetState'>
+									<h4 class='title'>
+										GetState
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.GetState(<a href='#facebox_GetStateRequest'>GetStateRequest</a>) <a href='#facebox_remototypes.FileResponse'>remototypes.FileResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_GetStateRequest'>GetStateRequest</a>)
+									</p>
+									
 	<ul>
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_remototypes.FileResponse'>remototypes.FileResponse</a>)
-								</p>
-								
-									<ul>
-										<li>File</li>
-									</ul>
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_PutState'>
-								<h3 class='title'>
-									PutState
-								</h3>
-								<p>
+									<p>
+										Response (<a href='#facebox_remototypes.FileResponse'>remototypes.FileResponse</a>)
+									</p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.PutState(<a href='#facebox_PutStateRequest'>PutStateRequest</a>) <a href='#facebox_PutStateResponse'>PutStateResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_PutStateRequest'>PutStateRequest</a>)
-								</p>
-								
+										<ul>
+											<li>File</li>
+										</ul>
+									
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_PutState'>
+									<h4 class='title'>
+										PutState
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.PutState(<a href='#facebox_PutStateRequest'>PutStateRequest</a>) <a href='#facebox_PutStateResponse'>PutStateResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_PutStateRequest'>PutStateRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1828,11 +1491,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_PutStateResponse'>PutStateResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_PutStateResponse'>PutStateResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1850,24 +1513,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_RemoveID'>
-								<h3 class='title'>
-									RemoveID
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.RemoveID(<a href='#facebox_RemoveIDRequest'>RemoveIDRequest</a>) <a href='#facebox_RemoveIDResponse'>RemoveIDResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_RemoveIDRequest'>RemoveIDRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_RemoveID'>
+									<h4 class='title'>
+										RemoveID
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.RemoveID(<a href='#facebox_RemoveIDRequest'>RemoveIDRequest</a>) <a href='#facebox_RemoveIDResponse'>RemoveIDResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_RemoveIDRequest'>RemoveIDRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1885,11 +1548,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_RemoveIDResponse'>RemoveIDResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_RemoveIDResponse'>RemoveIDResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1907,24 +1570,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_Rename'>
-								<h3 class='title'>
-									Rename
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.Rename(<a href='#facebox_RenameRequest'>RenameRequest</a>) <a href='#facebox_RenameResponse'>RenameResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_RenameRequest'>RenameRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_Rename'>
+									<h4 class='title'>
+										Rename
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.Rename(<a href='#facebox_RenameRequest'>RenameRequest</a>) <a href='#facebox_RenameResponse'>RenameResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_RenameRequest'>RenameRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -1955,11 +1618,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_RenameResponse'>RenameResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_RenameResponse'>RenameResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -1977,24 +1640,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_RenameID'>
-								<h3 class='title'>
-									RenameID
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.RenameID(<a href='#facebox_RenameIDRequest'>RenameIDRequest</a>) <a href='#facebox_RenameIDResponse'>RenameIDResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_RenameIDRequest'>RenameIDRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_RenameID'>
+									<h4 class='title'>
+										RenameID
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.RenameID(<a href='#facebox_RenameIDRequest'>RenameIDRequest</a>) <a href='#facebox_RenameIDResponse'>RenameIDResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_RenameIDRequest'>RenameIDRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -2025,11 +1688,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_RenameIDResponse'>RenameIDResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_RenameIDResponse'>RenameIDResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -2047,24 +1710,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_SimilarFile'>
-								<h3 class='title'>
-									SimilarFile
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.SimilarFile(<a href='#facebox_SimilarFileRequest'>SimilarFileRequest</a>) <a href='#facebox_SimilarFileResponse'>SimilarFileResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_SimilarFileRequest'>SimilarFileRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_SimilarFile'>
+									<h4 class='title'>
+										SimilarFile
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.SimilarFile(<a href='#facebox_SimilarFileRequest'>SimilarFileRequest</a>) <a href='#facebox_SimilarFileResponse'>SimilarFileResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_SimilarFileRequest'>SimilarFileRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -2079,11 +1742,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_SimilarFileResponse'>SimilarFileResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_SimilarFileResponse'>SimilarFileResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -2116,24 +1779,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_SimilarID'>
-								<h3 class='title'>
-									SimilarID
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.SimilarID(<a href='#facebox_SimilarIDRequest'>SimilarIDRequest</a>) <a href='#facebox_SimilarIDResponse'>SimilarIDResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_SimilarIDRequest'>SimilarIDRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_SimilarID'>
+									<h4 class='title'>
+										SimilarID
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.SimilarID(<a href='#facebox_SimilarIDRequest'>SimilarIDRequest</a>) <a href='#facebox_SimilarIDResponse'>SimilarIDResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_SimilarIDRequest'>SimilarIDRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -2151,11 +1814,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_SimilarIDResponse'>SimilarIDResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_SimilarIDResponse'>SimilarIDResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -2188,24 +1851,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_SimilarURL'>
-								<h3 class='title'>
-									SimilarURL
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.SimilarURL(<a href='#facebox_SimilarURLRequest'>SimilarURLRequest</a>) <a href='#facebox_SimilarURLResponse'>SimilarURLResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_SimilarURLRequest'>SimilarURLRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_SimilarURL'>
+									<h4 class='title'>
+										SimilarURL
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.SimilarURL(<a href='#facebox_SimilarURLRequest'>SimilarURLRequest</a>) <a href='#facebox_SimilarURLResponse'>SimilarURLResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_SimilarURLRequest'>SimilarURLRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -2223,11 +1886,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_SimilarURLResponse'>SimilarURLResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_SimilarURLResponse'>SimilarURLResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -2260,24 +1923,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_TeachFaceprint'>
-								<h3 class='title'>
-									TeachFaceprint
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.TeachFaceprint(<a href='#facebox_TeachFaceprintRequest'>TeachFaceprintRequest</a>) <a href='#facebox_TeachFaceprintResponse'>TeachFaceprintResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_TeachFaceprintRequest'>TeachFaceprintRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_TeachFaceprint'>
+									<h4 class='title'>
+										TeachFaceprint
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.TeachFaceprint(<a href='#facebox_TeachFaceprintRequest'>TeachFaceprintRequest</a>) <a href='#facebox_TeachFaceprintResponse'>TeachFaceprintResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_TeachFaceprintRequest'>TeachFaceprintRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -2321,11 +1984,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_TeachFaceprintResponse'>TeachFaceprintResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_TeachFaceprintResponse'>TeachFaceprintResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -2343,24 +2006,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_TeachFile'>
-								<h3 class='title'>
-									TeachFile
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.TeachFile(<a href='#facebox_TeachFileRequest'>TeachFileRequest</a>) <a href='#facebox_TeachFileResponse'>TeachFileResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_TeachFileRequest'>TeachFileRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_TeachFile'>
+									<h4 class='title'>
+										TeachFile
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.TeachFile(<a href='#facebox_TeachFileRequest'>TeachFileRequest</a>) <a href='#facebox_TeachFileResponse'>TeachFileResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_TeachFileRequest'>TeachFileRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -2401,11 +2064,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_TeachFileResponse'>TeachFileResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_TeachFileResponse'>TeachFileResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -2423,24 +2086,24 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
-							<section class='page' id='facebox_Suggestionbox_TeachURL'>
-								<h3 class='title'>
-									TeachURL
-								</h3>
-								<p>
 									
-								</p>
-								<p>
-									<code>facebox.Suggestionbox.TeachURL(<a href='#facebox_TeachURLRequest'>TeachURLRequest</a>) <a href='#facebox_TeachURLResponse'>TeachURLResponse</a></code>
-								</p>
-								<p>
-									Request (<a href='#facebox_TeachURLRequest'>TeachURLRequest</a>)
-								</p>
-								
+								</section>
+								<hr>
+							
+								<section class='page' id='facebox_Suggestionbox_TeachURL'>
+									<h4 class='title'>
+										TeachURL
+									</h4>
+									<p>
+										
+									</p>
+									<p>
+										<code>facebox.Suggestionbox.TeachURL(<a href='#facebox_TeachURLRequest'>TeachURLRequest</a>) <a href='#facebox_TeachURLResponse'>TeachURLResponse</a></code>
+									</p>
+									<p>
+										Request (<a href='#facebox_TeachURLRequest'>TeachURLRequest</a>)
+									</p>
+									
 	<ul>
 	
 		<li>
@@ -2484,11 +2147,11 @@
 	
 	</ul>
 
-								<p>
-									Response (<a href='#facebox_TeachURLResponse'>TeachURLResponse</a>)
-								</p>
-								
+									<p>
+										Response (<a href='#facebox_TeachURLResponse'>TeachURLResponse</a>)
+									</p>
 									
+										
 	<ul>
 	
 		<li>
@@ -2506,12 +2169,13 @@
 	
 	</ul>
 
-								
-							</section>
-							<hr>
-						
+									
+								</section>
+								<hr>
+							
+						</section>
 					
-					<h2 class='display-4'>Objects</h2>
+					<h2 id='objects' class='display-4'>Objects</h2>
 					<p>
 						This section describes all the objects that are used in the facebox service.
 					</p>
@@ -2519,7 +2183,7 @@
 						<section class='page' id='facebox_CheckFaceprintRequest'>
 							
 	<h4>CheckFaceprintRequest</h4>
-	<p></p>
+	<p>CheckFaceprintRequest is the request object for CheckFaceprint calls.</p>
 	
 		
 	<ul>
@@ -2549,7 +2213,7 @@
 						<section class='page' id='facebox_CheckFaceprintResponse'>
 							
 	<h4>CheckFaceprintResponse</h4>
-	<p></p>
+	<p>CheckFaceprintResponse is the response object for CheckFaceprint calls.</p>
 	
 		
 	<ul>
@@ -2592,7 +2256,7 @@
 						<section class='page' id='facebox_CheckFileRequest'>
 							
 	<h4>CheckFileRequest</h4>
-	<p></p>
+	<p>CheckFileRequest is the request object for CheckFile calls.</p>
 	
 		
 	<ul>
@@ -2617,7 +2281,7 @@
 						<section class='page' id='facebox_CheckFileResponse'>
 							
 	<h4>CheckFileResponse</h4>
-	<p></p>
+	<p>CheckFileResponse is the response object for CheckFile calls.</p>
 	
 		
 	<ul>
@@ -2660,7 +2324,7 @@
 						<section class='page' id='facebox_CheckURLRequest'>
 							
 	<h4>CheckURLRequest</h4>
-	<p></p>
+	<p>CheckURLRequest is the request object for CheckURL calls.</p>
 	
 		
 	<ul>
@@ -2685,7 +2349,7 @@
 						<section class='page' id='facebox_CheckURLResponse'>
 							
 	<h4>CheckURLResponse</h4>
-	<p></p>
+	<p>CheckURLResponse is the response object for CheckURL calls.</p>
 	
 		
 	<ul>
@@ -2728,7 +2392,7 @@
 						<section class='page' id='facebox_Face'>
 							
 	<h4>Face</h4>
-	<p></p>
+	<p>Face describes a face.</p>
 	
 		
 	<ul>
@@ -2808,7 +2472,7 @@
 						<section class='page' id='facebox_FaceprintCompareRequest'>
 							
 	<h4>FaceprintCompareRequest</h4>
-	<p></p>
+	<p>FaceprintCompareRequest is the request object for FaceprintCompare calls.</p>
 	
 		
 	<ul>
@@ -2851,7 +2515,7 @@
 						<section class='page' id='facebox_FaceprintCompareResponse'>
 							
 	<h4>FaceprintCompareResponse</h4>
-	<p></p>
+	<p>FaceprintCompareResponse is the response object for FaceprintCompare calls.</p>
 	
 		
 	<ul>
@@ -2894,7 +2558,7 @@
 						<section class='page' id='facebox_FaceprintFace'>
 							
 	<h4>FaceprintFace</h4>
-	<p></p>
+	<p>FaceprintFace is a face.</p>
 	
 		
 	<ul>
@@ -2961,7 +2625,7 @@
 						<section class='page' id='facebox_GetStateRequest'>
 							
 	<h4>GetStateRequest</h4>
-	<p></p>
+	<p>GetStateRequest is the request object for GetState calls.</p>
 	
 		<ul>
 			<li class='text-muted'>
@@ -2976,7 +2640,7 @@
 						<section class='page' id='facebox_PutStateRequest'>
 							
 	<h4>PutStateRequest</h4>
-	<p></p>
+	<p>PutStateRequest is the request object for PutState calls.</p>
 	
 		
 	<ul>
@@ -3001,7 +2665,7 @@
 						<section class='page' id='facebox_PutStateResponse'>
 							
 	<h4>PutStateResponse</h4>
-	<p></p>
+	<p>PutStateResponse is the response object for PutState calls.</p>
 	
 		
 	<ul>
@@ -3029,7 +2693,7 @@
 						<section class='page' id='facebox_Rect'>
 							
 	<h4>Rect</h4>
-	<p></p>
+	<p>Rect is a bounding box describing a rectangle of an image.</p>
 	
 		
 	<ul>
@@ -3096,7 +2760,7 @@
 						<section class='page' id='facebox_RemoveIDRequest'>
 							
 	<h4>RemoveIDRequest</h4>
-	<p></p>
+	<p>RemoveIDRequest is the request object for RemoveID calls.</p>
 	
 		
 	<ul>
@@ -3124,7 +2788,7 @@
 						<section class='page' id='facebox_RemoveIDResponse'>
 							
 	<h4>RemoveIDResponse</h4>
-	<p></p>
+	<p>RemoveIDResponse is the response object for RemoveID calls.</p>
 	
 		
 	<ul>
@@ -3152,7 +2816,7 @@
 						<section class='page' id='facebox_RenameIDRequest'>
 							
 	<h4>RenameIDRequest</h4>
-	<p></p>
+	<p>RenameIDRequest is the request object for RenameID calls.</p>
 	
 		
 	<ul>
@@ -3193,7 +2857,7 @@
 						<section class='page' id='facebox_RenameIDResponse'>
 							
 	<h4>RenameIDResponse</h4>
-	<p></p>
+	<p>RenameIDResponse is the response object for RenameID calls.</p>
 	
 		
 	<ul>
@@ -3221,7 +2885,7 @@
 						<section class='page' id='facebox_RenameRequest'>
 							
 	<h4>RenameRequest</h4>
-	<p></p>
+	<p>RenameRequest is the request object for Rename calls.</p>
 	
 		
 	<ul>
@@ -3262,7 +2926,7 @@
 						<section class='page' id='facebox_RenameResponse'>
 							
 	<h4>RenameResponse</h4>
-	<p></p>
+	<p>RenameResponse is the response object for Rename calls.</p>
 	
 		
 	<ul>
@@ -3290,7 +2954,7 @@
 						<section class='page' id='facebox_SimilarFace'>
 							
 	<h4>SimilarFace</h4>
-	<p></p>
+	<p>SimilarFace is a detected face with similar matching faces.</p>
 	
 		
 	<ul>
@@ -3333,7 +2997,7 @@
 						<section class='page' id='facebox_SimilarFileRequest'>
 							
 	<h4>SimilarFileRequest</h4>
-	<p></p>
+	<p>SimilarFileRequest is the request object for SimilarFile calls.</p>
 	
 		
 	<ul>
@@ -3358,7 +3022,7 @@
 						<section class='page' id='facebox_SimilarFileResponse'>
 							
 	<h4>SimilarFileResponse</h4>
-	<p></p>
+	<p>SimilarFileResponse is the response object for SimilarFile calls.</p>
 	
 		
 	<ul>
@@ -3401,7 +3065,7 @@
 						<section class='page' id='facebox_SimilarIDRequest'>
 							
 	<h4>SimilarIDRequest</h4>
-	<p></p>
+	<p>SimilarIDRequest is the request object for SimilarID calls.</p>
 	
 		
 	<ul>
@@ -3429,7 +3093,7 @@
 						<section class='page' id='facebox_SimilarIDResponse'>
 							
 	<h4>SimilarIDResponse</h4>
-	<p></p>
+	<p>SimilarIDResponse is the response object for SimilarID calls.</p>
 	
 		
 	<ul>
@@ -3472,7 +3136,7 @@
 						<section class='page' id='facebox_SimilarURLRequest'>
 							
 	<h4>SimilarURLRequest</h4>
-	<p></p>
+	<p>SimilarURLRequest is the request object for SimilarURL calls.</p>
 	
 		
 	<ul>
@@ -3500,7 +3164,7 @@
 						<section class='page' id='facebox_SimilarURLResponse'>
 							
 	<h4>SimilarURLResponse</h4>
-	<p></p>
+	<p>SimilarURLResponse is the response object for SimilarURL calls.</p>
 	
 		
 	<ul>
@@ -3543,7 +3207,7 @@
 						<section class='page' id='facebox_TeachFaceprintRequest'>
 							
 	<h4>TeachFaceprintRequest</h4>
-	<p></p>
+	<p>TeachFaceprintRequest is the request object for TeachFaceprint calls.</p>
 	
 		
 	<ul>
@@ -3597,7 +3261,7 @@
 						<section class='page' id='facebox_TeachFaceprintResponse'>
 							
 	<h4>TeachFaceprintResponse</h4>
-	<p></p>
+	<p>TeachFaceprintResponse is the response object for TeachFaceprint calls.</p>
 	
 		
 	<ul>
@@ -3625,7 +3289,7 @@
 						<section class='page' id='facebox_TeachFileRequest'>
 							
 	<h4>TeachFileRequest</h4>
-	<p></p>
+	<p>TeachFileRequest is the request object for TeachFile calls.</p>
 	
 		
 	<ul>
@@ -3676,7 +3340,7 @@
 						<section class='page' id='facebox_TeachFileResponse'>
 							
 	<h4>TeachFileResponse</h4>
-	<p></p>
+	<p>TeachFileResponse is the response object for TeachFile calls.</p>
 	
 		
 	<ul>
@@ -3704,7 +3368,7 @@
 						<section class='page' id='facebox_TeachURLRequest'>
 							
 	<h4>TeachURLRequest</h4>
-	<p></p>
+	<p>TeachURLRequest is the request object for TeachURL calls.</p>
 	
 		
 	<ul>
@@ -3758,7 +3422,7 @@
 						<section class='page' id='facebox_TeachURLResponse'>
 							
 	<h4>TeachURLResponse</h4>
-	<p></p>
+	<p>TeachURLResponse is the response object for TeachURL calls.</p>
 	
 		
 	<ul>
@@ -3787,15 +3451,6 @@
 			</div>
 		</div>
 	</div>
-	<footer class='footer'>
-		<div class='container'>
-			<p class='text-muted float-right'>
-				<small>
-					Powered by <a href='https://github.com/machinebox/remoto'>Remoto by Machine Box</a>
-				</small>
-			</p>
-		</div>
-	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	
@@ -3815,9 +3470,12 @@
 			function checkJumpTo(){
 				var val = $(this).val().replace('.','_')
 				var hit = null
-				try{ hit = $('#facebox_' + val) }catch{}
+				var hash = 'facebox_' + val
+				try{ hit = $('#'+hash) }catch{}
 				if (hit && hit.length > 0) {
+					$(this).val('')
 					hit.niceScroll()
+					location.hash = hash
 				}
 			}
 			$('#jump-to').keyup(debounce(checkJumpTo, 500)).keyup(function(e){
@@ -3825,18 +3483,20 @@
 					checkJumpTo.apply(this, arguments)
 				}
 			})
+			$('#jump-to').change(function(){
+				checkJumpTo.apply(this, arguments)
+			})
 
+			// niceScroll gently scrolls the page to this element.
+			$.fn.niceScroll = function(){
+				$('html,body').animate({ 
+					scrollTop: $(this).offset().top 
+				}, 'slow')
+			}
 
-	/// TODO: remove the router, not used.
-			//
-			// Very simple routing
-			// The location.hash will show the .page element with that id.
-			//
 			function changeRoute(route) {
-				//$('.page').hide()
-				//$(route).show()
-				//$('.nav-link').removeClass('active')
-				//$('a[href="'+route+'"]').addClass('active')
+				$('.page.highlight').removeClass('highlight')
+				$(route).addClass('highlight').niceScroll()
 			}
 			$(window).bind('hashchange', function() {
 				changeRoute(location.hash)
@@ -3848,38 +3508,10 @@
 				changeRoute('#home')
 			}
 
-			// gentle scrolling
-			// Anything with an href that points to something on the page
-			// is gently scrolled to, rather than jumping.
-			// Everything else is left alone.
-			$("a[href]").click(function(e) { 
-				var dest = $(this).attr('href')
-				dest = dest.substr(dest.indexOf('#')+1)
-				var destEl = $('[id="'+dest+'"]')
-				if (destEl.length > 0) {
-					e.preventDefault()
-					$('html,body').animate({ 
-						scrollTop: destEl.offset().top 
-					}, 'slow')
-					if (history.pushState) {
-						history.pushState(null, null, '#'+dest);
-					} else {
-						location.hash = '#'+dest;
-					}
-				}
-			})
-			
 			// $.scrollToTop scrolls the page to the top.
 			$.scrollToTop = function(){
 				$('html,body').animate({ 
 					scrollTop: 0
-				}, 'slow')
-			}
-
-			// niceScroll gently scrolls the page to this element.
-			$.fn.niceScroll = function(){
-				$('html,body').animate({ 
-					scrollTop: $(this).offset().top 
 				}, 'slow')
 			}
 
@@ -3907,6 +3539,7 @@
 	</script>
 	<datalist id='symbols'>
 		
+		<option value='Facebox'>
 		
 		<option value='Facebox.CheckFaceprint'>
 		
@@ -3939,6 +3572,7 @@
 		<option value='Facebox.TeachURL'>
 		
 		
+		<option value='Suggestionbox'>
 		
 		<option value='Suggestionbox.CheckFaceprint'>
 		
