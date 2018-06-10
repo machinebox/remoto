@@ -110,13 +110,19 @@
 									<code><%= def.PackageName %>.<%= service.Name %>.<%= method.Name %>(<%= contentOf("structure-link", {"name":method.RequestType.Name}) %>) <%= contentOf("structure-link", {"name":method.ResponseType.Name}) %></code>
 								</p>
 								<p>
-									Request:
+									Request (<%= contentOf("structure-link", {"name":method.RequestType.Name}) %>)
 								</p>
 								<%= contentOf("describe-fields", {"fields": method.RequestType.Fields}) %>
 								<p>
-									Response:
+									Response (<%= contentOf("structure-link", {"name":method.ResponseType.Name}) %>)
 								</p>
-								<%= contentOf("describe-fields", {"fields": method.ResponseType.Fields}) %>
+								<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
+									<ul>
+										<li>File</li>
+									</ul>
+								<% } else { %>
+									<%= contentOf("describe-fields", {"fields": method.ResponseType.Fields}) %>
+								<% } %>
 							</section>
 							<hr>
 						<% } %>

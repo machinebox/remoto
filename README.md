@@ -72,14 +72,7 @@ type GreetResponse struct {
 
 ## Special types
 
-### Files
-
-Remoto provides the following special types:
-
-* `remototypes.File` - A local or remote file
-
-You can also optionally return `*remototypes.FileResponse` from the service methods, which will describe a 
-single binary file that will be streamed to the client.
+* Learn more about specially handled types in [remototypes](remototypes).
 
 ## Tips
 
