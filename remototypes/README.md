@@ -21,6 +21,8 @@ that is valid in Go.
 
 ### Example code for files
 
+The following `cat.remoto.go` file demonstrates how to both upload and download files.
+
 ```go
 package cats
 
