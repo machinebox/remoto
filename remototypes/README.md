@@ -26,6 +26,10 @@ The following `cat.remoto.go` file demonstrates how to both upload and download 
 ```go
 package cats
 
+import (
+	"github.com/machinebox/remoto/remototypes"
+)
+
 // CatService provides cat picture services.
 type CatService interface {
 	// GetCatPic gets a random cat picture.
