@@ -31,7 +31,7 @@
 	</ul>
 <% } %>
 <% contentFor("structure-link") { %><a href='#<%= def.PackageName %>_<%= replace(name, ".", "_") %>'><%= name %></a><% } %>
-<% contentFor("heading") { %><<%= tag %> id='<%= id %>' class='anchor-container'><%= text %> <a href='#<%= id %>' class='anchor'>#</a></<%= tag %>><% } %>
+<% contentFor("heading") { %><<%= tag %> id='<%= id %>' class='anchor-container'><%= text %> <a data-movepage='false' href='#<%= id %>' class='anchor'>#</a></<%= tag %>><% } %>
 <html>
 <head>
 	<meta name='generator' content='https://machinebox.com/remoto'>
@@ -71,13 +71,17 @@
 			transition: color .16s linear;
 		}
 		.anchor:hover {
-			color: rgba(0,123,255,.5);
+			color: #f08da9;
 		}
 		footer {
 			background-color: #f8f9fa;
 			padding: 50px;
 			font-size: 0.8em;
 			text-align: right;
+		}
+		::selection {
+			color: #fff;
+			background: #f08da9;
 		}
 	</style>
 </head>
@@ -292,7 +296,12 @@
 
 			$('a[href^="#"]').click(function(e){
 				e.preventDefault()
-				changeRoute($(this).attr('href'))
+				var $this = $(this)
+				if ($this.attr('data-movepage') == 'false') {
+					history.pushState(null, null, $this.attr('href'))
+					return
+				}
+				changeRoute($this.attr('href'))
 			})
 
 			// from https://davidwalsh.name/javascript-debounce-function
