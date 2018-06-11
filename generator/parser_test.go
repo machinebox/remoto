@@ -45,49 +45,69 @@ func TestParser(t *testing.T) {
 	greetingFormat := def.Structure("GreetingFormat")
 	is.Equal(greetingFormat.Comment, "GreetingFormat describes the format of a greeting.")
 	is.Equal(greetingFormat.Fields[0].Name, "Format")
-	is.Equal(greetingFormat.Fields[0].Comment, "Format is a Go-style format string describing the greeting.\n`%s` will be replaced with the name of the person.")
+	is.Equal(greetingFormat.Fields[0].Comment, "Format is a Go-style format string describing the greeting.\n%s will be replaced with the name of the person.")
 	is.Equal(greetingFormat.Fields[0].Type.Name, "string")
 	is.Equal(greetingFormat.Fields[1].Name, "AllCaps")
 	is.Equal(greetingFormat.Fields[1].Comment, "AllCaps is whether to convert the greeting to all caps.")
 	is.Equal(greetingFormat.Fields[1].Type.Name, "bool")
 
-	// out := def.String()
-	// is.Equal(out, `package greeter
+	out := def.String()
+	is.Equal(out, `// Package greeter is a sweet API that greets people.
+package greeter
 
-	// 	// GreetFormatter provides formattable greeting services.
-	// 	type GreetFormatter interface {
-	// 		Greet(*GreetFormatRequest) *GreetResponse
-	// 	}
+// GreetFormatter provides formattable greeting services.
+type GreetFormatter interface {
+	// Greet generates a greeting.
+	Greet(*GreetFormatRequest) *GreetResponse
+}
 
-	// 	// GreetFormatRequest is the request for Greeter.GreetRequest.
-	// 	type GreetFormatRequest struct {
-	// 		Format string
-	// 		Names []string
-	// 	}
+// GreetingFormat describes the format of a greeting.
+type GreetingFormat struct {
+	// Format is a Go-style format string describing the greeting.
+	// %s will be replaced with the name of the person.
+	Format string
+	// AllCaps is whether to convert the greeting to all caps.
+	AllCaps bool
+}
 
-	// 	// GreetResponse is the response for Greeter.GreetRequest.
-	// 	type GreetResponse struct {
-	// 		Greeting string
-	// 		Error string
-	// 	}
+// GreetFormatRequest is the request for Greeter.GreetRequest.
+type GreetFormatRequest struct {
+	// Format is the GreetingFormat describing the format
+	// of the greetings.
+	Format GreetingFormat
+	// Names is one or more names of people to greet.
+	Names []string
+}
 
-	// 	// Greeter provides greeting services.
-	// 	type Greeter interface {
-	// 		Greet(*GreetRequest) *GreetResponse
-	// 	}
+// GreetResponse is the response for Greeter.GreetRequest.
+type GreetResponse struct {
+	// Greeting is the personalized greeting.
+	Greeting string
+	// Error is an error message if one occurred.
+	Error string
+}
 
-	// 	// GreetRequest is the request for Greeter.GreetRequest.
-	// 	type GreetRequest struct {
-	// 		Name string
-	// 	}
+// Greeter provides greeting services.
+type Greeter interface {
+	// Greet generates a greeting.
+	Greet(*GreetRequest) *GreetResponse
+}
 
-	// 	// GreetResponse is the response for Greeter.GreetRequest.
-	// 	type GreetResponse struct {
-	// 		Greeting string
-	// 		Error string
-	// 	}
+// GreetRequest is the request for Greeter.GreetRequest.
+type GreetRequest struct {
+	// Name is the name of the person to greet.
+	Name string
+}
 
-	// 	`)
+// GreetResponse is the response for Greeter.GreetRequest.
+type GreetResponse struct {
+	// Greeting is the personalized greeting.
+	Greeting string
+	// Error is an error message if one occurred.
+	Error string
+}
+
+`)
 }
 
 func TestErrors(t *testing.T) {

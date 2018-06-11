@@ -14,12 +14,19 @@ type Definition struct {
 	PackageComment string
 }
 
-func (d Definition) String() string {
-	s := "package " + d.PackageName + "\n\n"
+// Source gets the Remoto source for this definition.
+func (d Definition) Source() string {
+	var s string
+	s = printComments(d.PackageComment)
+	s += "package " + d.PackageName + "\n\n"
 	for i := range d.Services {
 		s += d.Services[i].String()
 	}
 	return s
+}
+
+func (d Definition) String() string {
+	return d.Source()
 }
 
 // Structure gets a Structure by name.
@@ -55,12 +62,10 @@ func (s *Service) EnsureStructure(structure Structure) {
 
 func (s Service) String() string {
 	var str string
-	if s.Comment != "" {
-		str += "// " + s.Comment + "\n"
-	}
+	str = printComments(s.Comment)
 	str += "type " + s.Name + " interface {\n"
 	for i := range s.Methods {
-		str += "\t" + s.Methods[i].String()
+		str += indent(1, s.Methods[i].String())
 	}
 	str += "}\n\n"
 	for i := range s.Structures {
@@ -79,10 +84,8 @@ type Method struct {
 
 func (m Method) String() string {
 	var str string
-	if m.Comment != "" {
-		str += "// " + m.Comment + "/n"
-	}
-	str += m.Name + "(*" + m.RequestStructure.Name + ") *" + m.ResponseStructure.Name + "\n"
+	str = printComments(m.Comment)
+	str += m.Name + "(*" + m.RequestStructure.Name + ") *" + m.ResponseStructure.Name
 	return str
 }
 
@@ -99,12 +102,10 @@ type Structure struct {
 
 func (s Structure) String() string {
 	var str string
-	if s.Comment != "" {
-		str += "// " + s.Comment + "\n"
-	}
+	str = printComments(s.Comment)
 	str += "type " + s.Name + " struct {\n"
 	for i := range s.Fields {
-		str += "\t" + s.Fields[i].String() + "\n"
+		str += indent(1, s.Fields[i].String())
 	}
 	str += "}\n\n"
 	return str
@@ -144,7 +145,7 @@ type Field struct {
 }
 
 func (f Field) String() string {
-	return fmt.Sprintf("%s %s", f.Name, f.Type.code())
+	return fmt.Sprintf("%s%s %s", printComments(f.Comment), f.Name, f.Type.code())
 }
 
 // IsExported gets whether the field is exported or not.
@@ -166,4 +167,24 @@ func (t Type) code() string {
 		str = "[]" + str
 	}
 	return str
+}
+
+func printComments(comment string) string {
+	if comment == "" {
+		return ""
+	}
+	var out string
+	for _, line := range strings.Split(comment, "\n") {
+		out += "// " + line + "\n"
+	}
+	return out
+}
+
+func indent(n int, s string) string {
+	var out string
+	prefix := strings.Repeat("\t", n)
+	for _, line := range strings.Split(s, "\n") {
+		out += prefix + line + "\n"
+	}
+	return out
 }
