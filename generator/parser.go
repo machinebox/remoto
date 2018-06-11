@@ -223,19 +223,21 @@ func parseField(fset *token.FileSet, docs *doc.Package, docstype *doc.Type, pkg 
 	if !v.Exported() {
 		return field, newErr(fset, v.Pos(), "field "+v.Name()+": must be exported")
 	}
-	ast.Inspect(docstype.Decl, func(n ast.Node) bool {
-		astfield, ok := n.(*ast.Field)
-		if !ok {
-			return true // skip
-		}
-		if len(astfield.Names) < 1 {
-			return true // skip
-		}
-		if astfield.Names[0].Name == v.Name() {
-			field.Comment = strings.TrimSpace(astfield.Doc.Text())
-		}
-		return true
-	})
+	if docstype != nil {
+		ast.Inspect(docstype.Decl, func(n ast.Node) bool {
+			astfield, ok := n.(*ast.Field)
+			if !ok {
+				return true // skip
+			}
+			if len(astfield.Names) < 1 {
+				return true // skip
+			}
+			if astfield.Names[0].Name == v.Name() {
+				field.Comment = strings.TrimSpace(astfield.Doc.Text())
+			}
+			return true
+		})
+	}
 	typ, err := parseType(def, v.Type())
 	if err != nil {
 		return field, newErr(fset, v.Pos(), err.Error())
