@@ -31,7 +31,7 @@
 	</ul>
 <% } %>
 <% contentFor("structure-link") { %><a href='#<%= def.PackageName %>_<%= replace(name, ".", "_") %>'><%= name %></a><% } %>
-<% contentFor("heading") { %><<%= tag %> class='heading anchor-container'><%= text %> <span class='text-muted'><%= type %></span> <a href='#<%= id %>' class='anchor'>#</a><a href='#top' class='float-right anchor'>↑</a></<%= tag %>><% } %>
+<% contentFor("heading") { %><<%= tag %> class='heading anchor-container'><%= text %> <span class='text-muted'><%= type %></span> <a href='#<%= id %>' class='anchor'>#</a><a href='#top' class='float-right anchor'>top</a></<%= tag %>><% } %>
 <!doctype html>
 <html>
 <head>
