@@ -20,12 +20,13 @@
 			padding-bottom: 10px;
 		}
 		.highlightable {
-			border-left: 5px transparent solid;
+			border-left: 10px white solid;
 			transition: border-left 1s;
+			padding-left: 10px;
+			margin-left: -10px;
 		}
 		.highlightable.highlight {
-			border-left: 5px #ddd solid;
-			padding-left: 10px;
+			border-left: 10px #f8f9fa solid;
 			transition: border-left 1s;
 		}
 		.anchor-container .anchor {
@@ -42,6 +43,12 @@
 		}
 		.anchor:hover {
 			color: rgba(0,123,255,.5);
+		}
+		footer {
+			background-color: #f8f9fa;
+			padding: 50px;
+			font-size: 0.8em;
+			text-align: right;
 		}
 	</style>
 </head>
@@ -2599,6 +2606,12 @@
 			</div>
 		</div>
 	</div>
+	<footer class='footer'>
+		<div class='text-muted container'>
+			Powered by 
+			<a href='https://machinebox.io/remoto'>Remoto by Machine Box</a>
+		</div>
+	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	
@@ -2619,6 +2632,8 @@
 				var val = $(this).val().replace('.','_')
 				var hit = null
 				var hash = 'facebox_' + val
+				hash = hash.replace('.','_')
+				console.info(hash)
 				try{ hit = $('#'+hash) }catch{}
 				if (hit && hit.length > 0) {
 					$(this).val('')
@@ -2674,7 +2689,6 @@
 
 			$('a[href^="#"]').click(function(e){
 				e.preventDefault()
-				console.info('--- click')
 				changeRoute($(this).attr('href'))
 			})
 
@@ -2702,38 +2716,105 @@
 	</script>
 	<datalist id='symbols'>
 		
-		<option value='Facebox'>
-		
-		<option value='Facebox.CheckFaceprint'>
-		
-		<option value='Facebox.CheckFile'>
-		
-		<option value='Facebox.CheckURL'>
-		
-		<option value='Facebox.FaceprintCompare'>
-		
-		<option value='Facebox.GetState'>
-		
-		<option value='Facebox.PutState'>
-		
-		<option value='Facebox.RemoveID'>
-		
-		<option value='Facebox.Rename'>
-		
-		<option value='Facebox.RenameID'>
-		
-		<option value='Facebox.SimilarFile'>
-		
-		<option value='Facebox.SimilarID'>
-		
-		<option value='Facebox.SimilarURL'>
-		
-		<option value='Facebox.TeachFaceprint'>
-		
-		<option value='Facebox.TeachFile'>
-		
-		<option value='Facebox.TeachURL'>
-		
+			<option value='Facebox'>
+			
+				<option value='Facebox.CheckFaceprint'>
+			
+				<option value='Facebox.CheckFile'>
+			
+				<option value='Facebox.CheckURL'>
+			
+				<option value='Facebox.FaceprintCompare'>
+			
+				<option value='Facebox.GetState'>
+			
+				<option value='Facebox.PutState'>
+			
+				<option value='Facebox.RemoveID'>
+			
+				<option value='Facebox.Rename'>
+			
+				<option value='Facebox.RenameID'>
+			
+				<option value='Facebox.SimilarFile'>
+			
+				<option value='Facebox.SimilarID'>
+			
+				<option value='Facebox.SimilarURL'>
+			
+				<option value='Facebox.TeachFaceprint'>
+			
+				<option value='Facebox.TeachFile'>
+			
+				<option value='Facebox.TeachURL'>
+			
+			
+				<option value='CheckFaceprintRequest'>
+			
+				<option value='CheckFaceprintResponse'>
+			
+				<option value='CheckFileRequest'>
+			
+				<option value='CheckFileResponse'>
+			
+				<option value='CheckURLRequest'>
+			
+				<option value='CheckURLResponse'>
+			
+				<option value='Face'>
+			
+				<option value='FaceprintCompareRequest'>
+			
+				<option value='FaceprintCompareResponse'>
+			
+				<option value='FaceprintFace'>
+			
+				<option value='GetStateRequest'>
+			
+				<option value='PutStateRequest'>
+			
+				<option value='PutStateResponse'>
+			
+				<option value='Rect'>
+			
+				<option value='RemoveIDRequest'>
+			
+				<option value='RemoveIDResponse'>
+			
+				<option value='RenameIDRequest'>
+			
+				<option value='RenameIDResponse'>
+			
+				<option value='RenameRequest'>
+			
+				<option value='RenameResponse'>
+			
+				<option value='SimilarFace'>
+			
+				<option value='SimilarFileRequest'>
+			
+				<option value='SimilarFileResponse'>
+			
+				<option value='SimilarIDRequest'>
+			
+				<option value='SimilarIDResponse'>
+			
+				<option value='SimilarURLRequest'>
+			
+				<option value='SimilarURLResponse'>
+			
+				<option value='TeachFaceprintRequest'>
+			
+				<option value='TeachFaceprintResponse'>
+			
+				<option value='TeachFileRequest'>
+			
+				<option value='TeachFileResponse'>
+			
+				<option value='TeachURLRequest'>
+			
+				<option value='TeachURLResponse'>
+			
 		
 	</datalist>
 </body>

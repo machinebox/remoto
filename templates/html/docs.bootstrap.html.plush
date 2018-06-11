@@ -49,12 +49,13 @@
 			padding-bottom: 10px;
 		}
 		.highlightable {
-			border-left: 5px transparent solid;
+			border-left: 10px white solid;
 			transition: border-left 1s;
+			padding-left: 10px;
+			margin-left: -10px;
 		}
 		.highlightable.highlight {
-			border-left: 5px #ddd solid;
-			padding-left: 10px;
+			border-left: 10px #f8f9fa solid;
 			transition: border-left 1s;
 		}
 		.anchor-container .anchor {
@@ -71,6 +72,12 @@
 		}
 		.anchor:hover {
 			color: rgba(0,123,255,.5);
+		}
+		footer {
+			background-color: #f8f9fa;
+			padding: 50px;
+			font-size: 0.8em;
+			text-align: right;
 		}
 	</style>
 </head>
@@ -202,6 +209,12 @@
 			</div>
 		</div>
 	</div>
+	<footer class='footer'>
+		<div class='text-muted container'>
+			Powered by 
+			<a href='https://machinebox.io/remoto'>Remoto by Machine Box</a>
+		</div>
+	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	
@@ -222,6 +235,8 @@
 				var val = $(this).val().replace('.','_')
 				var hit = null
 				var hash = '<%= def.PackageName %>_' + val
+				hash = hash.replace('.','_')
+				console.info(hash)
 				try{ hit = $('#'+hash) }catch{}
 				if (hit && hit.length > 0) {
 					$(this).val('')
@@ -277,7 +292,6 @@
 
 			$('a[href^="#"]').click(function(e){
 				e.preventDefault()
-				console.info('--- click')
 				changeRoute($(this).attr('href'))
 			})
 
@@ -305,10 +319,13 @@
 	</script>
 	<datalist id='symbols'>
 		<%= for (service) in def.Services { %>
-		<option value='<%= service.Name %>'>
-		<%= for (method) in service.Methods { %>
-		<option value='<%= service.Name %>.<%= method.Name %>'>
-		<% } %>
+			<option value='<%= service.Name %>'>
+			<%= for (method) in service.Methods { %>
+				<option value='<%= service.Name %>.<%= method.Name %>'>
+			<% } %>
+			<%= for (structure) in unique_structures(def) { %>
+				<option value='<%= structure.Name %>'>
+			<% } %>
 		<% } %>
 	</datalist>
 </body>
