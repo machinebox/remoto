@@ -30,6 +30,9 @@ func TestParser(t *testing.T) {
 	is.Equal(def.Services[1].Name, "Greeter")
 	is.Equal(def.Services[1].Comment, "Greeter provides greeting services.")
 
+	is.Equal(def.Services[1].Methods[0].Name, "Greet")
+	is.Equal(def.Services[1].Methods[0].Comment, "Greet generates a greeting.")
+
 	greetRequest := def.Structure("GreetRequest")
 	is.Equal(greetRequest.Name, "GreetRequest")
 	is.Equal(greetRequest.Comment, "GreetRequest is the request for Greeter.GreetRequest.")

@@ -82,14 +82,14 @@ func Parse(dir string) (definition.Definition, error) {
 }
 
 func parseService(fset *token.FileSet, docs *doc.Package, pkg *types.Package, def *definition.Definition, obj types.Object, v *types.Interface) (definition.Service, error) {
-	_, comment := commentForType(docs, obj.Name())
+	docstype, comment := commentForType(docs, obj.Name())
 	srv := definition.Service{
 		Name:    obj.Name(),
 		Comment: comment,
 	}
 	for i := 0; i < v.NumMethods(); i++ {
 		m := v.Method(i)
-		method, err := parseMethod(fset, docs, pkg, def, &srv, m)
+		method, err := parseMethod(fset, docs, docstype, pkg, def, &srv, m)
 		if err != nil {
 			return srv, err
 		}
@@ -98,11 +98,9 @@ func parseService(fset *token.FileSet, docs *doc.Package, pkg *types.Package, de
 	return srv, nil
 }
 
-func parseMethod(fset *token.FileSet, docs *doc.Package, pkg *types.Package, def *definition.Definition, srv *definition.Service, m *types.Func) (definition.Method, error) {
-	_, comment := commentForType(docs, m.Name())
+func parseMethod(fset *token.FileSet, docs *doc.Package, docstype *doc.Type, pkg *types.Package, def *definition.Definition, srv *definition.Service, m *types.Func) (definition.Method, error) {
 	method := definition.Method{
-		Name:    m.Name(),
-		Comment: comment,
+		Name: m.Name(),
 	}
 	if !m.Exported() {
 		return method, newErr(fset, m.Pos(), "method "+m.Name()+": must be exported")
@@ -111,6 +109,23 @@ func parseMethod(fset *token.FileSet, docs *doc.Package, pkg *types.Package, def
 	if sig.Variadic() {
 		return method, newErr(fset, m.Pos(), "service methods must have signature (*Request) *Response")
 	}
+
+	if docstype != nil {
+		ast.Inspect(docstype.Decl, func(n ast.Node) bool {
+			astfield, ok := n.(*ast.Field)
+			if !ok {
+				return true // skip
+			}
+			if len(astfield.Names) < 1 {
+				return true // skip
+			}
+			if astfield.Names[0].Name == m.Name() {
+				method.Comment = strings.TrimSpace(astfield.Doc.Text())
+			}
+			return true
+		})
+	}
+
 	params := sig.Params()
 	// process input arguments
 	if params.Len() != 1 {
