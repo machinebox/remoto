@@ -18,7 +18,6 @@ import (
 // Parse parses a package of .remoto.go files.
 func Parse(dir string) (definition.Definition, error) {
 	var def definition.Definition
-	def.Comments = make(map[string]string)
 	fset := token.NewFileSet()
 	pkgs, err := parser.ParseDir(fset, dir, func(info os.FileInfo) bool {
 		return strings.HasSuffix(info.Name(), ".remoto.go")
@@ -49,17 +48,6 @@ func Parse(dir string) (definition.Definition, error) {
 	pkg, err := conf.Check(dir, fset, files, info)
 	if err != nil {
 		return def, errors.Wrap(err, "conf.Check")
-	}
-	for _, f := range files {
-		for _, comment := range f.Comments {
-			pos := comment.Pos()
-			trimmedComment := strings.TrimSpace(comment.Text())
-			name := strings.Split(trimmedComment, " ")[0]
-			inner := pkg.Scope().Innermost(pos)
-			if _, obj := inner.LookupParent(name, pos); obj != nil {
-				def.Comments[obj.Name()] = trimmedComment
-			}
-		}
 	}
 	for _, name := range pkg.Scope().Names() {
 		obj := pkg.Scope().Lookup(name)

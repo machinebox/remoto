@@ -12,8 +12,6 @@ type Definition struct {
 	Services       []Service
 	PackageName    string
 	PackageComment string
-
-	Comments map[string]string
 }
 
 func (d Definition) String() string {
