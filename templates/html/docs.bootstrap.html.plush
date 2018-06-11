@@ -11,7 +11,7 @@
 	<%= if (field.Comment != "") { %><span class='text-muted'>&mdash;<%= field.Comment %></span><% } %>
 <% } %>
 <% contentFor("describe-structure") { %>
-	<%= contentOf("heading", {"text": structure.Name, "id": id, "tag": "h4"}) %>
+	<%= contentOf("heading", {"text": structure.Name, "id": id, "tag": "h4", "type": "Object"}) %>
 	<p><%= structure.Comment %></p>
 	<%= contentOf("describe-fields", {"fields": structure.Fields}) %>
 <% } %>
@@ -19,7 +19,7 @@
 	<ul>
 	<%= if (len(fields) == 0) { %>
 		<li class='text-muted'>
-			No fields
+			No fields &mdash;You may submit an empty object
 		</li>
 	<% } else { %>
 		<%= for (field) in fields { %>
@@ -31,7 +31,7 @@
 	</ul>
 <% } %>
 <% contentFor("structure-link") { %><a href='#<%= def.PackageName %>_<%= replace(name, ".", "_") %>'><%= name %></a><% } %>
-<% contentFor("heading") { %><<%= tag %> id='<%= id %>' class='anchor-container'><%= text %> <a data-movepage='false' href='#<%= id %>' class='anchor'>#</a></<%= tag %>><% } %>
+<% contentFor("heading") { %><<%= tag %> id='<%= id %>' class='heading anchor-container'><%= text %> <span class='text-muted'><%= type %></span> <a href='#<%= id %>' class='anchor'>#</a><a href='#home' class='float-right anchor'>↑</a></<%= tag %>><% } %>
 <html>
 <head>
 	<meta name='generator' content='https://machinebox.com/remoto'>
@@ -60,13 +60,11 @@
 		}
 		.anchor-container .anchor {
 			opacity: 0;
-			transition: opacity .16s linear;
 			color: #ddd;
-			font-weight: 400;
+			font-weight: 200;
 		}
 		.anchor-container:hover .anchor {
 			opacity: 1;
-			transition: opacity .16s linear;
 			text-decoration: none;
 			transition: color .16s linear;
 		}
@@ -82,6 +80,13 @@
 		::selection {
 			color: #fff;
 			background: #f08da9;
+		}
+		.heading {
+			font-weight: 300;
+		}
+		.heading .text-muted {
+			opacity: 0.5;
+			font-weight: 100;
 		}
 	</style>
 </head>
@@ -146,7 +151,7 @@
 							<hr>
 							<%= for (method) in service.Methods { %>
 								<section class='page highlightable' id='<%= def.PackageName %>_<%= service.Name %>_<%= method.Name %>'>
-									<%= contentOf("heading", {"text": method.Name, "id": def.PackageName+"_"+service.Name+"_"+method.Name, "tag": "h4"}) %>
+									<%= contentOf("heading", {"text": method.Name, "id": def.PackageName+"_"+service.Name+"_"+method.Name, "tag": "h4", "type": "Method"}) %>
 									<p>
 										<%= method.Comment %>
 									</p>
@@ -177,7 +182,7 @@
 					<% } %>
 					<h3 id='Objects' class='display-5'>Objects</h3>
 					<p class='lead'>
-						This section describes all the objects that are used in the entire <strong><%= def.PackageName %></strong> service.
+						This section describes all the objects (structures) that are used in the entire <strong><%= def.PackageName %></strong> service.
 					</p>
 					<ul class='list-unstyled'>
 					<%= for (structure) in unique_structures(def) { %>
@@ -198,7 +203,7 @@
 						more complex than simple key/value.
 					</p>
 					<section class='page highlightable' id='<%= def.PackageName %>_remototypes_FileResponse'>
-						<%= contentOf("heading", {"text": "remototypes.FileResponse", "id": def.PackageName+"_remototypes_FileResponse", "tag": "h4"}) %>
+						<%= contentOf("heading", {"text": "remototypes.FileResponse", "id": def.PackageName+"_remototypes_FileResponse", "tag": "h4", "type": "Object"}) %>
 						<p>
 							<code>remototypes.FileResponse</code> is used by methods that return a single
 							file as its result.
@@ -208,7 +213,7 @@
 						</p>
 					</section>
 					<section class='page highlightable' id='<%= def.PackageName %>_remototypes_File'>
-						<%= contentOf("heading", {"text": "remototypes.File", "id": def.PackageName+"_remototypes_File", "tag": "h4"}) %>
+						<%= contentOf("heading", {"text": "remototypes.File", "id": def.PackageName+"_remototypes_File", "tag": "h4", "type": "Object"}) %>
 						<p>
 							<code>remototypes.File</code> represents a binary file. Client libraries will each have their
 							own special way of submitting the files.
