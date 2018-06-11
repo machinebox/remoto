@@ -31,9 +31,10 @@
 	</ul>
 <% } %>
 <% contentFor("structure-link") { %><a href='#<%= def.PackageName %>_<%= replace(name, ".", "_") %>'><%= name %></a><% } %>
-<% contentFor("heading") { %><<%= tag %> id='<%= id %>'><%= text %></<%= tag %>><% } %>
+<% contentFor("heading") { %><<%= tag %> id='<%= id %>' class='anchor-container'><%= text %> <a href='#<%= id %>' class='anchor'>#</a></<%= tag %>><% } %>
 <html>
 <head>
+	<meta name='generator' content='https://machinebox.com/remoto'>
 	<title><%= def.PackageName %> • Remoto by Machine Box</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 	<style>
@@ -55,6 +56,21 @@
 			border-left: 5px #ddd solid;
 			padding-left: 10px;
 			transition: border-left 1s;
+		}
+		.anchor-container .anchor {
+			opacity: 0;
+			transition: opacity .16s linear;
+			color: #ddd;
+			font-weight: 400;
+		}
+		.anchor-container:hover .anchor {
+			opacity: 1;
+			transition: opacity .16s linear;
+			text-decoration: none;
+			transition: color .16s linear;
+		}
+		.anchor:hover {
+			color: rgba(0,123,255,.5);
 		}
 	</style>
 </head>
@@ -114,9 +130,7 @@
 							<hr>
 							<%= for (method) in service.Methods { %>
 								<section class='page highlightable' id='<%= def.PackageName %>_<%= service.Name %>_<%= method.Name %>'>
-									<h4 class='title'>
-										<%= method.Name %>
-									</h4>
+									<%= contentOf("heading", {"text": method.Name, "id": def.PackageName+"_"+service.Name+"_"+method.Name, "tag": "h4"}) %>
 									<p>
 										<%= method.Comment %>
 									</p>
@@ -149,6 +163,13 @@
 					<p class='lead'>
 						This section describes all the objects that are used in the entire <strong><%= def.PackageName %></strong> service.
 					</p>
+					<ul class='list-unstyled'>
+					<%= for (structure) in unique_structures(def) { %>
+						<li>
+							<a href='#<%= def.PackageName %>_<%= structure.Name %>'><%= structure.Name %></a>
+						</li>	
+					<% } %>
+					</ul>
 					<%= for (structure) in unique_structures(def) { %>
 						<section class='page highlightable' id='<%= def.PackageName %>_<%= structure.Name %>'>
 							<%= contentOf("describe-structure", {"structure": structure, "id": def.PackageName+"_"+structure.Name}) %>
@@ -222,11 +243,11 @@
 				if ($(this).length === 0) { return }
 				var x = $(this).offset().top - $.fn.niceScroll.topMargin
 				if (noanimate) {
-					return $('html,body').css({ 
+					return $('body').css({ 
 						scrollTop: x
 					})
 				}
-				return $('html,body').animate({ 
+				return $('body').animate({ 
 					scrollTop: x
 				}, 'slow')
 			}
@@ -249,7 +270,7 @@
 
 			// $.scrollToTop scrolls the page to the top.
 			$.scrollToTop = function(){
-				$('html,body').animate({ 
+				$('body').animate({ 
 					scrollTop: 0
 				}, 'slow')
 			}
