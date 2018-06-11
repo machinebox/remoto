@@ -31,12 +31,22 @@
 	</ul>
 <% } %>
 <% contentFor("structure-link") { %><a href='#<%= def.PackageName %>_<%= replace(name, ".", "_") %>'><%= name %></a><% } %>
-<% contentFor("heading") { %><<%= tag %> class='heading anchor-container'><%= text %> <span class='text-muted'><%= type %></span> <a href='#<%= id %>' class='anchor'>#</a><a href='#home' class='float-right anchor'>↑</a></<%= tag %>><% } %>
+<% contentFor("heading") { %><<%= tag %> class='heading anchor-container'><%= text %> <span class='text-muted'><%= type %></span> <a href='#<%= id %>' class='anchor'>#</a><a href='#top' class='float-right anchor'>↑</a></<%= tag %>><% } %>
 <!doctype html>
 <html>
 <head>
 	<meta name='generator' content='https://machinebox.com/remoto'>
-	<title><%= def.PackageName %> • Remoto by Machine Box</title>
+	<title><%= def.PackageName %> - Docs - Remoto by Machine Box</title>
+	<meta name="description" content="<%= def.PackageComment %>" />
+	<!-- Twitter Card data -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="<%= def.PackageName %> - Docs - Remoto by Machine Box">
+	<meta name="twitter:description" content="<%= def.PackageComment %>">
+	<meta name="twitter:creator" content="@machineboxio">
+	<!-- Open Graph data -->
+	<meta property="og:title" content="<%= def.PackageName %> - Docs - Remoto by Machine Box" />
+	<meta property="og:type" content="article" />
+	<meta property="og:description" content="<%= def.PackageComment %>" /> 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 	<style>
 		body {
@@ -91,10 +101,10 @@
 		}
 	</style>
 </head>
-<body id='home'>
+<body id='top'>
 	<nav class='navbar fixed-top navbar-light bg-light'>
 		<div class='container'>
-			<a class="navbar-brand" href="#home"><%= upcase(def.PackageName) %></a>
+			<a class="navbar-brand" href="#top"><%= upcase(def.PackageName) %></a>
 			<div class='form-inline'>
 				<input id='jump-to' list='symbols' type='text' class='form-control' placeholder='Jump to&hellip;'>
 			</div>
@@ -267,7 +277,7 @@
 				checkJumpTo.apply(this, arguments)
 			})
 
-			$(window).keydown(function(e){
+			$(window).keypress(function(e){
 				if (e.target.tagName != "BODY") { return }
 				if (e.key.length > 1) { return }
 				e.preventDefault()
