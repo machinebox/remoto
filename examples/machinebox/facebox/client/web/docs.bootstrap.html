@@ -258,11 +258,11 @@
 									<a href='#Objects'>All objects</a>
 								</li>
 								<li>
-									<a href='#SpecialTypes'>Special types</a>
+									<a href='#facebox_Special_types'>Special types</a>
 								</li>
 								<li>&nbsp;</li>
 								<li>
-									<a href='#Definition'>Definition</a>
+									<a href='#facebox_Definition'>Definition</a>
 								</li>
 							</ul>
 						</div>
@@ -2622,7 +2622,7 @@ is that this is a match.</span>
 				</section>
 				<hr>
 			
-			<h2 id='SpecialTypes' class='display-5'>Special types</h2>
+			<h2 id='facebox_Special_types' class='display-5'>Special types</h2>
 			<p class='lead'>
 				This section describes specially handled types for situations
 				more complex than simple key/value.
@@ -2644,7 +2644,7 @@ is that this is a match.</span>
 					own special way of submitting the files.
 				</p>
 			</section>
-			<h2 id='Definition' class='display-5'>Definition</h2>
+			<h2 id='facebox_Definition' class='display-5'>Definition</h2>
 			<p class='lead'>
 				Here is the <a href='https://github.com/machinebox/remoto'>Remoto</a> definition for this service, which is also available to <a href='#' data-action='download-source'>download</a>.
 			</p>
@@ -2964,7 +2964,7 @@ type TeachURLResponse struct {
 				var val = $(this).val().replace('.','_')
 				var hit = null
 				var hash = 'facebox_' + val
-				hash = hash.replace('.','_')
+				hash = hash.replace('.','_').replace(' ','_')
 				try{ hit = $('#'+hash) }catch{}
 				if (hit && hit.length > 0) {
 					$(this).val('')
@@ -2990,6 +2990,7 @@ type TeachURLResponse struct {
 
 			// niceScroll gently scrolls the page to this element.
 			$.fn.niceScroll = function(noanimate){
+				console.info('niceScroll')
 				if ($(this).length === 0) { return }
 				noanimate = noanimate || false
 				var x = $(this).offset().top - $.fn.niceScroll.topMargin
@@ -3009,8 +3010,9 @@ type TeachURLResponse struct {
 				if (!route) { return }
 				$('.page.highlight').removeClass('highlight')
 				var target = $(route).addClass('highlight')
-				console.info("$('"+route+"')", $(route))
-				history.pushState(null, null, route)
+				if (location.hash != route) {
+					history.pushState(null, null, route)
+				}
 				target.niceScroll(noanimate)
 			}
 			$(window).bind('hashchange', function() {
@@ -3173,6 +3175,8 @@ type TeachURLResponse struct {
 				<option value='TeachURLResponse'>
 			
 		
+		<option value='Special types'>
+		<option value='Definition'>
 	</datalist>
 </body>
 </html>
