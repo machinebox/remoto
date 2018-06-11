@@ -2,6 +2,7 @@ package generator
 
 import (
 	"sort"
+	"strings"
 
 	"github.com/machinebox/remoto/generator/definition"
 	"github.com/markbates/inflect"
@@ -18,6 +19,9 @@ func addHelpers(s setter) {
 	s.Set("go_type_string", goTypeString)
 	s.Set("underscore", underscore)
 	s.Set("camelize_down_first", camelizeDownFirst)
+
+	// experimental (undocumented)
+	s.Set("replace", replace)
 }
 
 // underscore converts a type name or other string into an underscored
@@ -72,4 +76,9 @@ func goTypeString(typ definition.Type) string {
 		return "[]" + typ.Name
 	}
 	return typ.Name
+}
+
+// replace is a string replacement function.
+func replace(s, old, new string) string {
+	return strings.Replace(s, old, new, -1)
 }

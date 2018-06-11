@@ -36,31 +36,6 @@ type Facebox interface {
 	PutState(*PutStateRequest) *PutStateResponse
 }
 
-// Suggestionbox provides facial detection and recognition in images.
-type Suggestionbox interface {
-	TeachFile(*TeachFileRequest) *TeachFileResponse
-	TeachURL(*TeachURLRequest) *TeachURLResponse
-	TeachFaceprint(*TeachFaceprintRequest) *TeachFaceprintResponse
-
-	CheckFile(*CheckFileRequest) *CheckFileResponse
-	CheckURL(*CheckURLRequest) *CheckURLResponse
-
-	SimilarID(*SimilarIDRequest) *SimilarIDResponse
-	SimilarFile(*SimilarFileRequest) *SimilarFileResponse
-	SimilarURL(*SimilarURLRequest) *SimilarURLResponse
-
-	Rename(*RenameRequest) *RenameResponse
-	RenameID(*RenameIDRequest) *RenameIDResponse
-
-	RemoveID(*RemoveIDRequest) *RemoveIDResponse
-
-	FaceprintCompare(*FaceprintCompareRequest) *FaceprintCompareResponse
-	CheckFaceprint(*CheckFaceprintRequest) *CheckFaceprintResponse
-
-	GetState(*GetStateRequest) *remototypes.FileResponse
-	PutState(*PutStateRequest) *PutStateResponse
-}
-
 // TeachFileRequest is the request object for TeachFile calls.
 type TeachFileRequest struct {
 	ID   string

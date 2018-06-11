@@ -3,47 +3,42 @@
 	<%= if (field.Type.IsMultiple) { %>
 	Array of
 	<% } %>
-	<%= if (field.Type.Name == "remototypes.File") { %>
-		File
+	<%= if (field.Type.IsStruct) { %>
+		<%= contentOf("structure-link", {"name":field.Type.Name}) %>
 	<% } else { %>
-		<%= if (field.Type.IsStruct) { %>
-			<%= contentOf("structure-link", {"name":field.Type.Name}) %>
-		<% } else { %>
-			<%= field.Type.Name %>
-		<% } %>
-		<%= if (field.Comment != "") { %>&mdash;<%= field.Comment %><% } %>
+		<%= field.Type.Name %>
 	<% } %>
+	<%= if (field.Comment != "") { %><span class='text-muted'>&mdash;<%= field.Comment %></span><% } %>
 <% } %>
 <% contentFor("describe-structure") { %>
-	<h4><%= structure.Name %></h4>
+	<%= contentOf("heading", {"text": structure.Name, "id": id, "tag": "h4"}) %>
 	<p><%= structure.Comment %></p>
-	<%= if (len(structure.Fields) == 0) { %>
-		<ul>
-			<li class='text-muted'>
-				No fields
-			</li>
-		</ul>
-	<% } else { %>
-		<%= contentOf("describe-fields", {"fields": structure.Fields}) %>
-	<% } %>
+	<%= contentOf("describe-fields", {"fields": structure.Fields}) %>
 <% } %>
 <% contentFor("describe-fields") { %>
 	<ul>
-	<%= for (field) in fields { %>
-		<li>
-		<%= contentOf("describe-field", {"field": field}) %>
+	<%= if (len(fields) == 0) { %>
+		<li class='text-muted'>
+			No fields
 		</li>
+	<% } else { %>
+		<%= for (field) in fields { %>
+			<li>
+			<%= contentOf("describe-field", {"field": field}) %>
+			</li>
+		<% } %>
 	<% } %>
 	</ul>
 <% } %>
-<% contentFor("structure-link") { %><a href='#<%= def.PackageName %>_<%= name %>'><%= name %></a><% } %>
+<% contentFor("structure-link") { %><a href='#<%= def.PackageName %>_<%= replace(name, ".", "_") %>'><%= name %></a><% } %>
+<% contentFor("heading") { %><<%= tag %> id='<%= id %>'><%= text %></<%= tag %>><% } %>
 <html>
 <head>
 	<title><%= def.PackageName %> • Remoto by Machine Box</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 	<style>
-		.page-body {
-			margin-top: 20px;
+		body {
+			padding-top: 50px;
 		}
 		.content {
 			padding: 20px;
@@ -52,61 +47,40 @@
 			padding-top: 10px;
 			padding-bottom: 10px;
 		}
-		.page.highlight {
-			border-left: 5px black solid;
+		.highlightable {
+			border-left: 5px transparent solid;
+			transition: border-left 1s;
+		}
+		.highlightable.highlight {
+			border-left: 5px #ddd solid;
 			padding-left: 10px;
+			transition: border-left 1s;
 		}
 	</style>
 </head>
-<body>
-	<!--
-	<nav class='navbar sticky-top navbar-light bg-light'>
+<body id='home'>
+	<nav class='navbar fixed-top navbar-light bg-light'>
 		<div class='container'>
-			<a class="navbar-brand" href="#home">Remoto</a>
+			<a class="navbar-brand" href="#home"><%= upcase(def.PackageName) %></a>
+			<div class='form-inline'>
+				<input id='jump-to' list='symbols' type='text' class='form-control' placeholder='Jump to&hellip;'>
+			</div>
 		</div>
 	</nav>
-	-->
 	<div class='page-body container'>
 		<div class='row'>
-			<div class='col col-3'>
-				<ul class='nav flex-column'>
-					<%= for (service) in def.Services { %>
-					<li class='nav-item'>
-						<a class='nav-link' href='#<%= def.PackageName %>_<%= service.Name %>'>
-							<%= service.Name %>
-						</a>
-					</li>
-					<% } %>
-					<li class='nav-item'>
-						<a class='nav-link' href='#objects'>
-							Objects
-						</a>
-					</li>
-				</ul>
-				<hr>
-				<footer class='footer'>
-					<div class='container'>
-						<p class='text-muted float-right'>
-							<small>
-								Powered by <a href='https://github.com/machinebox/remoto'>Remoto by Machine Box</a>
-							</small>
-						</p>
-					</div>
-				</footer>
-			</div>
 			<div class='col'>
-				<div class='content sticky-top'>
-					<section class='page' id='home'>
-						<div class='jumbotron'>
-							<h1 class='display-4'><%= upcase(def.PackageName) %></h1>
-							<p class='lead'>
-								<%= def.PackageComment %>
-							</p>
-							<p>
-								<input id='jump-to' list='symbols' type='text' class='form-control' placeholder='Jump to&hellip;'>
-							</p>
-						</div>
-					</section>
+				<div class='content'>
+					<%= if (len(def.Services) > 1) { %>
+						<ul class='nav justify-content-end'>
+						<%= for (service) in def.Services { %>
+							<li class='nav=item'>
+								<a class='nav-link' href='#<%= def.PackageName %>_<%= service.Name %>'><%= service.Name %></a>
+							</li>
+						<% } %>
+						</ul>
+						<hr>
+					<% } %>
 					<%= for (service) in def.Services { %>
 						<section id='<%= def.PackageName %>_<%= service.Name %>'>
 							<h2 class='display-4'>
@@ -115,46 +89,94 @@
 							<p class='lead'>
 								<%= service.Comment %>
 							</p>
+							<div class='row'>
+								<div class='col col-auto'>
+									<ul class='list-unstyled'>
+									<%= for (method) in service.Methods { %>
+										<li>
+											<a href='#<%= def.PackageName %>_<%= service.Name %>_<%= method.Name %>'><%= method.Name %></a>
+										</li>
+									<% } %>
+									</ul>
+								</div>
+								<div class='col col-auto'>
+									<ul class='list-unstyled'>
+										<%= for (structure) in service.Structures { %>
+											<%= if (!structure.IsRequestObject && !structure.IsResponseObject) { %>
+											<li>
+												<a href='#<%= def.PackageName %>_<%= structure.Name %>'><%= structure.Name %></a>
+											</li>
+											<% } %>
+										<% } %>
+									</ul>
+								</div>
+							</div>
+							<hr>
 							<%= for (method) in service.Methods { %>
-								<section class='page' id='<%= def.PackageName %>_<%= service.Name %>_<%= method.Name %>'>
+								<section class='page highlightable' id='<%= def.PackageName %>_<%= service.Name %>_<%= method.Name %>'>
 									<h4 class='title'>
 										<%= method.Name %>
 									</h4>
 									<p>
 										<%= method.Comment %>
 									</p>
-									<p>
-										<code><%= def.PackageName %>.<%= service.Name %>.<%= method.Name %>(<%= contentOf("structure-link", {"name":method.RequestType.Name}) %>) <%= contentOf("structure-link", {"name":method.ResponseType.Name}) %></code>
-									</p>
-									<p>
-										Request (<%= contentOf("structure-link", {"name":method.RequestType.Name}) %>)
-									</p>
-									<%= contentOf("describe-fields", {"fields": method.RequestType.Fields}) %>
-									<p>
-										Response (<%= contentOf("structure-link", {"name":method.ResponseType.Name}) %>)
-									</p>
-									<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
-										<ul>
-											<li>File</li>
-										</ul>
-									<% } else { %>
-										<%= contentOf("describe-fields", {"fields": method.ResponseType.Fields}) %>
-									<% } %>
+									<div class='row'>
+										<div class='col col-auto'>
+											<p>
+												<%= contentOf("structure-link", {"name":method.RequestType.Name}) %>
+											</p>
+											<%= contentOf("describe-fields", {"fields": method.RequestType.Fields}) %>
+										</div>
+										<div class='col col-auto'>
+											<p>
+												<%= contentOf("structure-link", {"name":method.ResponseType.Name}) %>
+											</p>
+											<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
+												<ul>
+													<li>File</li>
+												</ul>
+											<% } else { %>
+												<%= contentOf("describe-fields", {"fields": method.ResponseType.Fields}) %>
+											<% } %>
+										<div>
+									</div>
 								</section>
 								<hr>
 							<% } %>
 						</section>
 					<% } %>
-					<h2 id='objects' class='display-4'>Objects</h2>
-					<p>
-						This section describes all the objects that are used in the <%= def.PackageName %> service.
+					<h3 id='objects' class='display-5'>Objects</h3>
+					<p class='lead'>
+						This section describes all the objects that are used in the entire <strong><%= def.PackageName %></strong> service.
 					</p>
 					<%= for (structure) in unique_structures(def) { %>
-						<section class='page' id='<%= def.PackageName %>_<%= structure.Name %>'>
-							<%= contentOf("describe-structure", {"structure": structure}) %>
+						<section class='page highlightable' id='<%= def.PackageName %>_<%= structure.Name %>'>
+							<%= contentOf("describe-structure", {"structure": structure, "id": def.PackageName+"_"+structure.Name}) %>
 						</section>
 						<hr>
 					<% } %>
+					<h2 id='' class='display-5'>Special types</h2>
+					<p class='lead'>
+						This section describes specially handled types for situations
+						more complex than simple key/value.
+					</p>
+					<section class='page highlightable' id='<%= def.PackageName %>_remototypes_FileResponse'>
+						<%= contentOf("heading", {"text": "remototypes.FileResponse", "id": def.PackageName+"_remototypes_FileResponse", "tag": "h4"}) %>
+						<p>
+							<code>remototypes.FileResponse</code> is used by methods that return a single
+							file as its result.
+						</p>
+						<p>
+							Client libraries will provide a way to access the returned file.
+						</p>
+					</section>
+					<section class='page highlightable' id='<%= def.PackageName %>_remototypes_File'>
+						<%= contentOf("heading", {"text": "remototypes.File", "id": def.PackageName+"_remototypes_File", "tag": "h4"}) %>
+						<p>
+							<code>remototypes.File</code> represents a binary file. Client libraries will each have their
+							own special way of submitting the files.
+						</p>
+					</section>
 				</div>
 			</div>
 		</div>
@@ -196,24 +218,33 @@
 			})
 
 			// niceScroll gently scrolls the page to this element.
-			$.fn.niceScroll = function(){
-				$('html,body').animate({ 
-					scrollTop: $(this).offset().top 
+			$.fn.niceScroll = function(noanimate){
+				if ($(this).length === 0) { return }
+				var x = $(this).offset().top - $.fn.niceScroll.topMargin
+				if (noanimate) {
+					return $('html,body').css({ 
+						scrollTop: x
+					})
+				}
+				return $('html,body').animate({ 
+					scrollTop: x
 				}, 'slow')
 			}
+			$.fn.niceScroll.topMargin = 60
 
-			function changeRoute(route) {
+			function changeRoute(route, noanimate) {
+				if (!route) { return }
 				$('.page.highlight').removeClass('highlight')
-				$(route).addClass('highlight').niceScroll()
+				var target = $(route).addClass('highlight')
+				history.pushState(null, null, route)
+				target.niceScroll(noanimate)
 			}
 			$(window).bind('hashchange', function() {
 				changeRoute(location.hash)
 			})
 			var hash = location.hash
 			if (hash.length > 0) {
-				changeRoute(hash)
-			} else {
-				changeRoute('#home')
+				changeRoute(hash, true)
 			}
 
 			// $.scrollToTop scrolls the page to the top.
@@ -222,6 +253,12 @@
 					scrollTop: 0
 				}, 'slow')
 			}
+
+			$('a[href^="#"]').click(function(e){
+				e.preventDefault()
+				console.info('--- click')
+				changeRoute($(this).attr('href'))
+			})
 
 			// from https://davidwalsh.name/javascript-debounce-function
 			// Returns a function, that, as long as it continues to be invoked, will not
