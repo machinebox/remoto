@@ -12,3 +12,4 @@
 *.out
 
 /examples/machinebox/facebox/client/web/node_modules
+**/node_modules

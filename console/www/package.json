@@ -1,0 +1,14 @@
+{
+  "name": "remoto-console",
+  "version": "1.0.0",
+  "description": "Remoto online console application for Google App Engine.",
+  "main": "index.js",
+  "scripts": {
+    "test": "go test ./..."
+  },
+  "author": "Machine Box, Inc.",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.1.1"
+  }
+}
