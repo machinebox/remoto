@@ -11,7 +11,9 @@
 		this.options = this.options || {}
 		this.options.endpoint = this.options.endpoint || "http://localhost:8080"
 	}
-	
+	// CheckFaceprint checks to see if a Faceprint matches any known
+// faces.
+
 	// Must pass in an instance of $.facebox.CheckFaceprintRequest.
 	$.facebox.FaceboxClient.prototype.CheckFaceprint = function(checkFaceprintRequest) {
 		return this.CheckFaceprintMulti([checkFaceprintRequest])
@@ -45,7 +47,8 @@
 			return responseObjects
 		})
 	}
-	
+	// CheckFile checks an image file for faces.
+
 	// Must pass in an instance of $.facebox.CheckFileRequest.
 	$.facebox.FaceboxClient.prototype.CheckFile = function(checkFileRequest) {
 		return this.CheckFileMulti([checkFileRequest])
@@ -79,7 +82,8 @@
 			return responseObjects
 		})
 	}
-	
+	// CheckURL checks a hosted image file for faces.
+
 	// Must pass in an instance of $.facebox.CheckURLRequest.
 	$.facebox.FaceboxClient.prototype.CheckURL = function(checkURLRequest) {
 		return this.CheckURLMulti([checkURLRequest])
@@ -113,7 +117,9 @@
 			return responseObjects
 		})
 	}
-	
+	// FaceprintCompare compares faceprints to a specified target describing
+// similarity.
+
 	// Must pass in an instance of $.facebox.FaceprintCompareRequest.
 	$.facebox.FaceboxClient.prototype.FaceprintCompare = function(faceprintCompareRequest) {
 		return this.FaceprintCompareMulti([faceprintCompareRequest])
@@ -147,7 +153,8 @@
 			return responseObjects
 		})
 	}
-	
+	// GetState gets the Facebox state file.
+
 	// Must pass in an instance of $.facebox.GetStateRequest.
 	$.facebox.FaceboxClient.prototype.GetState = function(getStateRequest) {
 		return this.GetStateMulti([getStateRequest])
@@ -184,7 +191,8 @@
 			return responseObjects
 		})
 	}
-	
+	// PutState sets the Facebox state file.
+
 	// Must pass in an instance of $.facebox.PutStateRequest.
 	$.facebox.FaceboxClient.prototype.PutState = function(putStateRequest) {
 		return this.PutStateMulti([putStateRequest])
@@ -218,7 +226,8 @@
 			return responseObjects
 		})
 	}
-	
+	// RemoveID removes a face with the specified ID.
+
 	// Must pass in an instance of $.facebox.RemoveIDRequest.
 	$.facebox.FaceboxClient.prototype.RemoveID = function(removeIDRequest) {
 		return this.RemoveIDMulti([removeIDRequest])
@@ -252,7 +261,8 @@
 			return responseObjects
 		})
 	}
-	
+	// Rename changes a person&#39;s name.
+
 	// Must pass in an instance of $.facebox.RenameRequest.
 	$.facebox.FaceboxClient.prototype.Rename = function(renameRequest) {
 		return this.RenameMulti([renameRequest])
@@ -286,7 +296,8 @@
 			return responseObjects
 		})
 	}
-	
+	// RenameID changes the name of a previously taught face, by ID.
+
 	// Must pass in an instance of $.facebox.RenameIDRequest.
 	$.facebox.FaceboxClient.prototype.RenameID = function(renameIDRequest) {
 		return this.RenameIDMulti([renameIDRequest])
@@ -320,7 +331,8 @@
 			return responseObjects
 		})
 	}
-	
+	// SimilarFile checks for similar faces from the face in an image file.
+
 	// Must pass in an instance of $.facebox.SimilarFileRequest.
 	$.facebox.FaceboxClient.prototype.SimilarFile = function(similarFileRequest) {
 		return this.SimilarFileMulti([similarFileRequest])
@@ -354,7 +366,8 @@
 			return responseObjects
 		})
 	}
-	
+	// SimilarID checks for similar faces by ID.
+
 	// Must pass in an instance of $.facebox.SimilarIDRequest.
 	$.facebox.FaceboxClient.prototype.SimilarID = function(similarIDRequest) {
 		return this.SimilarIDMulti([similarIDRequest])
@@ -388,7 +401,8 @@
 			return responseObjects
 		})
 	}
-	
+	// SimilarURL checks for similar faces in a hosted image file.
+
 	// Must pass in an instance of $.facebox.SimilarURLRequest.
 	$.facebox.FaceboxClient.prototype.SimilarURL = function(similarURLRequest) {
 		return this.SimilarURLMulti([similarURLRequest])
@@ -422,7 +436,8 @@
 			return responseObjects
 		})
 	}
-	
+	// TeachFaceprint teaches Facebox about a face from a Faceprint.
+
 	// Must pass in an instance of $.facebox.TeachFaceprintRequest.
 	$.facebox.FaceboxClient.prototype.TeachFaceprint = function(teachFaceprintRequest) {
 		return this.TeachFaceprintMulti([teachFaceprintRequest])
@@ -456,7 +471,8 @@
 			return responseObjects
 		})
 	}
-	
+	// TeachFile teaches Facebox a new face from an image file.
+
 	// Must pass in an instance of $.facebox.TeachFileRequest.
 	$.facebox.FaceboxClient.prototype.TeachFile = function(teachFileRequest) {
 		return this.TeachFileMulti([teachFileRequest])
@@ -490,7 +506,8 @@
 			return responseObjects
 		})
 	}
-	
+	// TeachURL teaches Facebox a new face from an image on the web.
+
 	// Must pass in an instance of $.facebox.TeachURLRequest.
 	$.facebox.FaceboxClient.prototype.TeachURL = function(teachURLRequest) {
 		return this.TeachURLMulti([teachURLRequest])
@@ -646,18 +663,16 @@ $.facebox.CheckURLRequest = function(data) {
 	}
 	
 	
-	// getFile gets the file from this object.
-	$.facebox.CheckURLRequest.prototype.getFile = function() {
-		return this.data.file
+	// getURL gets the uRL from this object.
+	$.facebox.CheckURLRequest.prototype.getURL = function() {
+		return this.data.uRL
 	}
 	
 	
-	// setFile sets the file on this object.
-	// The root request must also be provided so it can be informed of the file.
-	$.facebox.CheckURLRequest.prototype.setFile = function(request, file) {
-		this.data.file = request._addFile(file)
+	// setURL sets the uRL on this object.
+	$.facebox.CheckURLRequest.prototype.setURL = function(uRL) {
+		this.data.uRL = uRL
 	}
-	
 	
 	// CheckURLResponse is the response object for CheckURL calls.
 $.facebox.CheckURLResponse = function(data) {

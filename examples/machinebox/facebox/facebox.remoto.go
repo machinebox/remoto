@@ -17,29 +17,52 @@ type Facebox interface {
 	// TeachFaceprint teaches Facebox about a face from a Faceprint.
 	TeachFaceprint(*TeachFaceprintRequest) *TeachFaceprintResponse
 
+	// CheckFile checks an image file for faces.
 	CheckFile(*CheckFileRequest) *CheckFileResponse
+
+	// CheckURL checks a hosted image file for faces.
 	CheckURL(*CheckURLRequest) *CheckURLResponse
 
-	SimilarID(*SimilarIDRequest) *SimilarIDResponse
-	SimilarFile(*SimilarFileRequest) *SimilarFileResponse
-	SimilarURL(*SimilarURLRequest) *SimilarURLResponse
-
-	Rename(*RenameRequest) *RenameResponse
-	RenameID(*RenameIDRequest) *RenameIDResponse
-
-	RemoveID(*RemoveIDRequest) *RemoveIDResponse
-
-	FaceprintCompare(*FaceprintCompareRequest) *FaceprintCompareResponse
+	// CheckFaceprint checks to see if a Faceprint matches any known
+	// faces.
 	CheckFaceprint(*CheckFaceprintRequest) *CheckFaceprintResponse
 
+	// SimilarID checks for similar faces by ID.
+	SimilarID(*SimilarIDRequest) *SimilarIDResponse
+
+	// SimilarFile checks for similar faces from the face in an image file.
+	SimilarFile(*SimilarFileRequest) *SimilarFileResponse
+
+	// SimilarURL checks for similar faces in a hosted image file.
+	SimilarURL(*SimilarURLRequest) *SimilarURLResponse
+
+	// Rename changes a person's name.
+	Rename(*RenameRequest) *RenameResponse
+
+	// RenameID changes the name of a previously taught face, by ID.
+	RenameID(*RenameIDRequest) *RenameIDResponse
+
+	// RemoveID removes a face with the specified ID.
+	RemoveID(*RemoveIDRequest) *RemoveIDResponse
+
+	// FaceprintCompare compares faceprints to a specified target describing
+	// similarity.
+	FaceprintCompare(*FaceprintCompareRequest) *FaceprintCompareResponse
+
+	// GetState gets the Facebox state file.
 	GetState(*GetStateRequest) *remototypes.FileResponse
+
+	// PutState sets the Facebox state file.
 	PutState(*PutStateRequest) *PutStateResponse
 }
 
 // TeachFileRequest is the request object for TeachFile calls.
 type TeachFileRequest struct {
-	ID   string
+	// ID is an identifier describing the source, for example the filename.
+	ID string
+	// Name is the name of the person in the image.
 	Name string
+	// File is the image containing the face to teach.
 	File remototypes.File
 }
 
@@ -48,9 +71,12 @@ type TeachFileResponse struct{}
 
 // TeachURLRequest is the request object for TeachURL calls.
 type TeachURLRequest struct {
-	ID   string
+	// ID is an identifier describing the source, for example the filename.
+	ID string
+	// Name is the name of the person in the image.
 	Name string
-	URL  string
+	// URL is the address of the image.
+	URL string
 }
 
 // TeachURLResponse is the response object for TeachURL calls.
@@ -68,48 +94,63 @@ type TeachFaceprintResponse struct{}
 
 // CheckFileRequest is the request object for CheckFile calls.
 type CheckFileRequest struct {
+	// File is the image to check for faces.
 	File remototypes.File
 }
 
 // CheckFileResponse is the response object for CheckFile calls.
 type CheckFileResponse struct {
+	// Faces is a list of faces that were found.
 	Faces []Face
 }
 
 // CheckURLRequest is the request object for CheckURL calls.
 type CheckURLRequest struct {
-	File remototypes.File
+	// URL is the address of the image to check.
+	URL string
 }
 
 // CheckURLResponse is the response object for CheckURL calls.
 type CheckURLResponse struct {
+	// Faces is a list of faces that were found.
 	Faces []Face
 }
 
 // Face describes a face.
 type Face struct {
-	ID        string
-	Name      string
-	Matched   bool
+	// ID is the identifier of the source that was matched.
+	ID string
+	// Name is the name of the identified person.
+	Name string
+	// Matched is whether the face was recognized or not.
+	Matched bool
+	// Faceprint is the Facebox Faceprint of this face.
 	Faceprint string
-	Rect      Rect
+	// Rect is where the face appears in the source image.
+	Rect Rect
 }
 
 // Rect is a bounding box describing a rectangle of an image.
 type Rect struct {
-	Top    int
-	Left   int
-	Width  int
+	// Top is the starting Y coordinate.
+	Top int
+	// Left is the starting X coordinate.
+	Left int
+	// Width is the width.
+	Width int
+	// Height is the height.
 	Height int
 }
 
 // SimilarIDRequest is the request object for SimilarID calls.
 type SimilarIDRequest struct {
+	// ID is the identifier of the source to look for similar faces of.
 	ID string
 }
 
 // SimilarIDResponse is the response object for SimilarID calls.
 type SimilarIDResponse struct {
+	// Faces is a list of similar faces.
 	Faces []SimilarFace
 }
 
@@ -135,14 +176,18 @@ type SimilarURLResponse struct {
 
 // SimilarFace is a detected face with similar matching faces.
 type SimilarFace struct {
-	Rect         Rect
+	// Rect is where the face appears in the image.
+	Rect Rect
+	// SimilarFaces is a list of similar faces.
 	SimilarFaces []Face
 }
 
 // RenameRequest is the request object for Rename calls.
 type RenameRequest struct {
+	// From is the original name.
 	From string
-	To   string
+	// To is the new name.
+	To string
 }
 
 // RenameResponse is the response object for Rename calls.
@@ -150,7 +195,9 @@ type RenameResponse struct{}
 
 // RenameIDRequest is the request object for RenameID calls.
 type RenameIDRequest struct {
-	ID   string
+	// ID is the identifier of the source to rename.
+	ID string
+	// Name is the new name to assign to the item matching ID.
 	Name string
 }
 
@@ -159,6 +206,7 @@ type RenameIDResponse struct{}
 
 // RemoveIDRequest is the request object for RemoveID calls.
 type RemoveIDRequest struct {
+	// ID is the identifier of the source to remove.
 	ID string
 }
 
@@ -167,43 +215,50 @@ type RemoveIDResponse struct{}
 
 // FaceprintCompareRequest is the request object for FaceprintCompare calls.
 type FaceprintCompareRequest struct {
-	Target     string
+	// Target is the target Faceprint to which the Faceprints will be compared.
+	Target string
+	// Faceprints is a list of Faceprints that will be compared to Target.
 	Faceprints []string
 }
 
 // FaceprintCompareResponse is the response object for FaceprintCompare calls.
 type FaceprintCompareResponse struct {
+	// Confidences is a list of confidence values.
+	// The order matches the order of FaceprintCompareRequest.Faceprints.
 	Confidences []float64
 }
 
 // CheckFaceprintRequest is the request object for CheckFaceprint calls.
 type CheckFaceprintRequest struct {
+	// Faceprints is a list of Faceprints to check.
 	Faceprints []string
 }
 
 // CheckFaceprintResponse is the response object for CheckFaceprint calls.
 type CheckFaceprintResponse struct {
+	// Faces is a list of faces checked from Faceprints.
 	Faces []FaceprintFace
 }
 
 // FaceprintFace is a face.
 type FaceprintFace struct {
-	Matched    bool
+	// Matched is whether the face was recognized or not.
+	Matched bool
+	// Confidence is a numerical value of how confident the AI
+	// is that this is a match.
 	Confidence float64
-	ID         string
-	Name       string
+	// ID is the identifier of the source that matched.
+	ID string
+	// Name is the name of the person recognized.
+	Name string
 }
 
 // GetStateRequest is the request object for GetState calls.
 type GetStateRequest struct{}
 
-// GetStateResponse is the response object for GetState calls.
-type GetStateResponse struct {
-	StateFile remototypes.File
-}
-
 // PutStateRequest is the request object for PutState calls.
 type PutStateRequest struct {
+	// StateFile is the Facebox state file to set.
 	StateFile remototypes.File
 }
 

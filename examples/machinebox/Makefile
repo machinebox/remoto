@@ -8,7 +8,7 @@ all:
 	remoto generate ./facebox ../../templates/html/docs.bootstrap.html.plush -o ./facebox/client/web/docs.bootstrap.html 
 	remoto generate ./facebox ../../templates/remotohttp/client.es6.js.plush -o ./facebox/client/web/facebox.es6.js 
 	cd ./facebox/client/web && npx babel ./facebox.es6.js --out-file ./dist/facebox.js
-	cd ./facebox/client/web && tidy -utf8 -i -w 160 -o ./dist/docs.html docs.bootstrap.html
+	cd ./facebox/client/web && tidy -quiet -utf8 -i -w 160 -o ./dist/docs.html docs.bootstrap.html
 
 install:
 	cd ../../ ; go install

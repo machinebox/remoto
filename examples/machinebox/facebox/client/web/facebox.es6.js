@@ -27,7 +27,9 @@ export class FaceboxClient {
 		this.options = options
 	}
 	
-	CheckFaceprint(checkFaceprintRequest = null) {
+	// CheckFaceprint checks to see if a Faceprint matches any known
+// faces.
+CheckFaceprint(checkFaceprintRequest = null) {
 		return this.CheckFaceprintMulti([checkFaceprintRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -60,7 +62,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	CheckFile(checkFileRequest = null) {
+	// CheckFile checks an image file for faces.
+CheckFile(checkFileRequest = null) {
 		return this.CheckFileMulti([checkFileRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -93,7 +96,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	CheckURL(checkURLRequest = null) {
+	// CheckURL checks a hosted image file for faces.
+CheckURL(checkURLRequest = null) {
 		return this.CheckURLMulti([checkURLRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -126,7 +130,9 @@ export class FaceboxClient {
 		})
 	}
 	
-	FaceprintCompare(faceprintCompareRequest = null) {
+	// FaceprintCompare compares faceprints to a specified target describing
+// similarity.
+FaceprintCompare(faceprintCompareRequest = null) {
 		return this.FaceprintCompareMulti([faceprintCompareRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -159,7 +165,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	GetState(getStateRequest = null) {
+	// GetState gets the Facebox state file.
+GetState(getStateRequest = null) {
 		return this.GetStateMulti([getStateRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -192,7 +199,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	PutState(putStateRequest = null) {
+	// PutState sets the Facebox state file.
+PutState(putStateRequest = null) {
 		return this.PutStateMulti([putStateRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -225,7 +233,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	RemoveID(removeIDRequest = null) {
+	// RemoveID removes a face with the specified ID.
+RemoveID(removeIDRequest = null) {
 		return this.RemoveIDMulti([removeIDRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -258,7 +267,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	Rename(renameRequest = null) {
+	// Rename changes a person&#39;s name.
+Rename(renameRequest = null) {
 		return this.RenameMulti([renameRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -291,7 +301,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	RenameID(renameIDRequest = null) {
+	// RenameID changes the name of a previously taught face, by ID.
+RenameID(renameIDRequest = null) {
 		return this.RenameIDMulti([renameIDRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -324,7 +335,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	SimilarFile(similarFileRequest = null) {
+	// SimilarFile checks for similar faces from the face in an image file.
+SimilarFile(similarFileRequest = null) {
 		return this.SimilarFileMulti([similarFileRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -357,7 +369,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	SimilarID(similarIDRequest = null) {
+	// SimilarID checks for similar faces by ID.
+SimilarID(similarIDRequest = null) {
 		return this.SimilarIDMulti([similarIDRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -390,7 +403,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	SimilarURL(similarURLRequest = null) {
+	// SimilarURL checks for similar faces in a hosted image file.
+SimilarURL(similarURLRequest = null) {
 		return this.SimilarURLMulti([similarURLRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -423,7 +437,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	TeachFaceprint(teachFaceprintRequest = null) {
+	// TeachFaceprint teaches Facebox about a face from a Faceprint.
+TeachFaceprint(teachFaceprintRequest = null) {
 		return this.TeachFaceprintMulti([teachFaceprintRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -456,7 +471,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	TeachFile(teachFileRequest = null) {
+	// TeachFile teaches Facebox a new face from an image file.
+TeachFile(teachFileRequest = null) {
 		return this.TeachFileMulti([teachFileRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -489,7 +505,8 @@ export class FaceboxClient {
 		})
 	}
 	
-	TeachURL(teachURLRequest = null) {
+	// TeachURL teaches Facebox a new face from an image on the web.
+TeachURL(teachURLRequest = null) {
 		return this.TeachURLMulti([teachURLRequest]).then(function(responses) {
 			return responses[0]
 		})
@@ -646,9 +663,9 @@ export class CheckURLRequest {
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
 
-	get file() { return this._data.file }
-	setFile(request, filename, file) { this._data.file = request.addFile(filename, file) }
+	get uRL() { return this._data.url }
 	
+	set uRL(url) { this._data.url = url }
 }
 
 // CheckURLResponse is the response object for CheckURL calls.

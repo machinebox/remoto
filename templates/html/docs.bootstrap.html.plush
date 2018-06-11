@@ -19,7 +19,7 @@
 	<ul>
 	<%= if (len(fields) == 0) { %>
 		<li class='text-muted'>
-			No fields &mdash;You may submit an empty object
+			No fields &mdash;An empty object.
 		</li>
 	<% } else { %>
 		<%= for (field) in fields { %>
@@ -31,7 +31,7 @@
 	</ul>
 <% } %>
 <% contentFor("structure-link") { %><a href='#<%= def.PackageName %>_<%= replace(name, ".", "_") %>'><%= name %></a><% } %>
-<% contentFor("heading") { %><<%= tag %> id='<%= id %>' class='heading anchor-container'><%= text %> <span class='text-muted'><%= type %></span> <a href='#<%= id %>' class='anchor'>#</a><a href='#home' class='float-right anchor'>↑</a></<%= tag %>><% } %>
+<% contentFor("heading") { %><<%= tag %> class='heading anchor-container'><%= text %> <span class='text-muted'><%= type %></span> <a href='#<%= id %>' class='anchor'>#</a><a href='#home' class='float-right anchor'>↑</a></<%= tag %>><% } %>
 <!doctype html>
 <html>
 <head>
@@ -143,6 +143,7 @@
 											</li>
 											<% } %>
 										<% } %>
+										<li>&nbsp;</li>
 										<li>
 											<a href='#Objects'>All objects</a>
 										</li>
@@ -160,13 +161,13 @@
 										<%= method.Comment %>
 									</p>
 									<div class='row'>
-										<div class='col col-auto'>
+										<div class='col'>
 											<p>
 												<%= contentOf("structure-link", {"name":method.RequestStructure.Name}) %>
 											</p>
 											<%= contentOf("describe-fields", {"fields": method.RequestStructure.Fields}) %>
 										</div>
-										<div class='col col-auto'>
+										<div class='col'>
 											<p>
 												<%= contentOf("structure-link", {"name":method.ResponseStructure.Name}) %>
 											</p>
@@ -233,12 +234,7 @@
 			<a href='https://machinebox.io/remoto'>Remoto by Machine Box</a>
 		</div>
 	</footer>
-
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	
-	<!-- if you named your jQuery client something else, please update it here -->
-	<script src='<%= def.PackageName %>.jquery.js'></script>
-
 	<script>
 		$(function(){
 
@@ -271,16 +267,24 @@
 				checkJumpTo.apply(this, arguments)
 			})
 
+			$(window).keydown(function(e){
+				if (e.target.tagName != "BODY") { return }
+				if (e.key.length > 1) { return }
+				e.preventDefault()
+				$('#jump-to').val(e.key).focus()
+			})
+
 			// niceScroll gently scrolls the page to this element.
 			$.fn.niceScroll = function(noanimate){
 				if ($(this).length === 0) { return }
+				noanimate = noanimate || false
 				var x = $(this).offset().top - $.fn.niceScroll.topMargin
 				if (noanimate) {
-					return $('body').css({ 
+					return $('html,body').css({ 
 						scrollTop: x
 					})
 				}
-				return $('body').animate({ 
+				return $('html,body').animate({ 
 					scrollTop: x
 				}, 'slow')
 			}
@@ -290,6 +294,7 @@
 				if (!route) { return }
 				$('.page.highlight').removeClass('highlight')
 				var target = $(route).addClass('highlight')
+				console.info("$('"+route+"')", $(route))
 				history.pushState(null, null, route)
 				target.niceScroll(noanimate)
 			}
@@ -303,7 +308,7 @@
 
 			// $.scrollToTop scrolls the page to the top.
 			$.scrollToTop = function(){
-				$('body').animate({ 
+				$('html,body').animate({ 
 					scrollTop: 0
 				}, 'slow')
 			}
@@ -311,10 +316,6 @@
 			$('a[href^="#"]').click(function(e){
 				e.preventDefault()
 				var $this = $(this)
-				if ($this.attr('data-movepage') == 'false') {
-					history.pushState(null, null, $this.attr('href'))
-					return
-				}
 				changeRoute($this.attr('href'))
 			})
 

@@ -18,34 +18,52 @@ import (
 
 // Facebox provides facial detection and recognition in images.
 type Facebox interface {
+
+	// CheckFaceprint checks to see if a Faceprint matches any known
+	// faces.
 	CheckFaceprint(context.Context, *CheckFaceprintRequest) (*CheckFaceprintResponse, error)
 
+	// CheckFile checks an image file for faces.
 	CheckFile(context.Context, *CheckFileRequest) (*CheckFileResponse, error)
 
+	// CheckURL checks a hosted image file for faces.
 	CheckURL(context.Context, *CheckURLRequest) (*CheckURLResponse, error)
 
+	// FaceprintCompare compares faceprints to a specified target describing
+	// similarity.
 	FaceprintCompare(context.Context, *FaceprintCompareRequest) (*FaceprintCompareResponse, error)
 
+	// GetState gets the Facebox state file.
 	GetState(context.Context, *GetStateRequest) (*remototypes.FileResponse, error)
 
+	// PutState sets the Facebox state file.
 	PutState(context.Context, *PutStateRequest) (*PutStateResponse, error)
 
+	// RemoveID removes a face with the specified ID.
 	RemoveID(context.Context, *RemoveIDRequest) (*RemoveIDResponse, error)
 
+	// Rename changes a person&#39;s name.
 	Rename(context.Context, *RenameRequest) (*RenameResponse, error)
 
+	// RenameID changes the name of a previously taught face, by ID.
 	RenameID(context.Context, *RenameIDRequest) (*RenameIDResponse, error)
 
+	// SimilarFile checks for similar faces from the face in an image file.
 	SimilarFile(context.Context, *SimilarFileRequest) (*SimilarFileResponse, error)
 
+	// SimilarID checks for similar faces by ID.
 	SimilarID(context.Context, *SimilarIDRequest) (*SimilarIDResponse, error)
 
+	// SimilarURL checks for similar faces in a hosted image file.
 	SimilarURL(context.Context, *SimilarURLRequest) (*SimilarURLResponse, error)
 
+	// TeachFaceprint teaches Facebox about a face from a Faceprint.
 	TeachFaceprint(context.Context, *TeachFaceprintRequest) (*TeachFaceprintResponse, error)
 
+	// TeachFile teaches Facebox a new face from an image file.
 	TeachFile(context.Context, *TeachFileRequest) (*TeachFileResponse, error)
 
+	// TeachURL teaches Facebox a new face from an image on the web.
 	TeachURL(context.Context, *TeachURLRequest) (*TeachURLResponse, error)
 }
 
@@ -108,11 +126,15 @@ func RegisterFaceboxServer(server *remotohttp.Server, service Facebox) {
 
 // CheckFaceprintRequest is the request object for CheckFaceprint calls.
 type CheckFaceprintRequest struct {
+
+	// Faceprints is a list of Faceprints to check.
 	Faceprints []string `json:"faceprints"`
 }
 
 // CheckFaceprintResponse is the response object for CheckFaceprint calls.
 type CheckFaceprintResponse struct {
+
+	// Faces is a list of faces checked from Faceprints.
 	Faces []FaceprintFace `json:"faces"`
 
 	// Error is an error message if one occurred.
@@ -121,11 +143,15 @@ type CheckFaceprintResponse struct {
 
 // CheckFileRequest is the request object for CheckFile calls.
 type CheckFileRequest struct {
+
+	// File is the image to check for faces.
 	File remototypes.File `json:"file"`
 }
 
 // CheckFileResponse is the response object for CheckFile calls.
 type CheckFileResponse struct {
+
+	// Faces is a list of faces that were found.
 	Faces []Face `json:"faces"`
 
 	// Error is an error message if one occurred.
@@ -134,11 +160,15 @@ type CheckFileResponse struct {
 
 // CheckURLRequest is the request object for CheckURL calls.
 type CheckURLRequest struct {
-	File remototypes.File `json:"file"`
+
+	// URL is the address of the image to check.
+	URL string `json:"url"`
 }
 
 // CheckURLResponse is the response object for CheckURL calls.
 type CheckURLResponse struct {
+
+	// Faces is a list of faces that were found.
 	Faces []Face `json:"faces"`
 
 	// Error is an error message if one occurred.
@@ -147,26 +177,38 @@ type CheckURLResponse struct {
 
 // Face describes a face.
 type Face struct {
+
+	// ID is the identifier of the source that was matched.
 	ID string `json:"id"`
 
+	// Name is the name of the identified person.
 	Name string `json:"name"`
 
+	// Matched is whether the face was recognized or not.
 	Matched bool `json:"matched"`
 
+	// Faceprint is the Facebox Faceprint of this face.
 	Faceprint string `json:"faceprint"`
 
+	// Rect is where the face appears in the source image.
 	Rect Rect `json:"rect"`
 }
 
 // FaceprintCompareRequest is the request object for FaceprintCompare calls.
 type FaceprintCompareRequest struct {
+
+	// Target is the target Faceprint to which the Faceprints will be compared.
 	Target string `json:"target"`
 
+	// Faceprints is a list of Faceprints that will be compared to Target.
 	Faceprints []string `json:"faceprints"`
 }
 
 // FaceprintCompareResponse is the response object for FaceprintCompare calls.
 type FaceprintCompareResponse struct {
+
+	// Confidences is a list of confidence values.
+	// The order matches the order of FaceprintCompareRequest.Faceprints.
 	Confidences []float64 `json:"confidences"`
 
 	// Error is an error message if one occurred.
@@ -175,12 +217,18 @@ type FaceprintCompareResponse struct {
 
 // FaceprintFace is a face.
 type FaceprintFace struct {
+
+	// Matched is whether the face was recognized or not.
 	Matched bool `json:"matched"`
 
+	// Confidence is a numerical value of how confident the AI
+	// is that this is a match.
 	Confidence float64 `json:"confidence"`
 
+	// ID is the identifier of the source that matched.
 	ID string `json:"id"`
 
+	// Name is the name of the person recognized.
 	Name string `json:"name"`
 }
 
@@ -190,6 +238,8 @@ type GetStateRequest struct {
 
 // PutStateRequest is the request object for PutState calls.
 type PutStateRequest struct {
+
+	// StateFile is the Facebox state file to set.
 	StateFile remototypes.File `json:"state_file"`
 }
 
@@ -202,17 +252,24 @@ type PutStateResponse struct {
 
 // Rect is a bounding box describing a rectangle of an image.
 type Rect struct {
+
+	// Top is the starting Y coordinate.
 	Top int `json:"top"`
 
+	// Left is the starting X coordinate.
 	Left int `json:"left"`
 
+	// Width is the width.
 	Width int `json:"width"`
 
+	// Height is the height.
 	Height int `json:"height"`
 }
 
 // RemoveIDRequest is the request object for RemoveID calls.
 type RemoveIDRequest struct {
+
+	// ID is the identifier of the source to remove.
 	ID string `json:"id"`
 }
 
@@ -225,8 +282,11 @@ type RemoveIDResponse struct {
 
 // RenameIDRequest is the request object for RenameID calls.
 type RenameIDRequest struct {
+
+	// ID is the identifier of the source to rename.
 	ID string `json:"id"`
 
+	// Name is the new name to assign to the item matching ID.
 	Name string `json:"name"`
 }
 
@@ -239,8 +299,11 @@ type RenameIDResponse struct {
 
 // RenameRequest is the request object for Rename calls.
 type RenameRequest struct {
+
+	// From is the original name.
 	From string `json:"from"`
 
+	// To is the new name.
 	To string `json:"to"`
 }
 
@@ -253,8 +316,11 @@ type RenameResponse struct {
 
 // SimilarFace is a detected face with similar matching faces.
 type SimilarFace struct {
+
+	// Rect is where the face appears in the image.
 	Rect Rect `json:"rect"`
 
+	// SimilarFaces is a list of similar faces.
 	SimilarFaces []Face `json:"similar_faces"`
 }
 
@@ -273,11 +339,15 @@ type SimilarFileResponse struct {
 
 // SimilarIDRequest is the request object for SimilarID calls.
 type SimilarIDRequest struct {
+
+	// ID is the identifier of the source to look for similar faces of.
 	ID string `json:"id"`
 }
 
 // SimilarIDResponse is the response object for SimilarID calls.
 type SimilarIDResponse struct {
+
+	// Faces is a list of similar faces.
 	Faces []SimilarFace `json:"faces"`
 
 	// Error is an error message if one occurred.
@@ -315,10 +385,14 @@ type TeachFaceprintResponse struct {
 
 // TeachFileRequest is the request object for TeachFile calls.
 type TeachFileRequest struct {
+
+	// ID is an identifier describing the source, for example the filename.
 	ID string `json:"id"`
 
+	// Name is the name of the person in the image.
 	Name string `json:"name"`
 
+	// File is the image containing the face to teach.
 	File remototypes.File `json:"file"`
 }
 
@@ -331,10 +405,14 @@ type TeachFileResponse struct {
 
 // TeachURLRequest is the request object for TeachURL calls.
 type TeachURLRequest struct {
+
+	// ID is an identifier describing the source, for example the filename.
 	ID string `json:"id"`
 
+	// Name is the name of the person in the image.
 	Name string `json:"name"`
 
+	// URL is the address of the image.
 	URL string `json:"url"`
 }
 

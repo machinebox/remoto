@@ -54,6 +54,10 @@ var FaceboxClient = exports.FaceboxClient = function () {
 		this.options = options;
 	}
 
+	// CheckFaceprint checks to see if a Faceprint matches any known
+	// faces.
+
+
 	_createClass(FaceboxClient, [{
 		key: "CheckFaceprint",
 		value: function CheckFaceprint() {
@@ -95,6 +99,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.CheckFaceprint: ' + error.message;
 			});
 		}
+
+		// CheckFile checks an image file for faces.
+
 	}, {
 		key: "CheckFile",
 		value: function CheckFile() {
@@ -136,6 +143,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.CheckFile: ' + error.message;
 			});
 		}
+
+		// CheckURL checks a hosted image file for faces.
+
 	}, {
 		key: "CheckURL",
 		value: function CheckURL() {
@@ -177,6 +187,10 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.CheckURL: ' + error.message;
 			});
 		}
+
+		// FaceprintCompare compares faceprints to a specified target describing
+		// similarity.
+
 	}, {
 		key: "FaceprintCompare",
 		value: function FaceprintCompare() {
@@ -218,6 +232,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.FaceprintCompare: ' + error.message;
 			});
 		}
+
+		// GetState gets the Facebox state file.
+
 	}, {
 		key: "GetState",
 		value: function GetState() {
@@ -259,6 +276,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.GetState: ' + error.message;
 			});
 		}
+
+		// PutState sets the Facebox state file.
+
 	}, {
 		key: "PutState",
 		value: function PutState() {
@@ -300,6 +320,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.PutState: ' + error.message;
 			});
 		}
+
+		// RemoveID removes a face with the specified ID.
+
 	}, {
 		key: "RemoveID",
 		value: function RemoveID() {
@@ -341,6 +364,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.RemoveID: ' + error.message;
 			});
 		}
+
+		// Rename changes a person&#39;s name.
+
 	}, {
 		key: "Rename",
 		value: function Rename() {
@@ -382,6 +408,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.Rename: ' + error.message;
 			});
 		}
+
+		// RenameID changes the name of a previously taught face, by ID.
+
 	}, {
 		key: "RenameID",
 		value: function RenameID() {
@@ -423,6 +452,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.RenameID: ' + error.message;
 			});
 		}
+
+		// SimilarFile checks for similar faces from the face in an image file.
+
 	}, {
 		key: "SimilarFile",
 		value: function SimilarFile() {
@@ -464,6 +496,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.SimilarFile: ' + error.message;
 			});
 		}
+
+		// SimilarID checks for similar faces by ID.
+
 	}, {
 		key: "SimilarID",
 		value: function SimilarID() {
@@ -505,6 +540,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.SimilarID: ' + error.message;
 			});
 		}
+
+		// SimilarURL checks for similar faces in a hosted image file.
+
 	}, {
 		key: "SimilarURL",
 		value: function SimilarURL() {
@@ -546,6 +584,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.SimilarURL: ' + error.message;
 			});
 		}
+
+		// TeachFaceprint teaches Facebox about a face from a Faceprint.
+
 	}, {
 		key: "TeachFaceprint",
 		value: function TeachFaceprint() {
@@ -587,6 +628,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.TeachFaceprint: ' + error.message;
 			});
 		}
+
+		// TeachFile teaches Facebox a new face from an image file.
+
 	}, {
 		key: "TeachFile",
 		value: function TeachFile() {
@@ -628,6 +672,9 @@ var FaceboxClient = exports.FaceboxClient = function () {
 				throw 'FaceboxClient.TeachFile: ' + error.message;
 			});
 		}
+
+		// TeachURL teaches Facebox a new face from an image on the web.
+
 	}, {
 		key: "TeachURL",
 		value: function TeachURL() {
@@ -910,11 +957,6 @@ var CheckURLRequest = exports.CheckURLRequest = function () {
 			return JSON.stringify(this._data);
 		}
 	}, {
-		key: "setFile",
-		value: function setFile(request, filename, file) {
-			this._data.file = request.addFile(filename, file);
-		}
-	}, {
 		key: "allFiles",
 		get: function get() {
 			return this._files;
@@ -927,9 +969,12 @@ var CheckURLRequest = exports.CheckURLRequest = function () {
 			return _filesCount;
 		}
 	}, {
-		key: "file",
+		key: "uRL",
 		get: function get() {
-			return this._data.file;
+			return this._data.url;
+		},
+		set: function set(url) {
+			this._data.url = url;
 		}
 	}]);
 
