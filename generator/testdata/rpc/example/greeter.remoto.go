@@ -27,9 +27,18 @@ type GreetResponse struct {
 
 // GreetFormatRequest is the request for Greeter.GreetRequest.
 type GreetFormatRequest struct {
+	// Format is the GreetingFormat describing the format
+	// of the greetings.
+	Format GreetingFormat
+	// Names is one or more names of people to greet.
+	Names []string
+}
+
+// GreetingFormat describes the format of a greeting.
+type GreetingFormat struct {
 	// Format is a Go-style format string describing the greeting.
 	// `%s` will be replaced with the name of the person.
 	Format string
-	// Names is one or more names of people to greet.
-	Names []string
+	// AllCaps is whether to convert the greeting to all caps.
+	AllCaps bool
 }

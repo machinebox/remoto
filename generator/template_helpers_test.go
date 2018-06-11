@@ -29,6 +29,11 @@ func TestHelperComment(t *testing.T) {
 	is.Equal(printComment(""), ``)
 	is.Equal(printComment("Something"), `// Something`+"\n")
 
+	is.Equal(printComment("one\ntwo\nthree"), `// one
+// two
+// three
+`)
+
 }
 
 func TestHelperUniqueStructures(t *testing.T) {

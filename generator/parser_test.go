@@ -16,59 +16,75 @@ func TestParser(t *testing.T) {
 
 	is.Equal(len(def.Services), 2)
 	is.Equal(def.PackageName, "greeter")
-	//is.Equal(def.PackageComment, "Package greeter is a sweet API that greets people.")
-	out := def.String()
-	is.Equal(out, `package greeter
-
-// GreetFormatter provides formattable greeting services.
-type GreetFormatter interface {
-	Greet(*GreetFormatRequest) *GreetResponse
-}
-
-// GreetFormatRequest is the request for Greeter.GreetRequest.
-type GreetFormatRequest struct {
-	Format string
-	Names []string
-}
-
-// GreetResponse is the response for Greeter.GreetRequest.
-type GreetResponse struct {
-	Greeting string
-	Error string
-}
-
-// Greeter provides greeting services.
-type Greeter interface {
-	Greet(*GreetRequest) *GreetResponse
-}
-
-// GreetRequest is the request for Greeter.GreetRequest.
-type GreetRequest struct {
-	Name string
-}
-
-// GreetResponse is the response for Greeter.GreetRequest.
-type GreetResponse struct {
-	Greeting string
-	Error string
-}
-
-`)
-
-	is.Equal(def.PackageName, "greeter")
-	//is.Equal(def.PackageComment, "Package greeter is a sweet API that greets people.")
+	is.Equal(def.PackageComment, "Package greeter is a sweet API that greets people.")
 	is.Equal(def.Services[0].Name, "GreetFormatter")
 	is.Equal(def.Services[0].Comment, "GreetFormatter provides formattable greeting services.")
-	is.Equal(def.Services[0].Structures[0].Name, "GreetFormatRequest")
-	is.Equal(def.Services[0].Structures[1].Name, "GreetResponse")
+
+	greetFormatRequest := def.Structure("GreetFormatRequest")
+	is.Equal(greetFormatRequest.Name, "GreetFormatRequest")
+	is.Equal(greetFormatRequest.Fields[1].Name, "Names")
+	is.Equal(greetFormatRequest.Fields[1].Comment, "Names is one or more names of people to greet.")
+	is.Equal(greetFormatRequest.Fields[1].Type.Name, "string")
+	is.Equal(greetFormatRequest.Fields[1].Type.IsMultiple, true)
+
 	is.Equal(def.Services[1].Name, "Greeter")
 	is.Equal(def.Services[1].Comment, "Greeter provides greeting services.")
-	is.Equal(def.Services[1].Structures[0].Name, "GreetRequest")
-	is.Equal(def.Services[1].Structures[1].Name, "GreetResponse")
-	is.Equal(def.Services[0].Structures[0].Fields[1].Name, "Names")
-	is.Equal(def.Services[0].Structures[0].Fields[1].Type.Name, "string")
-	is.Equal(def.Services[0].Structures[0].Fields[1].Type.IsMultiple, true)
 
+	greetRequest := def.Structure("GreetRequest")
+	is.Equal(greetRequest.Name, "GreetRequest")
+	is.Equal(greetRequest.Comment, "GreetRequest is the request for Greeter.GreetRequest.")
+	is.Equal(greetRequest.Fields[0].Name, "Name")
+	is.Equal(greetRequest.Fields[0].Comment, "Name is the name of the person to greet.")
+
+	is.Equal(def.Services[1].Structures[1].Name, "GreetResponse")
+	is.Equal(def.Services[1].Structures[1].Comment, "GreetResponse is the response for Greeter.GreetRequest.")
+
+	greetingFormat := def.Structure("GreetingFormat")
+	is.Equal(greetingFormat.Comment, "GreetingFormat describes the format of a greeting.")
+	is.Equal(greetingFormat.Fields[0].Name, "Format")
+	is.Equal(greetingFormat.Fields[0].Comment, "Format is a Go-style format string describing the greeting.\n`%s` will be replaced with the name of the person.")
+	is.Equal(greetingFormat.Fields[0].Type.Name, "string")
+	is.Equal(greetingFormat.Fields[1].Name, "AllCaps")
+	is.Equal(greetingFormat.Fields[1].Comment, "AllCaps is whether to convert the greeting to all caps.")
+	is.Equal(greetingFormat.Fields[1].Type.Name, "bool")
+
+	// out := def.String()
+	// is.Equal(out, `package greeter
+
+	// 	// GreetFormatter provides formattable greeting services.
+	// 	type GreetFormatter interface {
+	// 		Greet(*GreetFormatRequest) *GreetResponse
+	// 	}
+
+	// 	// GreetFormatRequest is the request for Greeter.GreetRequest.
+	// 	type GreetFormatRequest struct {
+	// 		Format string
+	// 		Names []string
+	// 	}
+
+	// 	// GreetResponse is the response for Greeter.GreetRequest.
+	// 	type GreetResponse struct {
+	// 		Greeting string
+	// 		Error string
+	// 	}
+
+	// 	// Greeter provides greeting services.
+	// 	type Greeter interface {
+	// 		Greet(*GreetRequest) *GreetResponse
+	// 	}
+
+	// 	// GreetRequest is the request for Greeter.GreetRequest.
+	// 	type GreetRequest struct {
+	// 		Name string
+	// 	}
+
+	// 	// GreetResponse is the response for Greeter.GreetRequest.
+	// 	type GreetResponse struct {
+	// 		Greeting string
+	// 		Error string
+	// 	}
+
+	// 	`)
 }
 
 func TestErrors(t *testing.T) {

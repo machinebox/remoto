@@ -22,8 +22,11 @@ func TestRender(t *testing.T) {
 		method: Greet
 			request: GreetFormatRequest
 			response: GreetResponse
-		structure: GreetFormatRequest
+		structure: GreetingFormat
 			field: Format string
+			field: AllCaps bool
+		structure: GreetFormatRequest
+			field: Format GreetingFormat
 			field: Names string
 		structure: GreetResponse
 			field: Greeting string

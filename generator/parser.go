@@ -2,10 +2,12 @@ package generator
 
 import (
 	"go/ast"
+	"go/doc"
 	"go/importer"
 	"go/parser"
 	"go/token"
 	"go/types"
+	"log"
 	"os"
 	"strings"
 
@@ -35,11 +37,13 @@ func Parse(dir string) (definition.Definition, error) {
 		return def, errors.New("multiple packages found: " + strings.Join(pkgNames, ", "))
 	}
 	firstPkg := pkgs[pkgNames[0]]
-	def.PackageName = pkgNames[0]
 	files := make([]*ast.File, 0, len(firstPkg.Files))
 	for _, file := range firstPkg.Files {
 		files = append(files, file)
 	}
+	docs := doc.New(firstPkg, "./", doc.AllDecls+doc.AllMethods)
+	def.PackageName = pkgNames[0]
+	def.PackageComment = strings.TrimSpace(docs.Doc)
 	info := &types.Info{}
 	conf := types.Config{Importer: importer.Default()}
 	pkg, err := conf.Check(dir, fset, files, info)
@@ -48,7 +52,6 @@ func Parse(dir string) (definition.Definition, error) {
 	}
 	for _, f := range files {
 		for _, comment := range f.Comments {
-			// TODO(matryer): use a technique that can get comments for methods too.
 			pos := comment.Pos()
 			trimmedComment := strings.TrimSpace(comment.Text())
 			name := strings.Split(trimmedComment, " ")[0]
@@ -62,7 +65,7 @@ func Parse(dir string) (definition.Definition, error) {
 		obj := pkg.Scope().Lookup(name)
 		switch v := obj.Type().Underlying().(type) {
 		case *types.Interface:
-			service, err := parseService(fset, pkg, &def, obj, v)
+			service, err := parseService(fset, docs, pkg, &def, obj, v)
 			if err != nil {
 				for sub, tip := range tips {
 					if strings.Contains(err.Error(), sub) {
@@ -78,14 +81,15 @@ func Parse(dir string) (definition.Definition, error) {
 	return def, nil
 }
 
-func parseService(fset *token.FileSet, pkg *types.Package, def *definition.Definition, obj types.Object, v *types.Interface) (definition.Service, error) {
+func parseService(fset *token.FileSet, docs *doc.Package, pkg *types.Package, def *definition.Definition, obj types.Object, v *types.Interface) (definition.Service, error) {
+	_, comment := commentForType(docs, obj.Name())
 	srv := definition.Service{
 		Name:    obj.Name(),
-		Comment: def.Comments[obj.Name()],
+		Comment: comment,
 	}
 	for i := 0; i < v.NumMethods(); i++ {
 		m := v.Method(i)
-		method, err := parseMethod(fset, pkg, def, &srv, m)
+		method, err := parseMethod(fset, docs, pkg, def, &srv, m)
 		if err != nil {
 			return srv, err
 		}
@@ -94,10 +98,11 @@ func parseService(fset *token.FileSet, pkg *types.Package, def *definition.Defin
 	return srv, nil
 }
 
-func parseMethod(fset *token.FileSet, pkg *types.Package, def *definition.Definition, srv *definition.Service, m *types.Func) (definition.Method, error) {
+func parseMethod(fset *token.FileSet, docs *doc.Package, pkg *types.Package, def *definition.Definition, srv *definition.Service, m *types.Func) (definition.Method, error) {
+	_, comment := commentForType(docs, m.Name())
 	method := definition.Method{
 		Name:    m.Name(),
-		Comment: def.Comments[m.Name()],
+		Comment: comment,
 	}
 	if !m.Exported() {
 		return method, newErr(fset, m.Pos(), "method "+m.Name()+": must be exported")
@@ -112,7 +117,7 @@ func parseMethod(fset *token.FileSet, pkg *types.Package, def *definition.Defini
 		return method, newErr(fset, m.Pos(), "service methods must have signature (*Request) *Response")
 	}
 	requestParam := params.At(0)
-	requestStructure, err := parseStructureFromParam(fset, pkg, def, srv, "request", requestParam)
+	requestStructure, err := parseStructureFromParam(fset, docs, pkg, def, srv, "request", requestParam)
 	if err != nil {
 		return method, err
 	}
@@ -128,7 +133,7 @@ func parseMethod(fset *token.FileSet, pkg *types.Package, def *definition.Defini
 		return method, newErr(fset, m.Pos(), "service methods must have signature (*Request) *Response")
 	}
 	responseParam := returns.At(0)
-	responseStructure, err := parseStructureFromParam(fset, pkg, def, srv, "response", responseParam)
+	responseStructure, err := parseStructureFromParam(fset, docs, pkg, def, srv, "response", responseParam)
 	if err != nil {
 		return method, err
 	}
@@ -160,7 +165,7 @@ func addDefaultResponseFields(structure *definition.Structure) {
 	})
 }
 
-func parseStructureFromParam(fset *token.FileSet, pkg *types.Package, def *definition.Definition, srv *definition.Service, structureKind string, v *types.Var) (definition.Structure, error) {
+func parseStructureFromParam(fset *token.FileSet, docs *doc.Package, pkg *types.Package, def *definition.Definition, srv *definition.Service, structureKind string, v *types.Var) (definition.Structure, error) {
 	resolver := func(other *types.Package) string {
 		if other.Name() != def.PackageName {
 			return other.Name()
@@ -177,10 +182,11 @@ func parseStructureFromParam(fset *token.FileSet, pkg *types.Package, def *defin
 		return structure, newErr(fset, v.Pos(), structureKind+" object must be a pointer to a struct")
 	}
 	structure.Name = types.TypeString(v.Type(), resolver)[1:]
-	structure.Comment = def.Comments[structure.Name]
+	var docstype *doc.Type
+	docstype, structure.Comment = commentForType(docs, structure.Name)
 	structure.IsImported = strings.Contains(structure.Name, ".")
 	for i := 0; i < st.NumFields(); i++ {
-		field, err := parseField(fset, pkg, def, srv, st.Field(i))
+		field, err := parseField(fset, docs, docstype, pkg, def, srv, st.Field(i))
 		if err != nil {
 			return structure, err
 		}
@@ -189,17 +195,18 @@ func parseStructureFromParam(fset *token.FileSet, pkg *types.Package, def *defin
 	return structure, nil
 }
 
-func parseStructure(fset *token.FileSet, pkg *types.Package, def *definition.Definition, srv *definition.Service, obj types.Object) (definition.Structure, error) {
+func parseStructure(fset *token.FileSet, docs *doc.Package, pkg *types.Package, def *definition.Definition, srv *definition.Service, obj types.Object) (definition.Structure, error) {
 	structure := definition.Structure{
 		Name: obj.Name(),
 	}
-	structure.Comment = def.Comments[structure.Name]
+	var docstype *doc.Type
+	docstype, structure.Comment = commentForType(docs, structure.Name)
 	st, ok := obj.Type().Underlying().(*types.Struct)
 	if !ok {
 		return structure, newErr(fset, obj.Pos(), obj.Type().String()+" field must be a pointer to a struct")
 	}
 	for i := 0; i < st.NumFields(); i++ {
-		field, err := parseField(fset, pkg, def, srv, st.Field(i))
+		field, err := parseField(fset, docs, docstype, pkg, def, srv, st.Field(i))
 		if err != nil {
 			return structure, err
 		}
@@ -208,7 +215,7 @@ func parseStructure(fset *token.FileSet, pkg *types.Package, def *definition.Def
 	return structure, nil
 }
 
-func parseField(fset *token.FileSet, pkg *types.Package, def *definition.Definition, srv *definition.Service, v *types.Var) (definition.Field, error) {
+func parseField(fset *token.FileSet, docs *doc.Package, docstype *doc.Type, pkg *types.Package, def *definition.Definition, srv *definition.Service, v *types.Var) (definition.Field, error) {
 	var field definition.Field
 	if !v.IsField() {
 		return field, newErr(fset, v.Pos(), v.Name()+" not a field")
@@ -216,6 +223,19 @@ func parseField(fset *token.FileSet, pkg *types.Package, def *definition.Definit
 	if !v.Exported() {
 		return field, newErr(fset, v.Pos(), "field "+v.Name()+": must be exported")
 	}
+	ast.Inspect(docstype.Decl, func(n ast.Node) bool {
+		astfield, ok := n.(*ast.Field)
+		if !ok {
+			return true // skip
+		}
+		if len(astfield.Names) < 1 {
+			return true // skip
+		}
+		if astfield.Names[0].Name == v.Name() {
+			field.Comment = strings.TrimSpace(astfield.Doc.Text())
+		}
+		return true
+	})
 	typ, err := parseType(def, v.Type())
 	if err != nil {
 		return field, newErr(fset, v.Pos(), err.Error())
@@ -224,7 +244,10 @@ func parseField(fset *token.FileSet, pkg *types.Package, def *definition.Definit
 	field.Type = typ
 	if typ.IsStruct && !typ.IsImported {
 		obj := pkg.Scope().Lookup(typ.Name)
-		structure, err := parseStructure(fset, pkg, def, srv, obj)
+		if obj == nil {
+			return field, newErr(fset, v.Pos(), typ.Name+" not found")
+		}
+		structure, err := parseStructure(fset, docs, pkg, def, srv, obj)
 		if err != nil {
 			return field, err
 		}
@@ -257,12 +280,31 @@ func parseType(def *definition.Definition, typ types.Type) (definition.Type, err
 		ty.IsStruct = true
 		return ty, nil
 	}
+	if pointer, ok := typ.Underlying().(*types.Pointer); ok {
+		log.Printf("Is pointer %v %T \n", pointer, pointer.Elem().Underlying())
+		// trim off *
+		ty.Name = ty.Name[1:]
+		if _, ok := pointer.Elem().Underlying().(*types.Struct); ok {
+			ty.IsStruct = true
+			return ty, nil
+		}
+	}
 	switch ty.Name {
 	case "string", "float64", "int", "bool", "io.Reader",
 		"remototypes.File":
 		return ty, nil
 	}
 	return ty, errors.New("type " + ty.Name + " not supported")
+}
+
+// commentForType gets the comment for the specified type name.
+func commentForType(docs *doc.Package, typename string) (*doc.Type, string) {
+	for _, typ := range docs.Types {
+		if typ.Name == typename {
+			return typ, strings.TrimSpace(typ.Doc)
+		}
+	}
+	return nil, ""
 }
 
 // tips are simple error string matches (keys) which if found,

@@ -66,7 +66,11 @@ func printComment(comment string) string {
 	if comment == "" {
 		return ""
 	}
-	return "// " + comment + "\n"
+	var out string
+	for _, line := range strings.Split(comment, "\n") {
+		out += "// " + line + "\n"
+	}
+	return out
 }
 
 // goTypeString gets the Type as a Go string.
