@@ -85,7 +85,7 @@ Plush templates can check if a method has this return type:
 ```c
 // general code
 
-<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
+<%= if (method.ResponseStructure.Name == "remototypes.FileResponse") { %>
 	// file specific response code
 <% } else { %>
 	// Data structure response code

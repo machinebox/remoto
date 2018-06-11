@@ -26,7 +26,7 @@ import (
 <%= for (service) in def.Services { %>
 <%= print_comment(service.Comment) %>type <%= service.Name %> interface {
 	<%= for (method) in service.Methods { %>
-	<%= print_comment(method.Comment) %><%= method.Name %>(context.Context, *<%= method.RequestType.Name %>) (*<%= method.ResponseType.Name %>, error)
+	<%= print_comment(method.Comment) %><%= method.Name %>(context.Context, *<%= method.RequestStructure.Name %>) (*<%= method.ResponseStructure.Name %>, error)
 <% } %>
 }
 
@@ -96,12 +96,12 @@ type http<%= service.Name %>Server struct {
 <%= for (method) in service.Methods { %>
 // handle<%= method.Name %> is an http.Handler wrapper for <%= service.Name %>.<%= method.Name %>.
 func (srv *http<%= service.Name %>Server) handle<%= method.Name %>(w http.ResponseWriter, r *http.Request) {
-	var reqs []*<%= method.RequestType.Name %>
+	var reqs []*<%= method.RequestStructure.Name %>
 	if err := remotohttp.Decode(r, &reqs); err != nil {
 		srv.server.OnErr(w, r, err)
 		return
 	}
-	<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
+	<%= if (method.ResponseStructure.Name == "remototypes.FileResponse") { %>
 	// single file response
 
 	if len(reqs) != 1 {
@@ -133,7 +133,7 @@ func (srv *http<%= service.Name %>Server) handle<%= method.Name %>(w http.Respon
 		return
 	}
 	<% } else { %>
-	resps := make([]<%= method.ResponseType.Name %>, len(reqs))
+	resps := make([]<%= method.ResponseStructure.Name %>, len(reqs))
 	for i := range reqs {
 		resp, err := srv.service.<%= method.Name %>(r.Context(), reqs[i])
 		if err != nil {

@@ -26,32 +26,32 @@ export class <%= service.Name %>ClientOptions {
 		this.options = options
 	}
 	<%= for (method) in service.Methods { %>
-	<%= print_comment(method.Comment) %><%= method.Name %>(<%= camelize_down_first(method.RequestType.Name) %> = null) {
-		return this.<%= method.Name %>Multi([<%= camelize_down_first(method.RequestType.Name) %>]).then(function(responses) {
+	<%= print_comment(method.Comment) %><%= method.Name %>(<%= camelize_down_first(method.RequestStructure.Name) %> = null) {
+		return this.<%= method.Name %>Multi([<%= camelize_down_first(method.RequestStructure.Name) %>]).then(function(responses) {
 			return responses[0]
 		})
 	}
 
 	// <%= method.Name %>Multi is the batch version of <%= method.Name %>.
-	<%= method.Name %>Multi(<%= camelize_down_first(method.RequestType.Name) %>s) {
+	<%= method.Name %>Multi(<%= camelize_down_first(method.RequestStructure.Name) %>s) {
 		var data = new FormData()
-		<%= camelize_down_first(method.RequestType.Name) %>s.forEach(function(request){
-			if (request && !request instanceof <%= method.RequestType.Name %>) {
-				throw '<%= service.Name %>Client.<%= method.Name %>: requests must be instances of <%= method.RequestType.Name %>'
+		<%= camelize_down_first(method.RequestStructure.Name) %>s.forEach(function(request){
+			if (request && !request instanceof <%= method.RequestStructure.Name %>) {
+				throw '<%= service.Name %>Client.<%= method.Name %>: requests must be instances of <%= method.RequestStructure.Name %>'
 			}
 			let allfiles = request.allFiles()
 			allfiles.forEach(function(fieldname) {
 				data.set(fieldname, allfiles[fieldname])
 			})
 		})
-		data.set('json', JSON.stringify(<%= camelize_down_first(method.RequestType.Name) %>s))
+		data.set('json', JSON.stringify(<%= camelize_down_first(method.RequestStructure.Name) %>s))
 		return fetch(this.options.endpoint() + '/remoto/<%= service.Name %>.<%= method.Name %>', {
 			method: 'post', body: data,
 			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
 		}).then(function(responseData){ // success
 			var responses = []
 			responseData.json().forEach(function(response){
-				responses.push(new <%= method.ResponseType.Name %>(response))
+				responses.push(new <%= method.ResponseStructure.Name %>(response))
 			})
 			return responses
 		}, function(error){ // error

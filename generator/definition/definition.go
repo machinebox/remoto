@@ -73,18 +73,18 @@ func (s Service) String() string {
 
 // Method is a single method.
 type Method struct {
-	Name         string
-	Comment      string
-	RequestType  Structure
-	ResponseType Structure
-} // TODO: change RequestType and ResponseType to RequestStructure and ResponseStructure
+	Name              string
+	Comment           string
+	RequestStructure  Structure
+	ResponseStructure Structure
+}
 
 func (m Method) String() string {
 	var str string
 	if m.Comment != "" {
 		str += "// " + m.Comment + "/n"
 	}
-	str += m.Name + "(context.Context, *" + m.RequestType.Name + ") (*" + m.ResponseType.Name + ", error)\n"
+	str += m.Name + "(*" + m.RequestStructure.Name + ") *" + m.ResponseStructure.Name + "\n"
 	return str
 }
 

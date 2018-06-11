@@ -44,8 +44,8 @@ func New<%= service.Name %>Client(endpoint string, client *http.Client) *<%= ser
 }
 
 <%= for (method) in service.Methods { %>
-<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
-<%= print_comment(method.Comment) %>func (c *<%= service.Name %>Client) <%= method.Name %>(ctx context.Context, request *<%= method.RequestType.Name %>) (io.ReadCloser, error) {
+<%= if (method.ResponseStructure.Name == "remototypes.FileResponse") { %>
+<%= print_comment(method.Comment) %>func (c *<%= service.Name %>Client) <%= method.Name %>(ctx context.Context, request *<%= method.RequestStructure.Name %>) (io.ReadCloser, error) {
 	b, err := json.Marshal([]interface{}{ request })
     if err != nil {
         return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: encode request")
@@ -91,8 +91,8 @@ func New<%= service.Name %>Client(endpoint string, client *http.Client) *<%= ser
 	return resp.Body, nil
 }
 <% } else { %>
-<%= print_comment(method.Comment) %>func (c *<%= service.Name %>Client) <%= method.Name %>(ctx context.Context, request *<%= method.RequestType.Name %>) (*<%= method.ResponseType.Name %>, error) {
-	resp, err := c.<%= method.Name %>Multi(ctx, []*<%= method.RequestType.Name %>{request})
+<%= print_comment(method.Comment) %>func (c *<%= service.Name %>Client) <%= method.Name %>(ctx context.Context, request *<%= method.RequestStructure.Name %>) (*<%= method.ResponseStructure.Name %>, error) {
+	resp, err := c.<%= method.Name %>Multi(ctx, []*<%= method.RequestStructure.Name %>{request})
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +102,7 @@ func New<%= service.Name %>Client(endpoint string, client *http.Client) *<%= ser
 	return resp[0], nil
 }
 
-func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context, requests []*<%= method.RequestType.Name %>) ([]*<%= method.ResponseType.Name %>, error) {
+func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context, requests []*<%= method.RequestStructure.Name %>) ([]*<%= method.ResponseStructure.Name %>, error) {
 	b, err := json.Marshal(requests)
     if err != nil {
         return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: encode request")
@@ -150,7 +150,7 @@ func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context,
 	if err != nil {
 		return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: read response body")
 	}
-	var resps []*<%= method.ResponseType.Name %>
+	var resps []*<%= method.ResponseStructure.Name %>
 	if err := json.Unmarshal(b, &resps); err != nil {
 		return nil, errors.Wrap(err, "<%= service.Name %>Client.<%= method.Name %>: decode response body")
 	}

@@ -11,10 +11,10 @@
 		this.options = this.options || {}
 		this.options.endpoint = this.options.endpoint || "http://localhost:8080"
 	}
-	<%= for (method) in service.Methods { %><%= print_comment(method.Comment) %><%= if (method.RequestType.HasFields) { %>
-	// Must pass in an instance of $.<%= def.PackageName %>.<%= method.RequestType.Name %>.
-	$.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %> = function(<%= camelize_down_first(method.RequestType.Name) %>) {
-		return this.<%= method.Name %>Multi([<%= camelize_down_first(method.RequestType.Name) %>])
+	<%= for (method) in service.Methods { %><%= print_comment(method.Comment) %><%= if (method.RequestStructure.HasFields) { %>
+	// Must pass in an instance of $.<%= def.PackageName %>.<%= method.RequestStructure.Name %>.
+	$.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %> = function(<%= camelize_down_first(method.RequestStructure.Name) %>) {
+		return this.<%= method.Name %>Multi([<%= camelize_down_first(method.RequestStructure.Name) %>])
 			.then(function(responses){
 				return responses[0]
 			})
@@ -23,9 +23,9 @@
 	// $.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %>Multi is a batch
 	// version of $.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %>.
 	// Pass in an array of request objects, and get back an array of response objects.
-	$.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %>Multi = function(<%= camelize_down_first(method.RequestType.Name) %>s) {
-		<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
-		if (<%= camelize_down_first(method.RequestType.Name) %>s.length > 1) {
+	$.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %>Multi = function(<%= camelize_down_first(method.RequestStructure.Name) %>s) {
+		<%= if (method.ResponseStructure.Name == "remototypes.FileResponse") { %>
+		if (<%= camelize_down_first(method.RequestStructure.Name) %>s.length > 1) {
 			throw '$.<%= def.PackageName %>.<%= service.Name %>Client.<%= method.Name %>Multi: batch requests are not supported for file responses, use $.<%= def.PackageName %>.<%= service.Name %>Client.<%= method.Name %> instead.'
 		}<% } %>var filesCount = 0
 		var formData = new FormData()
@@ -43,7 +43,7 @@
 		}).then(function(responses) {
 			var responseObjects = []
 			responses.forEach(function(response){
-				responseObjects.push(new $.<%= def.PackageName %>.<%= method.ResponseType.Name %>(response))
+				responseObjects.push(new $.<%= def.PackageName %>.<%= method.ResponseStructure.Name %>(response))
 			})
 			return responseObjects
 		})

@@ -120,7 +120,7 @@ func parseMethod(fset *token.FileSet, pkg *types.Package, def *definition.Defini
 		return method, newErr(fset, m.Pos(), "request object type name should end with \"Request\"")
 	}
 	requestStructure.IsRequestObject = true
-	method.RequestType = requestStructure
+	method.RequestStructure = requestStructure
 	srv.EnsureStructure(requestStructure)
 	// process return arguments
 	returns := sig.Results()
@@ -140,7 +140,7 @@ func parseMethod(fset *token.FileSet, pkg *types.Package, def *definition.Defini
 		return method, newErr(fset, m.Pos(), "response object type name should end with \"Response\"")
 	}
 	addDefaultResponseFields(&responseStructure)
-	method.ResponseType = responseStructure
+	method.ResponseStructure = responseStructure
 	srv.EnsureStructure(responseStructure)
 	return method, nil
 }

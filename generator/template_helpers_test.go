@@ -99,3 +99,8 @@ func TestCamelizeDownFirst(t *testing.T) {
 	is.Equal(camelizeDownFirst("SomethingElse"), `somethingElse`)
 	is.Equal(camelizeDownFirst("ModelID"), `modelID`)
 }
+
+func TestReplace(t *testing.T) {
+	is := is.New(t)
+	is.Equal(replace("one two three", "two", "2"), "one 2 three")
+}

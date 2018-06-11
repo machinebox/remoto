@@ -1,8 +1,8 @@
 package: <%= def.PackageName %>
 <%= for (service) in def.Services { %>	service: <%= service.Name %>
 <%= for (method) in service.Methods { %>		method: <%= method.Name %>
-			request: <%= method.RequestType.Name %>
-			response: <%= method.ResponseType.Name %><% } %>
+			request: <%= method.RequestStructure.Name %>
+			response: <%= method.ResponseStructure.Name %><% } %>
 <%= for (structure) in service.Structures { %>		structure: <%= structure.Name %>
 <%= for (field) in structure.Fields { %>			field: <%= field.Name %> <%= field.Type.Name %>
 <% } %><% } %><% } %>

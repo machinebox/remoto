@@ -162,20 +162,20 @@
 									<div class='row'>
 										<div class='col col-auto'>
 											<p>
-												<%= contentOf("structure-link", {"name":method.RequestType.Name}) %>
+												<%= contentOf("structure-link", {"name":method.RequestStructure.Name}) %>
 											</p>
-											<%= contentOf("describe-fields", {"fields": method.RequestType.Fields}) %>
+											<%= contentOf("describe-fields", {"fields": method.RequestStructure.Fields}) %>
 										</div>
 										<div class='col col-auto'>
 											<p>
-												<%= contentOf("structure-link", {"name":method.ResponseType.Name}) %>
+												<%= contentOf("structure-link", {"name":method.ResponseStructure.Name}) %>
 											</p>
-											<%= if (method.ResponseType.Name == "remototypes.FileResponse") { %>
+											<%= if (method.ResponseStructure.Name == "remototypes.FileResponse") { %>
 												<ul>
 													<li>File</li>
 												</ul>
 											<% } else { %>
-												<%= contentOf("describe-fields", {"fields": method.ResponseType.Fields}) %>
+												<%= contentOf("describe-fields", {"fields": method.ResponseStructure.Fields}) %>
 											<% } %>
 										</div>
 									</div>

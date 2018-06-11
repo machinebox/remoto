@@ -56,6 +56,7 @@ type GreetResponse struct {
 `)
 
 	is.Equal(def.PackageName, "greeter")
+	//is.Equal(def.PackageComment, "Package greeter is a sweet API that greets people.")
 	is.Equal(def.Services[0].Name, "GreetFormatter")
 	is.Equal(def.Services[0].Comment, "GreetFormatter provides formattable greeting services.")
 	is.Equal(def.Services[0].Structures[0].Name, "GreetFormatRequest")
