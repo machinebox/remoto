@@ -5,6 +5,7 @@ Ultra-simple, fast, complete RPC ecosystem designed for right now.
 * Simple service definitions written in Go (interfaces and structs)
 * Generates servers and clients that makes implementing/consuming easy
 * Generates human-readable code
+* Supports batch requests out of the box
 * Lots of [templates](templates) to use today
 
 ## In this document
