@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -73,12 +72,15 @@ func handleRenderTemplate() http.HandlerFunc {
 			http.NotFound(w, r)
 			return
 		}
-		templatePath := r.URL.Path[len("/api/"):] + ".plush"
-		b, err := ioutil.ReadFile(templatePath)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-		generator.Parse()
+		//templatePath := r.URL.Path[len("/api/"):] + ".plush"
+		// b, err := ioutil.ReadFile(templatePath)
+		// if err != nil {
+		// 	http.Error(w, err.Error(), http.StatusBadRequest)
+		// 	return
+		// }
+
+		// TODO: parse this with the Remoto generator when it can
+		// accept files.
+
 	}
 }
