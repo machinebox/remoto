@@ -11,7 +11,7 @@ import (
 func TestParser(t *testing.T) {
 	is := is.New(t)
 
-	def, err := Parse("testdata/rpc/example")
+	def, err := ParseDir("testdata/rpc/example")
 	is.NoErr(err)
 
 	is.Equal(len(def.Services), 2)
@@ -114,7 +114,7 @@ func TestParseReader(t *testing.T) {
 	is := is.New(t)
 
 	src := strings.NewReader(exampleRemotoDefinition)
-	def, err := ParseReader(src)
+	def, err := Parse(src)
 	is.NoErr(err)
 
 	is.Equal(len(def.Services), 2)
@@ -235,7 +235,7 @@ func TestErrors(t *testing.T) {
 			is := is.New(t)
 			os.Chdir(path)
 			defer os.Chdir(pwd)
-			_, err := Parse(".")
+			_, err := ParseDir(".")
 			is.True(err != nil) // must be an error
 			is.Equal(err.Error(), expectedErr)
 		})
@@ -245,7 +245,7 @@ func TestErrors(t *testing.T) {
 func TestParserImports(t *testing.T) {
 	is := is.New(t)
 
-	def, err := Parse("testdata/rpc/import")
+	def, err := ParseDir("testdata/rpc/import")
 	is.NoErr(err)
 
 	is.Equal(len(def.Services), 1)

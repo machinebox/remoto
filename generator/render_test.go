@@ -10,7 +10,7 @@ import (
 
 func TestRender(t *testing.T) {
 	is := is.New(t)
-	def, err := Parse("testdata/rpc/example")
+	def, err := ParseDir("testdata/rpc/example")
 	is.NoErr(err)
 	b, err := ioutil.ReadFile("testdata/templates/list.txt")
 	is.NoErr(err)
