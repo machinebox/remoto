@@ -2,11 +2,14 @@ package api
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 	"sync"
+
+	"github.com/machinebox/remoto/generator"
 )
 
 func init() {
@@ -72,15 +75,20 @@ func handleRenderTemplate() http.HandlerFunc {
 			http.NotFound(w, r)
 			return
 		}
-		//templatePath := r.URL.Path[len("/api/"):] + ".plush"
-		// b, err := ioutil.ReadFile(templatePath)
-		// if err != nil {
-		// 	http.Error(w, err.Error(), http.StatusBadRequest)
-		// 	return
-		// }
-
-		// TODO: parse this with the Remoto generator when it can
-		// accept files.
-
+		templatePath := r.URL.Path[len("/api/"):] + ".plush"
+		tplBytes, err := ioutil.ReadFile(templatePath)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		def, err := generator.Parse(strings.NewReader(r.FormValue("definition")))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if err := generator.Render(w, templatePath, string(tplBytes), def); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 }
