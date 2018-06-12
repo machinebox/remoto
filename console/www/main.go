@@ -6,8 +6,6 @@ import (
 	"net/http"
 	"sync"
 
-	golog "log"
-
 	"github.com/gobuffalo/plush"
 	"github.com/oxtoacart/bpool"
 	"google.golang.org/appengine"
@@ -40,7 +38,6 @@ func (s *server) handleIndex() http.HandlerFunc {
 			if err != nil {
 				return
 			}
-			golog.Printf("%s", b)
 			tpl, err = plush.NewTemplate(string(b))
 			if err != nil {
 				return

@@ -7,6 +7,7 @@ import (
 	"go/parser"
 	"go/token"
 	"go/types"
+	"io"
 	"log"
 	"os"
 	"strings"
@@ -14,6 +15,11 @@ import (
 	"github.com/machinebox/remoto/generator/definition"
 	"github.com/pkg/errors"
 )
+
+func ParseReader(r io.Reader) (definition.Definition, error) {
+	var def definition.Definition
+
+}
 
 // Parse parses a package of .remoto.go files.
 func Parse(dir string) (definition.Definition, error) {

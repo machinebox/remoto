@@ -110,6 +110,28 @@ type GreetResponse struct {
 `)
 }
 
+func TestParseReader(t *testing.T) {
+	is := is.New(t)
+
+	src := strings.NewReader(`package greeter
+		type Greeter interface {
+			Greet(*GreetRequest) *GreetResponse
+		}
+		
+		type GreetRequest struct {
+			Name string
+		}
+		
+		type GreetResponse struct {
+			Greeting string
+		}
+	`)
+
+	def, err := ParseReader(src)
+	is.NoErr(err)
+	is.Equal(def.PackageName, "greeter")
+}
+
 func TestErrors(t *testing.T) {
 	is := is.New(t)
 	tests := map[string]string{
