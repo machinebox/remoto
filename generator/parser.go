@@ -25,7 +25,6 @@ func Parse(r io.Reader) (definition.Definition, error) {
 		return def, err
 	}
 	files := []*ast.File{f}
-	log.Printf("%+v\n", f)
 	pkg := &ast.Package{
 		Name:  f.Name.Name,
 		Files: make(map[string]*ast.File),
