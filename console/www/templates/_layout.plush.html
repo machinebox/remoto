@@ -6,10 +6,27 @@
 	<%= contentOf("head") %>
 	<meta name='viewport' content='width=device-width, initial-scale=1'>
 	<link rel='stylesheet' href='/static/styles.css'>
+	<style>
+		footer {
+			padding: 10px;
+			text-align: right;
+		}
+	</style>
 </head>
 <body>
-	<div class='container'>
+	<nav class='navbar navbar-light bg-light'>
+		<div class='fluid-container'>
+			<a class="navbar-brand" href="#top">Remoto</a>
+		</div>
+	</nav>
+	<div class='fluid-container'>
 		<%= contentOf("body") %>
 	</div>
+	<footer>
+		<div class='fluid-container'>
+			Copyright &copy; Machine Box, Inc.
+		</div>
+	</footer>
+	<%= contentOf("scripts") %>
 </body>
 </html>

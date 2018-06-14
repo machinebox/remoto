@@ -7,7 +7,8 @@ const config = {
 
 module.exports = {
   entry: {
-    'app': './src/app.js'
+    'app': './src/app.js',
+    'editor': './src/editor.js'
   },
   output: {
     filename: '[name].js',

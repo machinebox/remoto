@@ -2,7 +2,6 @@ package api
 
 import (
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -23,7 +22,7 @@ func TestRenderTemplate(t *testing.T) {
 	h := handleRenderTemplate()
 	h(w, req)
 	body := w.Body.String()
-	log.Println(body)
+
 	is.Equal(w.Code, http.StatusOK)
 	is.True(strings.Contains(body, "type GreeterClient struct"))
 	is.True(strings.Contains(body, "type GreetRequest struct"))
