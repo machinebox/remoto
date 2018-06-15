@@ -1,9 +1,9 @@
 serve:
 	dev_appserver.py dispatch.yaml www/app.yaml api/app.yaml
 
-build:
+build: copyassets
 	cd www ; npm run build # see command in www/package.json
 
-copytemplates:
+copyassets:
 	rm -rf ./api/templates
 	cp -R ../templates ./api/templates

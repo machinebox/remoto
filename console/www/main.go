@@ -2,6 +2,7 @@ package www
 
 import (
 	"crypto/md5"
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -23,6 +24,7 @@ func init() {
 	}
 	http.HandleFunc("/definition", s.handleDefinitionSave())
 	http.HandleFunc("/definition/", s.handleDefinitionView())
+	http.HandleFunc("/validate", s.handleDefinitionValidate())
 	http.HandleFunc("/", s.handleIndex())
 }
 
@@ -148,6 +150,34 @@ func (s *server) handleDefinitionSave() http.HandlerFunc {
 			return
 		}
 		http.Redirect(w, r, "/definition/"+sourceHash, http.StatusFound)
+	}
+}
+
+// handleDefinitionValidate checks the definition file, returning a JSON object
+// with ok and error fields.
+func (s *server) handleDefinitionValidate() http.HandlerFunc {
+	type response struct {
+		OK    bool   `json:"ok"`
+		Error string `json:"error"`
+	}
+	return func(w http.ResponseWriter, r *http.Request) {
+		source := r.FormValue("definition")
+		if source == "" {
+			http.Error(w, "definition missing", http.StatusInternalServerError)
+			return
+		}
+		var response response
+		response.OK = true
+		_, err := generator.Parse(strings.NewReader(source))
+		if err != nil {
+			response.OK = false
+			response.Error = err.Error()
+		}
+		w.Header().Set("Content-Type", "application/json")
+		if err := json.NewEncoder(w).Encode(response); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 }
 
