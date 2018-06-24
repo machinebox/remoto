@@ -11,8 +11,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/machinebox/remoto/go/remotohttp"
-	"github.com/machinebox/remoto/remototypes"
+	"github.com/matryer/remoto/go/remotohttp"
+	"github.com/matryer/remoto/remototypes"
 	"github.com/pkg/errors"
 )
 

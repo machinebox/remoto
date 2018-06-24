@@ -1,7 +1,7 @@
 package files
 
 import (
-	"github.com/machinebox/remoto/remototypes"
+	"github.com/matryer/remoto/remototypes"
 )
 
 // Images provides image services.

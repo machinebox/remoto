@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/machinebox/remoto/generator"
+	"github.com/matryer/remoto/generator"
 	"github.com/spf13/cobra"
 )
 

@@ -8,7 +8,7 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/machinebox/remoto/examples/greeter/client/greeter"
+	"github.com/matryer/remoto/examples/greeter/client/greeter"
 )
 
 func main() {

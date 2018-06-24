@@ -1,7 +1,7 @@
 package classificationbox
 
 import (
-	"github.com/machinebox/remoto/remototypes"
+	"github.com/matryer/remoto/remototypes"
 )
 
 // Classificationbox lets you use machine learning to automatically classify

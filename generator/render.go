@@ -4,7 +4,7 @@ import (
 	"io"
 
 	"github.com/gobuffalo/plush"
-	"github.com/machinebox/remoto/generator/definition"
+	"github.com/matryer/remoto/generator/definition"
 	"github.com/pkg/errors"
 )
 

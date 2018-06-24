@@ -3,7 +3,7 @@ package id_test
 import (
 	"testing"
 
-	"github.com/machinebox/remoto/console/internal/id"
+	"github.com/matryer/remoto/console/internal/id"
 	"github.com/matryer/is"
 )
 

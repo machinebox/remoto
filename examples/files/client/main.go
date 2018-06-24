@@ -10,7 +10,7 @@ import (
 	"os/signal"
 	"path/filepath"
 
-	"github.com/machinebox/remoto/examples/files/client/files"
+	"github.com/matryer/remoto/examples/files/client/files"
 	"github.com/pkg/errors"
 )
 

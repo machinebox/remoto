@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/machinebox/remoto/go/remotohttp"
+	"github.com/matryer/remoto/go/remotohttp"
 	"github.com/matryer/is"
 )
 
