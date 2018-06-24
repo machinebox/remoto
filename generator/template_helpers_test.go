@@ -3,7 +3,7 @@ package generator
 import (
 	"testing"
 
-	"github.com/machinebox/remoto/generator/definition"
+	"github.com/matryer/remoto/generator/definition"
 	"github.com/matryer/is"
 )
 

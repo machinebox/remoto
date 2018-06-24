@@ -5,6 +5,23 @@
 			width: 100%;
 			height: 500px;
 		}
+		.console {
+			background-color: #272822;
+			border-top: 1px dashed #43443F;
+			color: #ddd;
+			padding: 5px;
+			text-align: right;
+		}
+		.console a {
+			color: #ddd;
+			text-decoration: underline;
+		}
+		.console a:hover {
+			color: white;
+		}
+		small {
+			line-height: 1em;
+		}
 	</style>
 <% } %>
 <% contentFor("body") { %>
@@ -14,12 +31,15 @@
 				<div id='editor' name='definition'></div>
 				<div data-definition-valid='true'>
 				</div>
-				<div data-definition-valid='false'>
-					<a data-definition-valid-error></a>
+				<div class='console'>
+					<a data-definition-valid-error>&nbsp;</a>
 				</div>
 			</div>
 			<div class='col col-3'>
-				<button data-definition-invalid='disabled' class='btn btn-primary'>Generate</button>
+				<button disabled='disabled' data-definition-invalid='disabled' class='btn btn-primary'>Generate</button>
+				<div data-definition-valid='false'>
+					<small class='text-muted'>Fix the problems in the definition to continue</small>
+				</div>
 			</div>
 		</div>
 		<textarea data-editor='true' name='definition' class='d-none'></textarea>

@@ -4,7 +4,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/machinebox/remoto/generator/definition"
+	"github.com/matryer/remoto/generator/definition"
 	"github.com/markbates/inflect"
 )
 

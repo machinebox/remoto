@@ -9,7 +9,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/machinebox/remoto/generator"
+	"github.com/matryer/remoto/generator"
 )
 
 func init() {

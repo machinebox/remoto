@@ -1,7 +1,7 @@
 package suggestionbox
 
 import (
-	"github.com/machinebox/remoto/remototypes"
+	"github.com/matryer/remoto/remototypes"
 )
 
 type Suggestionbox interface {

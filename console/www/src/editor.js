@@ -23,6 +23,7 @@ $(function(){
                 $('[data-definition-valid="true"]').show()
                 $('[data-definition-valid="false"]').hide()
                 $('[data-definition-invalid]').prop('disabled', false)
+                $('[data-definition-valid-error]').text('')
                 return
             }
             // clean up the error message a bit, the filename for example isn't

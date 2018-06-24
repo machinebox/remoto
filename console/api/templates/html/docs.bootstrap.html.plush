@@ -42,7 +42,7 @@
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="<%= def.PackageName %> - Docs - Remoto by Machine Box">
 	<meta name="twitter:description" content="<%= def.PackageComment %>">
-	<meta name="twitter:creator" content="@machineboxio">
+	<meta name="twitter:creator" content="@matryer">
 	<!-- Open Graph data -->
 	<meta property="og:title" content="<%= def.PackageName %> - Docs - Remoto by Machine Box" />
 	<meta property="og:type" content="article" />
@@ -248,7 +248,7 @@
 			</section>
 			<h2 id='<%= def.PackageName %>_Definition' class='display-5'>Definition</h2>
 			<p class='lead'>
-				Here is the <a href='https://github.com/machinebox/remoto'>Remoto</a> definition for this service, which is also available to <a href='#' data-action='download-source'>download</a>.
+				Here is the <a href='https://github.com/matryer/remoto'>Remoto</a> definition for this service, which is also available to <a href='#' data-action='download-source'>download</a>.
 			</p>
 <pre class='source code'><code><%= def.Source() %></code></pre>
 		</div>

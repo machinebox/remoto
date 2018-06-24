@@ -12,7 +12,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/machinebox/remoto/generator/definition"
+	"github.com/matryer/remoto/generator/definition"
 	"github.com/pkg/errors"
 )
 
