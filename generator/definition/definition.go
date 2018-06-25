@@ -1,6 +1,7 @@
 package definition
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 )
@@ -27,6 +28,19 @@ func (d Definition) Source() string {
 
 func (d Definition) String() string {
 	return d.Source()
+}
+
+// Valid gets whether this Definition is valid or not.
+func (d Definition) Valid() error {
+	if len(d.Services) == 0 {
+		return errors.New("must provide at least one service")
+	}
+	for _, service := range d.Services {
+		if len(service.Methods) == 0 {
+			return errors.New("service " + service.Name + " must have at least one method")
+		}
+	}
+	return nil
 }
 
 // Structure gets a Structure by name.

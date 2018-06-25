@@ -1,6 +1,7 @@
 package www
 
 import (
+	"bytes"
 	"crypto/md5"
 	"encoding/json"
 	"fmt"
@@ -106,7 +107,7 @@ func (s *server) handleDefinitionView() http.HandlerFunc {
 			http.NotFound(w, r)
 			return
 		}
-		def, err := generator.Parse(strings.NewReader(entity.Source))
+		def, err := generator.Parse(bytes.NewReader(entity.Source))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -141,7 +142,7 @@ func (s *server) handleDefinitionSave() http.HandlerFunc {
 		}
 		source = strings.TrimSpace(source)
 		entity := entityDefinition{
-			Source: source,
+			Source: []byte(source),
 		}
 		sourceHash := fmt.Sprintf("%x", md5.Sum([]byte(source)))
 		entityKey := datastore.NewKey(ctx, kindDefinition, sourceHash, 0, nil)
@@ -168,10 +169,15 @@ func (s *server) handleDefinitionValidate() http.HandlerFunc {
 		}
 		var response response
 		response.OK = true
-		_, err := generator.Parse(strings.NewReader(source))
+		def, err := generator.Parse(strings.NewReader(source))
 		if err != nil {
 			response.OK = false
 			response.Error = err.Error()
+		} else {
+			if err := def.Valid(); err != nil {
+				response.OK = false
+				response.Error = err.Error()
+			}
 		}
 		w.Header().Set("Content-Type", "application/json")
 		if err := json.NewEncoder(w).Encode(response); err != nil {
@@ -208,7 +214,7 @@ func (s *server) readFiles(filenames ...string) (string, error) {
 
 type entityDefinition struct {
 	Key    *datastore.Key `datastore:"-"`
-	Source string
+	Source []byte         `datastore:",noindex"`
 }
 
 var kindDefinition = "Definition"

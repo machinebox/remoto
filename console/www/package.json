@@ -8,7 +8,8 @@
 		"build-css": "node-sass src/styles.scss --output-style compressed --source-map true -o static",
 		"watch-css": "node-sass src/styles.scss -w --output-style compressed --source-map true -o static",
 		"build-js": "webpack",
-		"watch-js": "webpack --watch"
+		"watch-js": "webpack --watch",
+		"build": "npm run build-css && npm run build-js"
 	},
 	"author": "Machine Box, Inc.",
 	"license": "ISC",

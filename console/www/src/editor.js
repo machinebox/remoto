@@ -12,9 +12,6 @@ $(function(){
     editor.session.setMode("ace/mode/golang")
     var form = textarea.closest('form')
     var validate = debounce(function(src){
-        if (src.length < 10) {
-            return
-        }
         $.ajax({
             method: 'post', url: 'validate',
             data: {"definition": src}
