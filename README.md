@@ -7,6 +7,7 @@ Ultra-simple, fast, complete RPC ecosystem designed for right now.
 * Generates human-readable code
 * Supports batch requests out of the box
 * Lots of [templates](templates) to use today
+* Modify templates or write your own
 
 ## In this document
 

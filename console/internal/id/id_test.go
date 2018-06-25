@@ -3,8 +3,8 @@ package id_test
 import (
 	"testing"
 
-	"github.com/matryer/remoto/console/internal/id"
 	"github.com/matryer/is"
+	"github.com/matryer/remoto/console/internal/id"
 )
 
 func Test(t *testing.T) {

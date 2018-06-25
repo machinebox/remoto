@@ -1,0 +1,55 @@
+package main
+
+import (
+	"fmt"
+	"os"
+
+	"github.com/spf13/cobra"
+)
+
+func main() {
+
+	<%= for (service) in def.Services { %><%= for (method) in service.Methods { %><%= camelize_down_first(service.Name) %>Cmd.AddCommand(<%= camelize_down_first(service.Name) %><%= method.Name %>Cmd)
+	<% } %>rootCmd.AddCommand(<%= camelize_down_first(service.Name) %>Cmd)
+	
+	<% } %>
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
+	}
+}
+
+var rootCmd = &cobra.Command{
+	Use:   "<%= def.PackageName %> service method [data]",
+	Short: "<%= def.PackageComment %>",
+	Long:  `<%= def.PackageComment %>`,
+	Run: func(cmd *cobra.Command, args []string) {
+
+	},
+	Args: cobra.MinimumNArgs(2),
+}
+
+<%= for (service) in def.Services { %>
+// <%= camelize_down_first(service.Name) %>Cmd is the service command for 
+// information.
+var <%= camelize_down_first(service.Name) %>Cmd = &cobra.Command{
+	Use:   "<%= def.PackageName %> <%= service.Name %> method [data]",
+	Short: "<%= service.Comment %>",
+	Long:  `<%= service.Comment %>`,
+	Run: func(cmd *cobra.Command, args []string) {
+		
+	},
+}
+
+<%= for (method) in service.Methods { %>
+// <%= camelize_down_first(service.Name) %><%= method.Name %>Cmd is the method.
+var <%= camelize_down_first(service.Name) %><%= method.Name %>Cmd = &cobra.Command{
+	Use:   "<%= def.PackageName %> <%= service.Name %> <%= method.Name %> [data]",
+	Short: "<%= method.Comment %>",
+	Long:  `<%= method.Comment %>`,
+	Run: func(cmd *cobra.Command, args []string) {
+		
+	},
+}
+<% } %>
+<% } %>

@@ -1,9 +1,32 @@
 <!doctype html>
-<html>
-	<head>
-		<%= contentOf("head") %>
-	</head>
-	<body>
+<html lang='en'>
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<%= contentOf("head") %>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel='stylesheet' href='/static/styles.css'>
+	<style>
+		footer {
+			padding: 10px;
+			text-align: right;
+		}
+	</style>
+</head>
+<body>
+	<nav class='navbar navbar-light bg-light'>
+		<div class='fluid-container'>
+			<a class="navbar-brand" href="#top">Remoto</a>
+		</div>
+	</nav>
+	<div class='fluid-container'>
 		<%= contentOf("body") %>
-	</body>
+	</div>
+	<footer>
+		<div class='fluid-container'>
+			<a href='https://github.com/matryer/remoto'>Remoto on Github</a>
+		</div>
+	</footer>
+	<%= contentOf("scripts") %>
+</body>
 </html>

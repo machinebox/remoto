@@ -7,6 +7,7 @@ import (
 	"go/parser"
 	"go/token"
 	"go/types"
+	"io"
 	"log"
 	"os"
 	"strings"
@@ -15,8 +16,27 @@ import (
 	"github.com/pkg/errors"
 )
 
-// Parse parses a package of .remoto.go files.
-func Parse(dir string) (definition.Definition, error) {
+//go:generate go run ./tools/copy_remototypes.go
+
+// Parse parses a Remoto definition file from the io.Reader.
+func Parse(r io.Reader) (definition.Definition, error) {
+	var def definition.Definition
+	fset := token.NewFileSet()
+	f, err := parser.ParseFile(fset, "io.Reader.go", r, parser.ParseComments)
+	if err != nil {
+		return def, err
+	}
+	files := []*ast.File{f}
+	pkg := &ast.Package{
+		Name:  f.Name.Name,
+		Files: make(map[string]*ast.File),
+	}
+	pkg.Files["io.Reader.go"] = f
+	return parse(pkg, fset, files)
+}
+
+// ParseDir parses a package of .remoto.go files.
+func ParseDir(dir string) (definition.Definition, error) {
 	var def definition.Definition
 	fset := token.NewFileSet()
 	pkgs, err := parser.ParseDir(fset, dir, func(info os.FileInfo) bool {
@@ -40,12 +60,49 @@ func Parse(dir string) (definition.Definition, error) {
 	for _, file := range firstPkg.Files {
 		files = append(files, file)
 	}
-	docs := doc.New(firstPkg, "./", doc.AllDecls+doc.AllMethods)
-	def.PackageName = pkgNames[0]
+	return parse(firstPkg, fset, files)
+}
+
+type myimporter struct {
+	importer types.Importer
+}
+
+func (i *myimporter) Import(path string) (*types.Package, error) {
+	log.Println("Import", path)
+	if path == "github.com/matryer/remoto/remototypes" {
+		if remotoTypesSrc == "" {
+			return nil, errors.New("remotoTypesSrc: cannot be empty (run: go generate)")
+		}
+		fset := token.NewFileSet()
+		f, err := parser.ParseFile(fset, "remototypes.go", remotoTypesSrc, 0)
+		if err != nil {
+			return nil, err
+		}
+		conf := types.Config{Importer: importer.Default()}
+		pkg, err := conf.Check("remototypes", fset, []*ast.File{f}, nil)
+		if err != nil {
+			log.Fatal(err) // type error
+		}
+		log.Println("pkg", pkg)
+		return pkg, nil
+	}
+	pkg, err := i.importer.Import(path)
+	log.Println("= ", pkg, err)
+	return pkg, err
+}
+
+func parse(astpkg *ast.Package, fset *token.FileSet, files []*ast.File) (definition.Definition, error) {
+	importPath := "remoto/generator/package"
+	var def definition.Definition
+	docs := doc.New(astpkg, "./", doc.AllDecls+doc.AllMethods)
+	def.PackageName = astpkg.Name
 	def.PackageComment = strings.TrimSpace(docs.Doc)
 	info := &types.Info{}
-	conf := types.Config{Importer: importer.Default()}
-	pkg, err := conf.Check(dir, fset, files, info)
+	importer := &myimporter{
+		importer: importer.Default(),
+	}
+	conf := types.Config{Importer: importer}
+	pkg, err := conf.Check(importPath, fset, files, info)
 	if err != nil {
 		return def, errors.Wrap(err, "conf.Check")
 	}
