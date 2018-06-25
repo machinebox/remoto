@@ -4,8 +4,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/matryer/remoto/generator/definition"
 	"github.com/markbates/inflect"
+	"github.com/matryer/remoto/generator/definition"
 )
 
 type setter interface {
