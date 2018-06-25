@@ -59,6 +59,13 @@ $(function(){
         validate(src)
     });
 
+    // validate whatever's rendered into the editor
+    var src = editor.getSession().getValue()
+    textarea.val(src)
+    $('[data-definition-valid="true"]').hide()
+    $('[data-definition-valid="false"]').hide()
+    validate(src)
+
     // Returns a function, that, as long as it continues to be invoked, will not
     // be triggered. The function will be called after it stops being called for
     // N milliseconds. If `immediate` is passed, trigger the function on the

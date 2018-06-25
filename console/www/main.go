@@ -17,6 +17,7 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/datastore"
 	"google.golang.org/appengine/log"
+	"google.golang.org/appengine/urlfetch"
 )
 
 func init() {
@@ -78,6 +79,12 @@ func (s *server) handleDefinitionView() http.HandlerFunc {
 	var init sync.Once
 	var err error
 	var tpl *plush.Template
+	type template struct {
+		Name string `json:"name"`
+	}
+	var templates struct {
+		Templates []template `json:"templates"`
+	}
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := appengine.NewContext(r)
 		init.Do(func() {
@@ -93,6 +100,23 @@ func (s *server) handleDefinitionView() http.HandlerFunc {
 			if err != nil {
 				return
 			}
+			client := urlfetch.Client(ctx)
+			var resp *http.Response
+			var apihost string
+			apihost, err := appengine.ModuleHostname(ctx, "api", "", "")
+			if err != nil {
+				return
+			}
+			resp, err = client.Get("http://" + apihost + "/api/templates")
+			if err != nil {
+				return
+			}
+			defer resp.Body.Close()
+			err = json.NewDecoder(resp.Body).Decode(&templates)
+			if err != nil {
+				return
+			}
+			log.Debugf(ctx, "%v", templates)
 		})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -113,7 +137,9 @@ func (s *server) handleDefinitionView() http.HandlerFunc {
 			return
 		}
 		plushCtx := plush.NewContextWithContext(ctx)
+		plushCtx.Set("source", string(entity.Source))
 		plushCtx.Set("def", def)
+		plushCtx.Set("templates", templates.Templates)
 		out, err := tpl.Exec(plushCtx)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

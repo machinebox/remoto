@@ -1,5 +1,5 @@
 <% contentFor("head") { %>
-	<title>Remoto by Machine Box - The simplest RPC ecosystem</title>
+	<title>Remoto - The simplest RPC ecosystem</title>
 	<style type="text/css" media="screen">
 		#editor { 
 			width: 100%;
@@ -25,29 +25,51 @@
 	</style>
 <% } %>
 <% contentFor("body") { %>
-	<form method='post' action='definition'>
-		<div class='row'>
-			<div class='col'>
-				<div id='editor' name='definition'></div>
-				<div data-definition-valid='true'>
+	<div class='container-fluid'>
+		<form method='post' action='definition'>
+			<div class='row'>
+				<div class='col'>
+					<div id='editor' name='definition'>
+// Welcome to Remoto
+
+// Paste your Remoto Definition file here
+// For more information, check out https://github.com/matryer/remoto 
+
+package remoto
+
+type Greeter interface {
+	Greet(*GreetRequest) *GreetResponse
+}
+
+type GreetRequest struct {
+	Name string
+}
+
+type GreetResponse struct {
+	Greeting string
+}
+</div>
+					<div data-definition-valid='true'>
+					</div>
+					<div class='console'>
+						<a data-definition-valid-error></a>
+						&nbsp;
+					</div>
 				</div>
-				<div class='console'>
-					<a data-definition-valid-error></a>
-					&nbsp;
+				<div class='col col-3'>
+					<p>
+						Docs: <a href='https://github.com/matryer/remoto#remoto-definition-files' target='_blank'>Remoto definition files</a>
+					</p>
+					<hr>
+					<button disabled='disabled' data-definition-invalid='disabled' class='btn btn-primary'>Generate</button>
+					<div data-definition-valid='false'>
+						<small class='text-muted'>Fix the problems in the definition to continue</small>
+					</div>
 				</div>
 			</div>
-			<div class='col col-3'>
-				<button disabled='disabled' data-definition-invalid='disabled' class='btn btn-primary'>Generate</button>
-				<div data-definition-valid='false'>
-					<small class='text-muted'>Fix the problems in the definition to continue</small>
-				</div>
-			</div>
-		</div>
-		<textarea data-editor='true' name='definition' class='d-none'></textarea>
-	</form>
-	<p>
-		Docs: <a href='https://github.com/matryer/remoto#remoto-definition-files' target='_blank'>Remoto definition files</a>
-	</p>
+			<textarea data-editor='true' name='definition' class='d-none'></textarea>
+		</form>
+	</div>
 <% } %>
 <% contentFor("scripts") { %>
 	<script src='/static/js/editor.js'></script>

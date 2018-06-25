@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -85,6 +86,11 @@ func handleRenderTemplate() http.HandlerFunc {
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
+		}
+		filename := filepath.Base(templatePath)
+		filename = def.PackageName + "." + filename[0:len(filename)-len(filepath.Ext(templatePath))]
+		if r.URL.Query().Get("dl") == "1" {
+			w.Header().Set("Content-Disposition", fmt.Sprintf(`attachment; filename=%q`, filename))
 		}
 		if err := generator.Render(w, templatePath, string(tplBytes), def); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
