@@ -60,9 +60,9 @@
 	// _addFile adds a file to the request.
 	$.<%= def.PackageName %>.<%= structure.Name %>.prototype._addFile = function(file) {
 		this._files = this._files || {}
-		var fieldname = 'files['+$.facebox._filesCount+']'
+		var fieldname = 'files['+$.<%= def.PackageName %>._filesCount+']'
 		this._files[fieldname] = file
-		$.facebox._filesCount++
+		$.<%= def.PackageName %>._filesCount++
 		return fieldname
 	}
 	<% } %>
@@ -86,6 +86,6 @@
 	<% } %><% } %><% } %>
 	// _filesCount keeps track of the number of files being added, and is used
 	// to generate unique field names.
-	$.facebox._filesCount = 0
+	$.<%= def.PackageName %>._filesCount = 0
 
 })(jQuery)
