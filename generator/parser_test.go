@@ -1,6 +1,8 @@
 package generator
 
 import (
+	"bytes"
+	"io/ioutil"
 	"os"
 	"strings"
 	"testing"
@@ -245,7 +247,10 @@ func TestErrors(t *testing.T) {
 func TestParserImports(t *testing.T) {
 	is := is.New(t)
 
-	def, err := ParseDir("testdata/rpc/import")
+	b, err := ioutil.ReadFile("testdata/rpc/import/greeter.remoto.go")
+	is.NoErr(err)
+
+	def, err := Parse(bytes.NewReader(b))
 	is.NoErr(err)
 
 	is.Equal(len(def.Services), 1)

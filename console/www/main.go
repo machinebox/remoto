@@ -16,6 +16,9 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/datastore"
 	"google.golang.org/appengine/log"
+
+	// ensure remototypes is availble
+	_ "github.com/matryer/remoto/remototypes"
 )
 
 func init() {

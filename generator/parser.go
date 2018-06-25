@@ -16,6 +16,8 @@ import (
 	"github.com/pkg/errors"
 )
 
+//go:generate go run ./tools/copy_remototypes.go
+
 // Parse parses a Remoto definition file from the io.Reader.
 func Parse(r io.Reader) (definition.Definition, error) {
 	var def definition.Definition
@@ -61,6 +63,34 @@ func ParseDir(dir string) (definition.Definition, error) {
 	return parse(firstPkg, fset, files)
 }
 
+type myimporter struct {
+	importer types.Importer
+}
+
+func (i *myimporter) Import(path string) (*types.Package, error) {
+	log.Println("Import", path)
+	if path == "github.com/matryer/remoto/remototypes" {
+		if remotoTypesSrc == "" {
+			return nil, errors.New("remotoTypesSrc: cannot be empty (run: go generate)")
+		}
+		fset := token.NewFileSet()
+		f, err := parser.ParseFile(fset, "remototypes.go", remotoTypesSrc, 0)
+		if err != nil {
+			return nil, err
+		}
+		conf := types.Config{Importer: importer.Default()}
+		pkg, err := conf.Check("remototypes", fset, []*ast.File{f}, nil)
+		if err != nil {
+			log.Fatal(err) // type error
+		}
+		log.Println("pkg", pkg)
+		return pkg, nil
+	}
+	pkg, err := i.importer.Import(path)
+	log.Println("= ", pkg, err)
+	return pkg, err
+}
+
 func parse(astpkg *ast.Package, fset *token.FileSet, files []*ast.File) (definition.Definition, error) {
 	importPath := "remoto/generator/package"
 	var def definition.Definition
@@ -68,7 +98,10 @@ func parse(astpkg *ast.Package, fset *token.FileSet, files []*ast.File) (definit
 	def.PackageName = astpkg.Name
 	def.PackageComment = strings.TrimSpace(docs.Doc)
 	info := &types.Info{}
-	conf := types.Config{Importer: importer.Default()}
+	importer := &myimporter{
+		importer: importer.Default(),
+	}
+	conf := types.Config{Importer: importer}
 	pkg, err := conf.Check(importPath, fset, files, info)
 	if err != nil {
 		return def, errors.Wrap(err, "conf.Check")
