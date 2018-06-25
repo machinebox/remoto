@@ -3,19 +3,26 @@
 <% } %>
 <% contentFor("body") { %>
 	<div class='container'>
-		<p>
-			<%= def.PackageName %>
-		</p>
-		<ul>
-			<%= for (template) in templates { %>
-				<li>
-					<form method='post' action='/api/templates/<%= template.Name %>?dl=1'>
-						<input type='hidden' name='definition' value="<%= htmlEscape(source) %>">
-						<button><%= template.Name %></button>
-					</form>
-				</li>
-			<% } %>
-		</ul>
+		<h1><%= def.PackageName %></h1>
+		<div class='row'>
+			<div class='col'>
+				<h2>Definition</h2>
+				<pre readonly='readonly'><code><%= htmlEscape(source) %></code></pre>
+			</div>
+			<div class='col col-4'>
+				<h2>Downloads</h2>
+				<ul>
+					<%= for (template) in templates { %>
+						<li>
+							<form method='post' action='/api/templates/<%= template.Name %>?dl=1'>
+								<input type='hidden' name='definition' value="<%= htmlEscape(source) %>">
+								<button><%= template.Name %></button>
+							</form>
+						</li>
+					<% } %>
+				</ul>
+			</div>
+		</div>
 	</div>
 <% } %>
 <% contentFor("scripts") { %>
