@@ -10,6 +10,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/matryer/remoto/generator/definition"
@@ -67,28 +68,12 @@ type myimporter struct {
 	importer types.Importer
 }
 
-func (i *myimporter) Import(path string) (*types.Package, error) {
-	log.Println("Import", path)
-	if path == "github.com/matryer/remoto/remototypes" {
-		if remotoTypesSrc == "" {
-			return nil, errors.New("remotoTypesSrc: cannot be empty (run: go generate)")
-		}
-		fset := token.NewFileSet()
-		f, err := parser.ParseFile(fset, "remototypes.go", remotoTypesSrc, 0)
-		if err != nil {
-			return nil, err
-		}
-		conf := types.Config{Importer: importer.Default()}
-		pkg, err := conf.Check("remototypes", fset, []*ast.File{f}, nil)
-		if err != nil {
-			log.Fatal(err) // type error
-		}
-		log.Println("pkg", pkg)
+func (i *myimporter) Import(packagePath string) (*types.Package, error) {
+	if pkg, err := i.importer.Import(packagePath); err == nil {
 		return pkg, nil
 	}
-	pkg, err := i.importer.Import(path)
-	log.Println("= ", pkg, err)
-	return pkg, err
+	pkg := types.NewPackage(packagePath, filepath.Base(packagePath))
+	return pkg, nil
 }
 
 func parse(astpkg *ast.Package, fset *token.FileSet, files []*ast.File) (definition.Definition, error) {
