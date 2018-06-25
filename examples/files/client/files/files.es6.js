@@ -4,7 +4,12 @@
 //
 // uses the Fetch API: to support older browsers, use the polyfil https://github.github.io/fetch/
 
-'use strict';
+"use strict";
+
+// _filesCount keeps track of the number of files being added, and is used
+// to generate unique field names.
+var _filesCount = 0
+
 
 // ImagesClientOptions are the options for the ImagesClient.
 export class ImagesClientOptions {
@@ -57,28 +62,28 @@ export class ImagesClient {
 	
 }
 
+
 // FlipRequest is the request for Images.Flip.
 export class FlipRequest {
 	constructor(data = {}) {
 		this._data = data
 		this._files = {}
-		this._filesCount = 0
 	}
 	
 	// addFile adds a file to the request and returns its unique name.
 	// This method is not usually called directly, instead callers should use the setters
 	// on the objects.
 	addFile(filename, file) {
-		let fieldname = 'files['+(this._filesCount++)+']'
+		let fieldname = 'files['+(_filesCount++)+']'
 		this._files[fieldname] = file
 		return fieldname
 	}
-	
+
 	// allFiles gets an object of files in this request, keyed with
 	// the fieldname.
 	get allFiles() { return this._files }
 	// filesCount gets the number of files in this request.
-	get filesCount() { return this._filesCount }
+	get filesCount() { return _filesCount }
 	
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
@@ -87,3 +92,4 @@ export class FlipRequest {
 	setImage(request, filename, image) { this._data.image = request.addFile(filename, image) }
 	
 }
+

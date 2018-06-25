@@ -10,7 +10,6 @@ import (
 	"io"
 	"log"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/matryer/remoto/generator/definition"
@@ -64,18 +63,6 @@ func ParseDir(dir string) (definition.Definition, error) {
 	return parse(firstPkg, fset, files)
 }
 
-type myimporter struct {
-	importer types.Importer
-}
-
-func (i *myimporter) Import(packagePath string) (*types.Package, error) {
-	if pkg, err := i.importer.Import(packagePath); err == nil {
-		return pkg, nil
-	}
-	pkg := types.NewPackage(packagePath, filepath.Base(packagePath))
-	return pkg, nil
-}
-
 func parse(astpkg *ast.Package, fset *token.FileSet, files []*ast.File) (definition.Definition, error) {
 	importPath := "remoto/generator/package"
 	var def definition.Definition
@@ -83,10 +70,7 @@ func parse(astpkg *ast.Package, fset *token.FileSet, files []*ast.File) (definit
 	def.PackageName = astpkg.Name
 	def.PackageComment = strings.TrimSpace(docs.Doc)
 	info := &types.Info{}
-	importer := &myimporter{
-		importer: importer.Default(),
-	}
-	conf := types.Config{Importer: importer}
+	conf := types.Config{Importer: newVendorImporter(importer.Default())}
 	pkg, err := conf.Check(importPath, fset, files, info)
 	if err != nil {
 		return def, errors.Wrap(err, "conf.Check")
