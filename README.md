@@ -1,4 +1,6 @@
-# remoto
+# Remoto
+
+![Remoto banner](misc/remoto-banner-by-chris-ryer.png)
 
 Ultra-simple, fast, complete RPC ecosystem designed for right now.
 
