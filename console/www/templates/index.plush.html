@@ -1,5 +1,5 @@
 <% contentFor("head") { %>
-	<title>Remoto - The simplest RPC ecosystem</title>
+	<title>Remoto - The simplest RPC ecosystem built for right now</title>
 	<style type="text/css" media="screen">
 		#editor { 
 			width: 100%;
@@ -37,15 +37,21 @@
 
 package remoto
 
+// Greeter is a friendly service.
 type Greeter interface {
+	// Greet makes a greeting.
 	Greet(*GreetRequest) *GreetResponse
 }
 
+// GreetRequest is the request object for Greeter.Greet.
 type GreetRequest struct {
+	// Name is the person to greet.
 	Name string
 }
 
+// GreetResponse is the response object for Greeter.Greet.
 type GreetResponse struct {
+	// Greeting is a personalized message
 	Greeting string
 }
 </div>
