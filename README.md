@@ -71,8 +71,9 @@ type GreetResponse struct {
 * Methods must take a pointer to request object as its only argument
 * Methods must return a pointer to the response object as the result
 * Only a subset of Go types are supported: `string`, `float64`, `int`, `bool`, and `struct` types
-* Any slices (boundless arrays) of the supported types are also allowed (e.g. `[]string`, `[]bool`, etc.)
-* Comments describe the service
+* Any arrays (slices) of the supported types are also allowed (e.g. `[]string`, `[]bool`, etc.)
+* Comments describe the services, methods and types
+* Do not import packages (apart from official Remoto ones), instead your definition files should be self contained
 
 ## Special types
 
