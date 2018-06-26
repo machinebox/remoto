@@ -1,4 +1,4 @@
-![Remoto banner](misc/remoto-banner-by-chris-ryer.png)
+![Remoto banner](misc/remoto-banner-dark-by-chris-ryer.png)
 
 # Remoto
 

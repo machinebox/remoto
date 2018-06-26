@@ -42,7 +42,10 @@
 	</div>
 <% } %>
 <% contentFor("head") { %>
-	<title><%= def.PackageName %> - Remoto - The simplest RPC ecosystem built for right now</title>
+	<title><%= def.PackageName %> on Remoto - The simplest RPC ecosystem built for right now</title>
+	<meta itemprop="name" content="<%= def.PackageName %> on Remoto">
+	<meta name="og:title" content="<%= def.PackageName %> on Remoto">
+	<meta name="twitter:title" content="<%= def.PackageName %> on Remoto">
 	<style>
 		.content {
 			padding: 20px;
