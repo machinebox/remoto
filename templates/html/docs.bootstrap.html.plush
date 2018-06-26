@@ -156,15 +156,15 @@
 										<a href='#<%= def.PackageName %>_<%= structure.Name %>'><%= structure.Name %></a>
 									</li>
 									<% } %>
+									<li>
+										<a href='#Objects'>All objects</a>
+									</li>
 								<% } %>
 							</ul>
 						</div>
 						<div class='col col-auto'>
 							<strong>More</strong>
 							<ul class='list-unstyled'>
-								<li>
-									<a href='#Objects'>All objects</a>
-								</li>
 								<li>
 									<a href='#<%= def.PackageName %>_Special_types'>Special types</a>
 								</li>
@@ -256,7 +256,7 @@
 	<footer class='footer'>
 		<div class='text-muted container'>
 			Powered by 
-			<a href='https://machinebox.io/remoto'>Remoto</a>
+			<a href='https://github.com/matryer/remoto'>Remoto</a>
 		</div>
 	</footer>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

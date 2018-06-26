@@ -61,7 +61,7 @@ type GreetResponse struct {
 						Docs: <a href='https://github.com/matryer/remoto#remoto-definition-files' target='_blank'>Remoto definition files</a>
 					</p>
 					<hr>
-					<button disabled='disabled' data-definition-invalid='disabled' class='btn btn-primary'>Generate</button>
+					<button disabled='disabled' data-definition-invalid='disabled' class='btn btn-primary'>Save and continue</button>
 					<div data-definition-valid='false'>
 						<small class='text-muted'>Fix the problems in the definition to continue</small>
 					</div>
@@ -74,3 +74,4 @@ type GreetResponse struct {
 <% contentFor("scripts") { %>
 	<script src='/static/js/editor.js'></script>
 <% } %>
+<% contentFor("navbar") {} %>

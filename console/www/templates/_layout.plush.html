@@ -9,22 +9,27 @@
 	<style>
 		footer {
 			padding: 10px;
+			padding-top: 20px;
 			text-align: right;
+			background-color: #f8f9fa;
+			padding: 50px;
+			font-size: 0.8em;
 		}
 	</style>
 </head>
 <body>
 	<nav class='navbar navbar-light bg-light'>
-		<div class='fluid-container'>
+		<div class='container'>
 			<a class="navbar-brand" href="/#top">Remoto</a>
+			<%= contentOf("navbar") %>
 		</div>
 	</nav>
 	<div class='fluid-container'>
 		<%= contentOf("body") %>
 	</div>
 	<footer>
-		<div class='fluid-container'>
-			<a href='https://github.com/matryer/remoto'>Remoto on Github</a>
+		<div class='container'>
+			<a href='https://github.com/matryer/remoto'>Remoto ❤︎ open source</a>
 		</div>
 	</footer>
 	<%= contentOf("scripts") %>

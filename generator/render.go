@@ -12,7 +12,7 @@ import (
 func Render(w io.Writer, templateName, tpl string, def definition.Definition) error {
 	ctx := plush.NewContext()
 	ctx.Set("def", def)
-	addHelpers(ctx)
+	AddTemplateHelpers(ctx)
 	out, err := plush.Render(tpl, ctx)
 	if err != nil {
 		return errors.Wrapf(err, "plush.Render (%s)", templateName)

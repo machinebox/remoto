@@ -1,30 +1,413 @@
-<% contentFor("head") { %>
-	<title>Remoto - The simplest RPC ecosystem</title>
-<% } %>
 <% contentFor("body") { %>
 	<div class='container'>
-		<h1><%= def.PackageName %></h1>
 		<div class='row'>
-			<div class='col'>
-				<h2>Definition</h2>
-				<pre readonly='readonly'><code><%= htmlEscape(source) %></code></pre>
+			<div class='col col-8'>
+				<%= contentOf("docs") %>
 			</div>
 			<div class='col col-4'>
-				<h2>Downloads</h2>
-				<ul>
+				<ul class='list-group'>
 					<%= for (template) in templates { %>
-						<li>
+						<%= if (!template.Experimental) { %>
+						<li class='list-group-item'>
 							<form method='post' action='/api/templates/<%= template.Name %>?dl=1'>
 								<input type='hidden' name='definition' value="<%= htmlEscape(source) %>">
-								<button><%= template.Name %></button>
+								<%= for (dir) in template.Dirs { %>
+									<span class='badge badge-secondary text-uppercase'><%= dir %></span>
+								<% } %>
+								<button class='btn btn-link'><%= def.PackageName %>.<%= template.Label %></button>
 							</form>
 						</li>
+						<% } %>
 					<% } %>
+					<li class='active list-group-item'>
+						<form method='post' action='/api/all.zip'>
+							<input type='hidden' name='definition' value="<%= htmlEscape(source) %>">
+							<button class='btn'><%= def.PackageName %>.remoto.zip</button>
+						</form>
+					</li>
 				</ul>
+				<hr>
+				<strong>Experimental</strong>
+				<%= for (template) in templates { %>
+					<%= if (template.Experimental) { %>
+						<form method='post' action='/api/templates/<%= template.Name %>?dl=1'>
+							<input type='hidden' name='definition' value="<%= htmlEscape(source) %>">
+							<button class='btn btn-link'><%= template.Name %></button>
+						</form>
+					<% } %>
+				<% } %>
+
 			</div>
 		</div>
 	</div>
 <% } %>
-<% contentFor("scripts") { %>
-	
+<% contentFor("head") { %>
+	<title><%= def.PackageName %> - Remoto - The simplest RPC ecosystem</title>
+	<style>
+		.content {
+			padding: 20px;
+		}
+		.page {
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+		.highlightable {
+			border-left: 10px white solid;
+			transition: border-left 1s;
+			padding-left: 10px;
+			margin-left: -10px;
+		}
+		.highlightable.highlight {
+			border-left: 10px #f8f9fa solid;
+			transition: border-left 1s;
+		}
+		.anchor-container .anchor {
+			opacity: 0;
+			color: #ddd;
+			font-weight: 200;
+		}
+		.anchor-container:hover .anchor {
+			opacity: 1;
+			text-decoration: none;
+			transition: color .16s linear;
+		}
+		.anchor:hover {
+			color: #f08da9;
+		}
+		::selection {
+			color: #fff;
+			background: #f08da9;
+		}
+		.heading {
+			font-weight: 300;
+		}
+		.heading .text-muted {
+			opacity: 0.5;
+			font-weight: 100;
+		}
+		pre.code {
+			background-color: #f8f9fa;
+			padding: 10px;
+			overflow-y: scroll;
+			max-height: 600px;
+		}
+		.list-group-item .btn-link {
+			padding: 0;
+		}
+	</style>
 <% } %>
+<% contentFor("navbar") { %>
+	<div class='form-inline'>
+		<input id='jump-to' list='symbols' type='text' class='form-control' placeholder='Jump to&hellip;'>
+	</div>
+<% } %>
+<% contentFor("scripts") { %>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script>
+		$(function(){
+
+			$.fn.hide = function(){
+				$(this).addClass('d-none')
+			}
+			$.fn.show = function(){
+				$(this).removeClass('d-none')
+			}
+
+			function checkJumpTo(){
+				var val = $(this).val().replace('.','_')
+				var hit = null
+				var hash = '<%= def.PackageName %>_' + val
+				hash = hash.replace('.','_').replace(' ','_')
+				try{ hit = $('#'+hash) }catch{}
+				if (hit && hit.length > 0) {
+					$(this).val('')
+					hit.niceScroll()
+					location.hash = hash
+				}
+			}
+			$('#jump-to').keyup(debounce(checkJumpTo, 500)).keyup(function(e){
+				if (e.keyCode == 10 || e.keyCode == 13) {
+					checkJumpTo.apply(this, arguments)
+				}
+			})
+			$('#jump-to').change(function(){
+				checkJumpTo.apply(this, arguments)
+			})
+
+			$(window).keypress(function(e){
+				if (e.target.tagName != "BODY") { return }
+				if (e.key.length > 1) { return }
+				e.preventDefault()
+				$('#jump-to').val(e.key).focus()
+			})
+
+			// niceScroll gently scrolls the page to this element.
+			$.fn.niceScroll = function(noanimate){
+				console.info('niceScroll')
+				if ($(this).length === 0) { return }
+				noanimate = noanimate || false
+				var x = $(this).offset().top - $.fn.niceScroll.topMargin
+				if (noanimate) {
+					return $('html,body').css({ 
+						scrollTop: x
+					})
+				}
+				return $('html,body').animate({ 
+					scrollTop: x
+				}, 'slow')
+			}
+			$.fn.niceScroll.topMargin = 60
+
+			function changeRoute(route, noanimate) {
+				if (route == "#") { return }
+				if (!route) { return }
+				$('.page.highlight').removeClass('highlight')
+				var target = $(route).addClass('highlight')
+				if (location.hash != route) {
+					history.pushState(null, null, route)
+				}
+				target.niceScroll(noanimate)
+			}
+			$(window).bind('hashchange', function() {
+				changeRoute(location.hash)
+			})
+			var hash = location.hash
+			if (hash.length > 0) {
+				changeRoute(hash, true)
+			}
+
+			// $.scrollToTop scrolls the page to the top.
+			$.scrollToTop = function(){
+				$('html,body').animate({ 
+					scrollTop: 0
+				}, 'slow')
+			}
+
+			$('a[href^="#"]').click(function(e){
+				e.preventDefault()
+				var $this = $(this)
+				changeRoute($this.attr('href'))
+			})
+
+			// from https://davidwalsh.name/javascript-debounce-function
+			// Returns a function, that, as long as it continues to be invoked, will not
+			// be triggered. The function will be called after it stops being called for
+			// N milliseconds. If `immediate` is passed, trigger the function on the
+			// leading edge, instead of the trailing.
+			function debounce(func, wait, immediate) {
+				var timeout
+				return function() {
+					var context = this, args = arguments;
+					var later = function() {
+						timeout = null
+						if (!immediate) func.apply(context, args)
+					};
+					var callNow = immediate && !timeout
+					clearTimeout(timeout)
+					timeout = setTimeout(later, wait)
+					if (callNow) func.apply(context, args)
+				}
+			}
+
+			$('[data-action="download-source"]').click(function(e){
+				e.preventDefault()
+				$.download('<%= def.PackageName %>.remoto.go', $('.source.code code').text())
+			})
+
+			$.download = function(filename, text) {
+				var element = document.createElement('a');
+				element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+				element.setAttribute('download', filename);
+				element.style.display = 'none';
+				document.body.appendChild(element);
+				element.click();
+				document.body.removeChild(element);
+			}
+
+		})
+	</script>
+	<datalist id='symbols'>
+		<%= for (service) in def.Services { %>
+			<option value='<%= service.Name %>'>
+			<%= for (method) in service.Methods { %>
+				<option value='<%= service.Name %>.<%= method.Name %>'>
+			<% } %>
+			<%= for (structure) in unique_structures(def) { %>
+				<option value='<%= structure.Name %>'>
+			<% } %>
+		<% } %>
+		<option value='Special types'>
+		<option value='Definition'>
+	</datalist>
+<% } %>
+<% contentFor("docs") { %>
+	<div class='content'>
+		<%= if (len(def.Services) > 1) { %>
+			<ul class='nav justify-content-end'>
+			<%= for (service) in def.Services { %>
+				<li class='nav=item'>
+					<a class='nav-link' href='#<%= def.PackageName %>_<%= service.Name %>'><%= service.Name %></a>
+				</li>
+			<% } %>
+			</ul>
+			<hr>
+		<% } %>
+		<%= for (service) in def.Services { %>
+			<section id='<%= def.PackageName %>_<%= service.Name %>'>
+				<h2 class='display-4'>
+					<%= service.Name %>
+				</h2>
+				<p class='lead'>
+					<%= service.Comment %>
+				</p>
+				<div class='row'>
+					<div class='col col-auto'>
+						<strong>Methods</strong>
+						<ul class='list-unstyled'>
+						<%= for (method) in service.Methods { %>
+							<li>
+								<a href='#<%= def.PackageName %>_<%= service.Name %>_<%= method.Name %>'><%= method.Name %></a>
+							</li>
+						<% } %>
+						</ul>
+					</div>
+					<div class='col col-auto'>
+						<strong>Objects</strong>
+						<ul class='list-unstyled'>
+							<%= for (structure) in service.Structures { %>
+								<%= if (!structure.IsRequestObject && !structure.IsResponseObject) { %>
+								<li>
+									<a href='#<%= def.PackageName %>_<%= structure.Name %>'><%= structure.Name %></a>
+								</li>
+								<% } %>
+							<% } %>
+							<li>
+								<a href='#Objects'>All objects</a>
+							</li>
+						</ul>
+					</div>
+					<div class='col col-auto'>
+						<strong>More</strong>
+						<ul class='list-unstyled'>
+							<li>
+								<a href='#<%= def.PackageName %>_Special_types'>Special types</a>
+							</li>
+							<li>&nbsp;</li>
+							<li>
+								<a href='#<%= def.PackageName %>_Definition'>Definition</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<hr>
+				<%= for (method) in service.Methods { %>
+					<section class='page highlightable' id='<%= def.PackageName %>_<%= service.Name %>_<%= method.Name %>'>
+						<%= contentOf("heading", {"text": method.Name, "id": def.PackageName+"_"+service.Name+"_"+method.Name, "tag": "h4", "type": "Method"}) %>
+						<p>
+							<%= method.Comment %>
+						</p>
+						<div class='row'>
+							<div class='col'>
+								<p>
+									<%= contentOf("structure-link", {"name":method.RequestStructure.Name}) %>
+								</p>
+								<%= contentOf("describe-fields", {"fields": method.RequestStructure.Fields}) %>
+							</div>
+							<div class='col'>
+								<p>
+									<%= contentOf("structure-link", {"name":method.ResponseStructure.Name}) %>
+								</p>
+								<%= if (method.ResponseStructure.Name == "remototypes.FileResponse") { %>
+									<ul>
+										<li>File</li>
+									</ul>
+								<% } else { %>
+									<%= contentOf("describe-fields", {"fields": method.ResponseStructure.Fields}) %>
+								<% } %>
+							</div>
+						</div>
+					</section>
+					<hr>
+				<% } %>
+			</section>
+		<% } %>
+		<h3 id='Objects' class='display-5'>Objects</h3>
+		<p class='lead'>
+			This section describes all the objects (structures) that are used in the <strong><%= def.PackageName %></strong> service.
+		</p>
+		<ul class='list-unstyled'>
+		<%= for (structure) in unique_structures(def) { %>
+			<li>
+				<a href='#<%= def.PackageName %>_<%= structure.Name %>'><%= structure.Name %></a>
+			</li>	
+		<% } %>
+		</ul>
+		<%= for (structure) in unique_structures(def) { %>
+			<section class='page highlightable' id='<%= def.PackageName %>_<%= structure.Name %>'>
+				<%= contentOf("describe-structure", {"structure": structure, "id": def.PackageName+"_"+structure.Name}) %>
+			</section>
+			<hr>
+		<% } %>
+		<h2 id='<%= def.PackageName %>_Special_types' class='display-5'>Special types</h2>
+		<p class='lead'>
+			This section describes specially handled types for situations
+			more complex than simple key/value.
+		</p>
+		<section class='page highlightable' id='<%= def.PackageName %>_remototypes_FileResponse'>
+			<%= contentOf("heading", {"text": "remototypes.FileResponse", "id": def.PackageName+"_remototypes_FileResponse", "tag": "h4", "type": "Object"}) %>
+			<p>
+				<code>remototypes.FileResponse</code> is used by methods that return a single
+				file as its result.
+			</p>
+			<p>
+				Client libraries will provide a way to access the returned file.
+			</p>
+		</section>
+		<section class='page highlightable' id='<%= def.PackageName %>_remototypes_File'>
+			<%= contentOf("heading", {"text": "remototypes.File", "id": def.PackageName+"_remototypes_File", "tag": "h4", "type": "Object"}) %>
+			<p>
+				<code>remototypes.File</code> represents a binary file. Client libraries will each have their
+				own special way of submitting the files.
+			</p>
+		</section>
+		<h2 id='<%= def.PackageName %>_Definition' class='display-5'>Definition</h2>
+		<p class='lead'>
+			Here is the <a href='https://github.com/matryer/remoto'>Remoto</a> definition for this service, which is also available to <a href='#' data-action='download-source'>download</a>.
+		</p>
+<pre class='source code'><code><%= def.Source() %></code></pre>
+	</div>
+<% } %>
+<% contentFor("describe-field") { %>
+	<code><%= underscore(field.Name) %></code>
+	<%= if (field.Type.IsMultiple) { %>
+	Array of
+	<% } %>
+	<%= if (field.Type.IsStruct) { %>
+		<%= contentOf("structure-link", {"name":field.Type.Name}) %>
+	<% } else { %>
+		<%= field.Type.Name %>
+	<% } %>
+	<%= if (field.Comment != "") { %><span class='text-muted'>&mdash;<%= field.Comment %></span><% } %>
+<% } %>
+<% contentFor("describe-structure") { %>
+	<%= contentOf("heading", {"text": structure.Name, "id": id, "tag": "h4", "type": "Object"}) %>
+	<p><%= structure.Comment %></p>
+	<%= contentOf("describe-fields", {"fields": structure.Fields}) %>
+<% } %>
+<% contentFor("describe-fields") { %>
+	<ul>
+	<%= if (len(fields) == 0) { %>
+		<li class='text-muted'>
+			No fields &mdash;An empty object.
+		</li>
+	<% } else { %>
+		<%= for (field) in fields { %>
+			<li>
+			<%= contentOf("describe-field", {"field": field}) %>
+			</li>
+		<% } %>
+	<% } %>
+	</ul>
+<% } %>
+<% contentFor("structure-link") { %><a href='#<%= def.PackageName %>_<%= replace(name, ".", "_") %>'><%= name %></a><% } %>
+<% contentFor("heading") { %><<%= tag %> class='heading anchor-container'><%= text %> <span class='text-muted'><%= type %></span> <a href='#<%= id %>' class='anchor'>#</a><a href='#top' class='float-right anchor'>top</a></<%= tag %>><% } %>

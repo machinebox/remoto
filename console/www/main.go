@@ -80,7 +80,10 @@ func (s *server) handleDefinitionView() http.HandlerFunc {
 	var err error
 	var tpl *plush.Template
 	type template struct {
-		Name string `json:"name"`
+		Name         string   `json:"name"`
+		Experimental bool     `json:"x"`
+		Dirs         []string `json:"dirs"`
+		Label        string   `json:"label"`
 	}
 	var templates struct {
 		Templates []template `json:"templates"`
@@ -137,6 +140,7 @@ func (s *server) handleDefinitionView() http.HandlerFunc {
 			return
 		}
 		plushCtx := plush.NewContextWithContext(ctx)
+		generator.AddTemplateHelpers(plushCtx)
 		plushCtx.Set("source", string(entity.Source))
 		plushCtx.Set("def", def)
 		plushCtx.Set("templates", templates.Templates)

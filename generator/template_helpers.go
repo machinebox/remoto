@@ -8,12 +8,13 @@ import (
 	"github.com/matryer/remoto/generator/definition"
 )
 
-type setter interface {
+// Setter may have data set on it, usually a plush context.
+type Setter interface {
 	Set(name string, value interface{})
 }
 
-// addHelpers adds all the built-in template helpers.
-func addHelpers(s setter) {
+// AddTemplateHelpers adds all the built-in template helpers.
+func AddTemplateHelpers(s Setter) {
 	s.Set("unique_structures", uniqueStructures)
 	s.Set("print_comment", printComment)
 	s.Set("go_type_string", goTypeString)

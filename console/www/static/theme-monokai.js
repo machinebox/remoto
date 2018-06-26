@@ -7,7 +7,7 @@ background: #2F3129;\
 color: #8F908A\
 }\
 .ace-monokai .ace_print-margin {\
-width: 1px;\
+width: 0px;\
 background: #555651\
 }\
 .ace-monokai {\
