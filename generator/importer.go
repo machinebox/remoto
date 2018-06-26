@@ -26,6 +26,9 @@ func newVendorImporter(importer types.Importer) *vendorImporter {
 }
 
 func (i *vendorImporter) Import(p string) (*types.Package, error) {
+	if pkg, err := i.fsPkg(p); err == nil {
+		return pkg, nil
+	}
 	var err error
 	p = "./" + path.Join("vendor", p)
 	if pkg, ok := i.imported[p]; ok {
