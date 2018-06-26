@@ -22,6 +22,15 @@
 	<meta name='viewport' content='width=device-width, initial-scale=1'>
 	<link rel='stylesheet' href='/static/styles.css'>
 	<style>
+		header {
+			background: rgb(168,73,193);
+			background: linear-gradient(90deg, rgba(168,73,193,1) 0%, rgba(92,32,94,1) 39%);
+		}
+		header .hero {
+			min-height: 300px;
+			background: transparent url("/static/img/remoto-4@3x.svg") 0% 100% no-repeat;
+			background-size: contain;
+		}
 		footer {
 			padding: 10px;
 			padding-top: 20px;
@@ -32,6 +41,9 @@
 	</style>
 </head>
 <body>
+	<header>
+		<div class='hero'></div>
+	</header>
 	<nav class='navbar navbar-light bg-light'>
 		<div class='container'>
 			<a class="navbar-brand" href="/">Remoto</a>
