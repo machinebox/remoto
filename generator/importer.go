@@ -29,11 +29,7 @@ func (i *vendorImporter) Import(p string) (*types.Package, error) {
 	if pkg, err := i.fsPkg(p); err == nil {
 		return pkg, nil
 	}
-	var err error
 	p = "./" + path.Join("vendor", p)
-	if pkg, ok := i.imported[p]; ok {
-		return pkg, nil
-	}
 	pkg, err := i.fsPkg(p)
 	if err != nil {
 		return nil, err
@@ -43,6 +39,9 @@ func (i *vendorImporter) Import(p string) (*types.Package, error) {
 }
 
 func (i *vendorImporter) fsPkg(pkg string) (*types.Package, error) {
+	if pkg, ok := i.imported[pkg]; ok {
+		return pkg, nil
+	}
 	dirFiles, err := ioutil.ReadDir(pkg)
 	if err != nil {
 		return importOrErr(i.base, pkg, err)
