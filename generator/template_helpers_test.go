@@ -3,8 +3,8 @@ package generator
 import (
 	"testing"
 
-	"github.com/matryer/remoto/generator/definition"
 	"github.com/matryer/is"
+	"github.com/matryer/remoto/generator/definition"
 )
 
 type testSetter map[string]interface{}
@@ -16,7 +16,7 @@ func (s *testSetter) Set(name string, value interface{}) {
 func TestAddHelpers(t *testing.T) {
 	is := is.New(t)
 	s := &testSetter{}
-	addHelpers(s)
+	AddTemplateHelpers(s)
 	m := map[string]interface{}(*s)
 	is.Equal(m["unique_structures"], uniqueStructures)
 	is.Equal(m["print_comment"], printComment)
