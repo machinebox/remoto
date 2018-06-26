@@ -10,9 +10,9 @@ import (
 // In templates, it is usually accessed via the `def` variable.
 //  Package name is <%= def.PackageName %>
 type Definition struct {
-	Services       []Service
-	PackageName    string
-	PackageComment string
+	Services       []Service `json:"services"`
+	PackageName    string    `json:"packageName"`
+	PackageComment string    `json:"packageComment"`
 }
 
 // Source gets the Remoto source for this definition.
@@ -57,10 +57,10 @@ func (d Definition) Structure(name string) *Structure {
 
 // Service describes a logically grouped set of endpoints.
 type Service struct {
-	Name       string
-	Comment    string
-	Methods    []Method
-	Structures []Structure
+	Name       string      `json:"name"`
+	Comment    string      `json:"comment"`
+	Methods    []Method    `json:"methods"`
+	Structures []Structure `json:"structures"`
 }
 
 // EnsureStructure adds the Structure to the service if it isn't
@@ -90,10 +90,10 @@ func (s Service) String() string {
 
 // Method is a single method.
 type Method struct {
-	Name              string
-	Comment           string
-	RequestStructure  Structure
-	ResponseStructure Structure
+	Name              string    `json:"name"`
+	Comment           string    `json:"comment"`
+	RequestStructure  Structure `json:"requestStructure"`
+	ResponseStructure Structure `json:"responseStructure"`
 }
 
 func (m Method) String() string {
@@ -105,13 +105,13 @@ func (m Method) String() string {
 
 // Structure describes a data structure.
 type Structure struct {
-	Name       string
-	Comment    string
-	Fields     []Field
-	IsImported bool
+	Name       string  `json:"name"`
+	Comment    string  `json:"comment"`
+	Fields     []Field `json:"fields"`
+	IsImported bool    `json:"isImported"`
 
-	IsRequestObject  bool
-	IsResponseObject bool
+	IsRequestObject  bool `json:"isRequestObject"`
+	IsResponseObject bool `json:"isResponseObject"`
 }
 
 func (s Structure) String() string {
@@ -153,9 +153,9 @@ func (s Structure) FieldsOfType(typename string) []Field {
 
 // Field describes a structure field.
 type Field struct {
-	Name    string
-	Comment string
-	Type    Type
+	Name    string `json:"name"`
+	Comment string `json:"comment"`
+	Type    Type   `json:"type"`
 }
 
 func (f Field) String() string {
@@ -169,10 +169,10 @@ func (f Field) IsExported() bool {
 
 // Type describes the type of a Field.
 type Type struct {
-	Name       string
-	IsMultiple bool
-	IsStruct   bool
-	IsImported bool
+	Name       string `json:"name"`
+	IsMultiple bool   `json:"isMultiple"`
+	IsStruct   bool   `json:"isStruct"`
+	IsImported bool   `json:"isImported"`
 }
 
 func (t Type) code() string {

@@ -13,7 +13,7 @@ $(function(){
     var form = textarea.closest('form')
     var validate = debounce(function(src){
         $.ajax({
-            method: 'post', url: 'validate',
+            method: 'post', url: '/api/define',
             data: {"definition": src}
         }).then(function(response){
             if (response.ok) {
@@ -21,6 +21,7 @@ $(function(){
                 $('[data-definition-valid="false"]').hide()
                 $('[data-definition-invalid]').prop('disabled', false)
                 $('[data-definition-valid-error]').text('')
+                console.info(response)
                 return
             }
             // clean up the error message a bit, the filename for example isn't

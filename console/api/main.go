@@ -13,6 +13,7 @@ import (
 	"sync"
 
 	"github.com/matryer/remoto/generator"
+	"github.com/matryer/remoto/generator/definition"
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/log"
 )
@@ -21,6 +22,7 @@ func init() {
 	http.HandleFunc("/api/templates", handleTemplates())
 	http.HandleFunc("/api/all.zip", handleRenderAllTemplates())
 	http.HandleFunc("/api/templates/", handleRenderTemplate())
+	http.HandleFunc("/api/define", handleDefinitionDefine())
 }
 
 // handleTemplates gets a list of available templates.
@@ -159,6 +161,41 @@ func handleRenderAllTemplates() http.HandlerFunc {
 		})
 		if err != nil {
 			log.Errorf(ctx, "%v", err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+// handleDefinitionDefine checks the definition file, returning a JSON object
+// with ok and error fields.
+func handleDefinitionDefine() http.HandlerFunc {
+	type response struct {
+		OK         bool                   `json:"ok"`
+		Error      string                 `json:"error,omitempty"`
+		Definition *definition.Definition `json:"definition,omitempty"`
+	}
+	return func(w http.ResponseWriter, r *http.Request) {
+		source := r.FormValue("definition")
+		if source == "" {
+			http.Error(w, "definition missing", http.StatusInternalServerError)
+			return
+		}
+		var response response
+		response.OK = true
+		def, err := generator.Parse(strings.NewReader(source))
+		if err != nil {
+			response.OK = false
+			response.Error = err.Error()
+		} else {
+			response.Definition = &def
+			if err := response.Definition.Valid(); err != nil {
+				response.OK = false
+				response.Error = err.Error()
+			}
+		}
+		w.Header().Set("Content-Type", "application/json")
+		if err := json.NewEncoder(w).Encode(response); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}

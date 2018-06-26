@@ -4,6 +4,133 @@ The Remote Console is an online application for writing Remoto definition files,
 
 ## API
 
+### Parse a definition
+
+To parse a Remoto definition file, post the source to the following endpoint:
+
+```
+POST /api/define
+definition=...
+```
+
+* `definition` field should contain the source
+
+Response will be a JSON object containing the definition or an error message if something went wrong.
+
+Unsuccessful response:
+
+```json
+{
+	"ok": false,
+	"error": "io.Reader.go:24:18: expected '}', found 'EOF'"
+}
+```
+
+Successful response:
+
+```json
+{
+	"ok": true,
+	"definition": {
+		"services": [{
+			"name": "Greeter",
+			"comment": "Greeter is a friendly service.",
+			"methods": [{
+				"name": "Greet",
+				"comment": "Greet makes a greeting.",
+				"requestStructure": {
+					"name": "GreetRequest",
+					"comment": "GreetRequest is the request object for Greeter.Greet.",
+					"fields": [{
+						"name": "Name",
+						"comment": "Name is the person to greet.",
+						"type": {
+							"name": "string",
+							"isMultiple": false,
+							"isStruct": false,
+							"isImported": false
+						}
+					}],
+					"isImported": false,
+					"isRequestObject": true,
+					"isResponseObject": false
+				},
+				"responseStructure": {
+					"name": "GreetResponse",
+					"comment": "GreetResponse is the response object for Greeter.Greet.",
+					"fields": [{
+						"name": "Greeting",
+						"comment": "Greeting is a personalized message",
+						"type": {
+							"name": "string",
+							"isMultiple": false,
+							"isStruct": false,
+							"isImported": false
+						}
+					}, {
+						"name": "Error",
+						"comment": "Error is an error message if one occurred.",
+						"type": {
+							"name": "string",
+							"isMultiple": false,
+							"isStruct": false,
+							"isImported": false
+						}
+					}],
+					"isImported": false,
+					"isRequestObject": false,
+					"isResponseObject": true
+				}
+			}],
+			"structures": [{
+				"name": "GreetRequest",
+				"comment": "GreetRequest is the request object for Greeter.Greet.",
+				"fields": [{
+					"name": "Name",
+					"comment": "Name is the person to greet.",
+					"type": {
+						"name": "string",
+						"isMultiple": false,
+						"isStruct": false,
+						"isImported": false
+					}
+				}],
+				"isImported": false,
+				"isRequestObject": true,
+				"isResponseObject": false
+			}, {
+				"name": "GreetResponse",
+				"comment": "GreetResponse is the response object for Greeter.Greet.",
+				"fields": [{
+					"name": "Greeting",
+					"comment": "Greeting is a personalized message",
+					"type": {
+						"name": "string",
+						"isMultiple": false,
+						"isStruct": false,
+						"isImported": false
+					}
+				}, {
+					"name": "Error",
+					"comment": "Error is an error message if one occurred.",
+					"type": {
+						"name": "string",
+						"isMultiple": false,
+						"isStruct": false,
+						"isImported": false
+					}
+				}],
+				"isImported": false,
+				"isRequestObject": false,
+				"isResponseObject": true
+			}]
+		}],
+		"packageName": "remoto",
+		"packageComment": "Remoto service is an example service."
+	}
+}
+```
+
 ### Get templates
 
 Get a list of templates:
