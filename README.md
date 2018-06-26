@@ -107,4 +107,4 @@ usage:
 
 As well as code generation, Remoto ships with a complete HTTP client/server implementation which you can generate from your definition files.
 
-For more information, see the [remotohttp documentation](remotohttp).
+For more information, see the [remotohttp documentation](go/remotohttp).
