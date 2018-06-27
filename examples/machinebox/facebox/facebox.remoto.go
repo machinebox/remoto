@@ -1,5 +1,5 @@
-// Package facebox provides access to Facebox Remoto services.
-package facebox
+// Package machinebox provides access to Facebox Remoto services.
+package machinebox
 
 import (
 	"github.com/matryer/remoto/remototypes"
