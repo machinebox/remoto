@@ -99,7 +99,7 @@ type Method struct {
 func (m Method) String() string {
 	var str string
 	str = printComments(m.Comment)
-	str += m.Name + "(*" + m.RequestStructure.Name + ") *" + m.ResponseStructure.Name
+	str += m.Name + "(" + m.RequestStructure.Name + ") " + m.ResponseStructure.Name
 	return str
 }
 

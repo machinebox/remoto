@@ -200,15 +200,19 @@ func parseStructureFromParam(fset *token.FileSet, docs *doc.Package, pkg *types.
 		return ""
 	}
 	var structure definition.Structure
-	p, ok := v.Type().(*types.Pointer)
-	if !ok {
-		return structure, newErr(fset, v.Pos(), structureKind+" object must be a pointer to a struct")
+	if _, ok := v.Type().(*types.Pointer); ok {
+		return structure, newErr(fset, v.Pos(), structureKind+" object must be a named struct (not a pointer - remove the *)")
 	}
-	st, ok := p.Elem().Underlying().(*types.Struct)
+	p, ok := v.Type().(*types.Named)
 	if !ok {
-		return structure, newErr(fset, v.Pos(), structureKind+" object must be a pointer to a struct")
+		return structure, newErr(fset, v.Pos(), structureKind+" object must be a named struct")
 	}
-	structure.Name = types.TypeString(v.Type(), resolver)[1:]
+	typ := p.Underlying()
+	st, ok := typ.(*types.Struct)
+	if !ok {
+		return structure, newErr(fset, v.Pos(), structureKind+" object must be a struct")
+	}
+	structure.Name = types.TypeString(v.Type(), resolver)
 	var docstype *doc.Type
 	docstype, structure.Comment = commentForType(docs, structure.Name)
 	structure.IsImported = strings.Contains(structure.Name, ".")

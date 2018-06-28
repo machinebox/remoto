@@ -1,7 +1,7 @@
 package testdata
 
 type Greeter interface {
-	Greet(*GreetRequest) string
+	Greet(GreetRequest) string
 }
 
 type GreetRequest struct {

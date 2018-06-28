@@ -23,6 +23,7 @@ func TestParser(t *testing.T) {
 	is.Equal(def.Services[0].Comment, "GreetFormatter provides formattable greeting services.")
 
 	greetFormatRequest := def.Structure("GreetFormatRequest")
+	is.True(greetFormatRequest != nil)
 	is.Equal(greetFormatRequest.Name, "GreetFormatRequest")
 	is.Equal(greetFormatRequest.Fields[1].Name, "Names")
 	is.Equal(greetFormatRequest.Fields[1].Comment, "Names is one or more names of people to greet.")
@@ -60,7 +61,7 @@ package greeter
 // GreetFormatter provides formattable greeting services.
 type GreetFormatter interface {
 	// Greet generates a greeting.
-	Greet(*GreetFormatRequest) *GreetResponse
+	Greet(GreetFormatRequest) GreetResponse
 }
 
 // GreetingFormat describes the format of a greeting.
@@ -92,7 +93,7 @@ type GreetResponse struct {
 // Greeter provides greeting services.
 type Greeter interface {
 	// Greet generates a greeting.
-	Greet(*GreetRequest) *GreetResponse
+	Greet(GreetRequest) GreetResponse
 }
 
 // GreetRequest is the request for Greeter.GreetRequest.
@@ -163,7 +164,7 @@ package greeter
 // GreetFormatter provides formattable greeting services.
 type GreetFormatter interface {
 	// Greet generates a greeting.
-	Greet(*GreetFormatRequest) *GreetResponse
+	Greet(GreetFormatRequest) GreetResponse
 }
 
 // GreetingFormat describes the format of a greeting.
@@ -195,7 +196,7 @@ type GreetResponse struct {
 // Greeter provides greeting services.
 type Greeter interface {
 	// Greet generates a greeting.
-	Greet(*GreetRequest) *GreetResponse
+	Greet(GreetRequest) GreetResponse
 }
 
 // GreetRequest is the request for Greeter.GreetRequest.
@@ -222,9 +223,9 @@ func TestErrors(t *testing.T) {
 		"testdata/rpc/errors/no-variadic":                 "greeter.remoto.go:6:2: service methods must have signature (*Request) *Response",
 		"testdata/rpc/errors/bad-first-arg":               "greeter.remoto.go:4:2: service methods must have signature (*Request) *Response",
 		"testdata/rpc/errors/too-few-return-args":         "greeter.remoto.go:4:2: service methods must have signature (*Request) *Response",
-		"testdata/rpc/errors/bad-return-args":             "greeter.remoto.go:4:23: response object must be a pointer to a struct",
-		"testdata/rpc/errors/non-pointer-request":         "greeter.remoto.go:4:8: request object must be a pointer to a struct",
-		"testdata/rpc/errors/non-pointer-response":        "greeter.remoto.go:4:23: response object must be a pointer to a struct",
+		"testdata/rpc/errors/bad-return-args":             "greeter.remoto.go:4:22: response object must be a named struct",
+		"testdata/rpc/errors/pointer-request":             "greeter.remoto.go:4:8: request object must be a named struct (not a pointer - remove the *)",
+		"testdata/rpc/errors/pointer-response":            "greeter.remoto.go:4:22: response object must be a named struct (not a pointer - remove the *)",
 		"testdata/rpc/errors/bad-type":                    "greeter.remoto.go:8:2: type int32 not supported: use int",
 		"testdata/rpc/errors/unexported-fields":           "greeter.remoto.go:11:2: field name: must be exported",
 		"testdata/rpc/errors/unexported-methods":          "greeter.remoto.go:6:2: method greet: must be exported",
@@ -267,13 +268,13 @@ package greeter
 // Greeter provides greeting services.
 type Greeter interface {
 	// Greet generates a greeting.
-	Greet(*GreetRequest) *GreetResponse
+	Greet(GreetRequest) GreetResponse
 }
 
 // GreetFormatter provides formattable greeting services.
 type GreetFormatter interface {
 	// Greet generates a greeting.
-	Greet(*GreetFormatRequest) *GreetResponse
+	Greet(GreetFormatRequest) GreetResponse
 }
 
 // GreetRequest is the request for Greeter.GreetRequest.
