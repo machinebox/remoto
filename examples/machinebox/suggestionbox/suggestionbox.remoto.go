@@ -5,15 +5,15 @@ import (
 )
 
 type Suggestionbox interface {
-	CreateModel(*CreateModelRequest) *CreateModelResponse
-	Predict(*PredictRequest) *PredictResponse
-	Reward(*RewardRequest) *RewardResponse
+	CreateModel(CreateModelRequest) CreateModelResponse
+	Predict(PredictRequest) PredictResponse
+	Reward(RewardRequest) RewardResponse
 
-	ListModels(*ListModelsRequest) *ListModelsResponse
-	DeleteModel(*DeleteModelRequest) *DeleteModelResponse
+	ListModels(ListModelsRequest) ListModelsResponse
+	DeleteModel(DeleteModelRequest) DeleteModelResponse
 
-	GetState(*GetStateRequest) *remototypes.FileResponse
-	PutState(*PutStateRequest) *PutStateResponse
+	GetState(GetStateRequest) remototypes.FileResponse
+	PutState(PutStateRequest) PutStateResponse
 }
 
 type CreateModelRequest struct {

@@ -7,15 +7,15 @@ import (
 // Classificationbox lets you use machine learning to automatically classify
 // various types of data, such as text, images, structured and unstructured data.
 type Classificationbox interface {
-	CreateModel(*CreateModelRequest) *CreateModelResponse
-	Teach(*TeachRequest) *TeachResponse
-	Predict(*PredictRequest) *PredictResponse
+	CreateModel(CreateModelRequest) CreateModelResponse
+	Teach(TeachRequest) TeachResponse
+	Predict(PredictRequest) PredictResponse
 
-	ListModels(*ListModelsRequest) *ListModelsResponse
-	DeleteModel(*DeleteModelRequest) *DeleteModelResponse
+	ListModels(ListModelsRequest) ListModelsResponse
+	DeleteModel(DeleteModelRequest) DeleteModelResponse
 
-	GetState(*GetStateRequest) *remototypes.FileResponse
-	PutState(*PutStateRequest) *PutStateResponse
+	GetState(GetStateRequest) remototypes.FileResponse
+	PutState(PutStateRequest) PutStateResponse
 }
 
 type CreateModelRequest struct {

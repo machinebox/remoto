@@ -20,7 +20,13 @@ func init() {
 		Run: func(cmd *cobra.Command, args []string) {
 			definition := args[0]
 			template := args[1]
-			def, err := generator.ParseDir(definition)
+			f, err := os.Open(definition)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "%v\n", err)
+				os.Exit(1)
+			}
+			defer f.Close()
+			def, err := generator.Parse(f)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "parse: %v\n", err)
 				os.Exit(1)

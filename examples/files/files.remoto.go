@@ -6,7 +6,7 @@ import (
 
 // Images provides image services.
 type Images interface {
-	Flip(*FlipRequest) *remototypes.FileResponse
+	Flip(FlipRequest) remototypes.FileResponse
 }
 
 // FlipRequest is the request for Images.Flip.

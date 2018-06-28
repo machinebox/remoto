@@ -9,51 +9,51 @@ import (
 type Facebox interface {
 
 	// TeachFile teaches Facebox a new face from an image file.
-	TeachFile(*TeachFileRequest) *TeachFileResponse
+	TeachFile(TeachFileRequest) TeachFileResponse
 
 	// TeachURL teaches Facebox a new face from an image on the web.
-	TeachURL(*TeachURLRequest) *TeachURLResponse
+	TeachURL(TeachURLRequest) TeachURLResponse
 
 	// TeachFaceprint teaches Facebox about a face from a Faceprint.
-	TeachFaceprint(*TeachFaceprintRequest) *TeachFaceprintResponse
+	TeachFaceprint(TeachFaceprintRequest) TeachFaceprintResponse
 
 	// CheckFile checks an image file for faces.
-	CheckFile(*CheckFileRequest) *CheckFileResponse
+	CheckFile(CheckFileRequest) CheckFileResponse
 
 	// CheckURL checks a hosted image file for faces.
-	CheckURL(*CheckURLRequest) *CheckURLResponse
+	CheckURL(CheckURLRequest) CheckURLResponse
 
 	// CheckFaceprint checks to see if a Faceprint matches any known
 	// faces.
-	CheckFaceprint(*CheckFaceprintRequest) *CheckFaceprintResponse
+	CheckFaceprint(CheckFaceprintRequest) CheckFaceprintResponse
 
 	// SimilarID checks for similar faces by ID.
-	SimilarID(*SimilarIDRequest) *SimilarIDResponse
+	SimilarID(SimilarIDRequest) SimilarIDResponse
 
 	// SimilarFile checks for similar faces from the face in an image file.
-	SimilarFile(*SimilarFileRequest) *SimilarFileResponse
+	SimilarFile(SimilarFileRequest) SimilarFileResponse
 
 	// SimilarURL checks for similar faces in a hosted image file.
-	SimilarURL(*SimilarURLRequest) *SimilarURLResponse
+	SimilarURL(SimilarURLRequest) SimilarURLResponse
 
 	// Rename changes a person's name.
-	Rename(*RenameRequest) *RenameResponse
+	Rename(RenameRequest) RenameResponse
 
 	// RenameID changes the name of a previously taught face, by ID.
-	RenameID(*RenameIDRequest) *RenameIDResponse
+	RenameID(RenameIDRequest) RenameIDResponse
 
 	// RemoveID removes a face with the specified ID.
-	RemoveID(*RemoveIDRequest) *RemoveIDResponse
+	RemoveID(RemoveIDRequest) RemoveIDResponse
 
 	// FaceprintCompare compares faceprints to a specified target describing
 	// similarity.
-	FaceprintCompare(*FaceprintCompareRequest) *FaceprintCompareResponse
+	FaceprintCompare(FaceprintCompareRequest) FaceprintCompareResponse
 
 	// GetState gets the Facebox state file.
-	GetState(*GetStateRequest) *remototypes.FileResponse
+	GetState(GetStateRequest) remototypes.FileResponse
 
 	// PutState sets the Facebox state file.
-	PutState(*PutStateRequest) *PutStateResponse
+	PutState(PutStateRequest) PutStateResponse
 }
 
 // TeachFileRequest is the request object for TeachFile calls.
