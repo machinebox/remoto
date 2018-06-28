@@ -16,8 +16,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-//go:generate go run ./tools/copy_remototypes.go
-
 // Parse parses a Remoto definition file from the io.Reader.
 func Parse(r io.Reader) (definition.Definition, error) {
 	var def definition.Definition
