@@ -230,6 +230,7 @@ func TestErrors(t *testing.T) {
 		"testdata/rpc/errors/unexported-fields":           "greeter.remoto.go:11:2: field name: must be exported",
 		"testdata/rpc/errors/unexported-methods":          "greeter.remoto.go:6:2: method greet: must be exported",
 		"testdata/rpc/errors/same-request-response-types": "greeter.remoto.go:7:2: service methods must use different types for request and response objects",
+		"testdata/rpc/errors/other-imports":               "import not allowed: context",
 	}
 	pwd, err := os.Getwd()
 	is.NoErr(err)

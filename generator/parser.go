@@ -73,6 +73,18 @@ func parse(astpkg *ast.Package, fset *token.FileSet, files []*ast.File) (definit
 	if err != nil {
 		return def, errors.Wrap(err, "conf.Check")
 	}
+	for _, imp := range pkg.Imports() {
+		allowed := false
+		for _, p := range allowedImports {
+			if imp.Path() == p {
+				allowed = true
+				break
+			}
+		}
+		if !allowed {
+			return def, errors.New("import not allowed: " + imp.Path())
+		}
+	}
 	for _, name := range pkg.Scope().Names() {
 		obj := pkg.Scope().Lookup(name)
 		switch v := obj.Type().Underlying().(type) {
@@ -338,6 +350,12 @@ func commentForType(docs *doc.Package, typename string) (*doc.Type, string) {
 		}
 	}
 	return nil, ""
+}
+
+// allowedImports is a list of the only packages that are allowed to
+// be imported into definition files.
+var allowedImports = []string{
+	"github.com/matryer/remoto/remototypes",
 }
 
 // tips are simple error string matches (keys) which if found,
