@@ -12,7 +12,7 @@ import (
 	"strconv"
 
 	"github.com/matryer/remoto/go/remotohttp"
-	"github.com/matryer/remoto/remototypes"
+	"github.com/matryer/remoto/go/remotohttp/remototypes"
 	"github.com/pkg/errors"
 )
 

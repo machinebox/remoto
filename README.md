@@ -102,7 +102,7 @@ usage:
 	remoto generate definition template -o output-file
 ```
 
-* `definition` - Path to the definition folder
+* `definition` - Path to the definition file
 * `template` - Path to the template to render
 * `output-file` - Where to save the output (folders will be created and files will be overwritten without warning)
 
