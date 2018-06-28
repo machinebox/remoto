@@ -44,7 +44,7 @@ package project
 // Greeter provides greeting services.
 type Greeter interface {
 	// Greet generates a greeting.
-	Greet(*GreetRequest) *GreetResponse
+	Greet(GreetRequest) GreetResponse
 }
 
 // GreetRequest is the request for Greeter.GreetRequest.
@@ -60,7 +60,7 @@ type GreetResponse struct {
 
 * `package project` - package name can group services
 * `type ServiceName interface` - describes an RPC service
-* `Greet(*GreetRequest) *GreetResponse` - service method with request and response objects
+* `Greet(GreetRequest) GreetResponse` - service method with request and response objects
 * `type GreetRequest struct` - describes the request data
 * `type GreetResponse struct` - describes the response data
 
@@ -68,8 +68,8 @@ type GreetResponse struct {
 
 * Each service is an `interface`
 * Each method is an endpoint
-* Methods must take a pointer to request object as its only argument
-* Methods must return a pointer to the response object as the result
+* Methods must take a request object as its only argument
+* Methods must return the response object as the result
 * Only a subset of Go types are supported: `string`, `float64`, `int`, `bool`, and `struct` types
 * Any arrays (slices) of the supported types are also allowed (e.g. `[]string`, `[]bool`, etc.)
 * Comments describe the services, methods and types
