@@ -17,11 +17,11 @@ func TestStructure(t *testing.T) {
 	}
 	def := Definition{
 		Services: []Service{
-			Service{
+			{
 				Name:       "One",
 				Structures: []Structure{struct1},
 			},
-			Service{
+			{
 				Name:       "Two",
 				Structures: []Structure{struct2},
 			},

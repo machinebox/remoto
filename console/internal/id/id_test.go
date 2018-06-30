@@ -9,8 +9,7 @@ import (
 
 func Test(t *testing.T) {
 	is := is.New(t)
-	var i int64
-	i = 5687539843203072
+	var i int64 = 5687539843203072
 	vid := id.Itoa(i)
 	is.Equal(vid, "q32kmp33y")
 	is.Equal(id.Atoi(vid), i)

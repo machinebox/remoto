@@ -17,8 +17,7 @@ type Definition struct {
 
 // Source gets the Remoto source for this definition.
 func (d Definition) Source() string {
-	var s string
-	s = printComments(d.PackageComment)
+	s := printComments(d.PackageComment)
 	s += "package " + d.PackageName + "\n\n"
 	for i := range d.Services {
 		s += d.Services[i].String()
@@ -75,8 +74,7 @@ func (s *Service) EnsureStructure(structure Structure) {
 }
 
 func (s Service) String() string {
-	var str string
-	str = printComments(s.Comment)
+	str := printComments(s.Comment)
 	str += "type " + s.Name + " interface {\n"
 	for i := range s.Methods {
 		str += indent(1, s.Methods[i].String())
@@ -97,8 +95,7 @@ type Method struct {
 }
 
 func (m Method) String() string {
-	var str string
-	str = printComments(m.Comment)
+	str := printComments(m.Comment)
 	str += m.Name + "(" + m.RequestStructure.Name + ") " + m.ResponseStructure.Name
 	return str
 }
@@ -115,8 +112,7 @@ type Structure struct {
 }
 
 func (s Structure) String() string {
-	var str string
-	str = printComments(s.Comment)
+	str := printComments(s.Comment)
 	str += "type " + s.Name + " struct {\n"
 	for i := range s.Fields {
 		str += indent(1, s.Fields[i].String())
