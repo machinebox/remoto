@@ -2,7 +2,6 @@ package remotohttp
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"net/http"
 	"strings"
 
@@ -23,11 +22,7 @@ func Decode(r *http.Request, v interface{}) error {
 }
 
 func decodeJSON(r *http.Request, v interface{}) error {
-	b, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		return err
-	}
-	if err := json.Unmarshal(b, v); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(v); err != nil {
 		return errors.Wrap(err, "decode json")
 	}
 	return nil
