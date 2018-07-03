@@ -237,9 +237,13 @@ func TestErrors(t *testing.T) {
 	for path, expectedErr := range tests {
 		t.Run(path, func(t *testing.T) {
 			is := is.New(t)
-			os.Chdir(path)
-			defer os.Chdir(pwd)
-			_, err := ParseDir(".")
+			err := os.Chdir(path)
+			is.NoErr(err)
+			defer func() {
+				err = os.Chdir(pwd)
+				is.NoErr(err)
+			}()
+			_, err = ParseDir(".")
 			is.True(err != nil) // must be an error
 			is.Equal(err.Error(), expectedErr)
 		})

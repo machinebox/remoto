@@ -46,11 +46,10 @@ func Atoi(s string) int64 {
 	bi := big.NewInt(0)
 	base := big.NewInt(int64(len(chars)))
 	exponent := 0
-	a := big.NewInt(0)
 	b := big.NewInt(0)
 	intermed := big.NewInt(0)
 	for _, c := range chars2 {
-		a = dictMap[c]
+		a := dictMap[c]
 		intermed = intermed.Exp(base, big.NewInt(int64(exponent)), nil)
 		b = b.Mul(intermed, a)
 		bi = bi.Add(bi, b)

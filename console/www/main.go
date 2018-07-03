@@ -52,7 +52,7 @@ func (s *server) handleIndex() http.HandlerFunc {
 			if err != nil {
 				return
 			}
-			tpl, err = plush.NewTemplate(string(b))
+			tpl, err = plush.NewTemplate(b)
 			if err != nil {
 				return
 			}
@@ -72,7 +72,7 @@ func (s *server) handleIndex() http.HandlerFunc {
 	}
 }
 
-// handleDefinitionView loads the defintiion with the ID from the path,
+// handleDefinitionView loads the definition with the ID from the path,
 // and renders a page with generators.
 func (s *server) handleDefinitionView() http.HandlerFunc {
 	var init sync.Once
@@ -98,7 +98,7 @@ func (s *server) handleDefinitionView() http.HandlerFunc {
 			if err != nil {
 				return
 			}
-			tpl, err = plush.NewTemplate(string(b))
+			tpl, err = plush.NewTemplate(b)
 			if err != nil {
 				return
 			}
@@ -180,12 +180,6 @@ func (s *server) handleDefinitionSave() http.HandlerFunc {
 			return
 		}
 		http.Redirect(w, r, "/definition/"+sourceHash, http.StatusFound)
-	}
-}
-
-func errorHandler(err error, status int) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		http.Error(w, err.Error(), status)
 	}
 }
 

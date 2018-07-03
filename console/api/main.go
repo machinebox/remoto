@@ -26,7 +26,7 @@ func init() {
 }
 
 // handleTemplates gets a list of available templates.
-// 	GET /api/templates
+//	GET /api/templates
 func handleTemplates() http.HandlerFunc {
 	var init sync.Once
 	var err error
@@ -154,7 +154,8 @@ func handleRenderAllTemplates() http.HandlerFunc {
 				log.Warningf(ctx, "skipping %q %v", templatePath, err)
 				return nil
 			}
-			if err := generator.Render(f, templatePath, string(tplBytes), def); err != nil {
+			err = generator.Render(f, templatePath, string(tplBytes), def)
+			if err != nil {
 				return err
 			}
 			return nil

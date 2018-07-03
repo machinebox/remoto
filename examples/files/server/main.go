@@ -23,7 +23,8 @@ func main() {
 func run() error {
 	addr := "0.0.0.0:8080"
 	fmt.Println("listening on", addr)
-	if err := files.Run(addr, service{}); err != nil {
+	err := files.Run(addr, service{})
+	if err != nil {
 		return err
 	}
 	return nil

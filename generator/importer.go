@@ -48,7 +48,7 @@ func (i *vendorImporter) fsPkg(pkg string) (*types.Package, error) {
 	}
 
 	fset := token.NewFileSet()
-	var files []*ast.File
+	files := make([]*ast.File, 0, len(dirFiles))
 	for _, fileInfo := range dirFiles {
 		if fileInfo.IsDir() {
 			continue
