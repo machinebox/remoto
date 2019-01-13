@@ -76,7 +76,7 @@ func Register<%= service.Name %>Server(server *remotohttp.Server, service <%= se
 <%= for (structure) in unique_structures(def) { %>
 <%= print_comment(structure.Comment) %>type <%= structure.Name %> struct {
 	<%= for (field) in structure.Fields { %>
-	<%= print_comment(field.Comment) %><%= field.Name %> <%= go_type_string(field.Type) %> `json:"<%= underscore(field.Name) %>"`
+	<%= print_comment(field.Comment) %><%= field.Name %> <%= go_type_string(field.Type) %> `json:"<%= camelize_down_first(field.Name) %>"`
 	<% } %>
 }
 
