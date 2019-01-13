@@ -42,7 +42,11 @@ func (srv *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	h, ok := srv.handlers.Load(r.URL.Path)
 	if !ok {
-		srv.NotFound.ServeHTTP(w, r)
+		if srv.NotFound != nil {
+			srv.NotFound.ServeHTTP(w, r)
+			return
+		}
+		http.NotFound(w, r)
 		return
 	}
 	handler, ok := h.(http.Handler)
