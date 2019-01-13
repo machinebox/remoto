@@ -2,7 +2,7 @@
 package machinebox
 
 import (
-	"github.com/matryer/remoto/remototypes"
+	"github.com/machinebox/remoto/remototypes"
 )
 
 // Facebox provides facial detection and recognition in images.

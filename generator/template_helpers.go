@@ -4,8 +4,8 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/machinebox/remoto/generator/definition"
 	"github.com/markbates/inflect"
-	"github.com/matryer/remoto/generator/definition"
 )
 
 // Setter may have data set on it, usually a plush context.

@@ -68,13 +68,13 @@ Plush uses `<%= tagsLikeThese %>` to inject data and provide conditional output 
 ### Template helpers
 
 Remoto inherits all of the [Plush helpers](https://github.com/gobuffalo/plush#helpers) and adds some
-specific ones in the [generator/template_helpers.go](https://github.com/matryer/remoto/blob/master/generator/template_helpers.go) file.
+specific ones in the [generator/template_helpers.go](https://github.com/machinebox/remoto/blob/master/generator/template_helpers.go) file.
 
 ### Template data structure
 
 The data structure for the templates is best expressed through the godoc online documentation:
 
-* [https://godoc.org/github.com/matryer/remoto/generator/definition](https://godoc.org/github.com/matryer/remoto/generator/definition)
+* [https://godoc.org/github.com/machinebox/remoto/generator/definition](https://godoc.org/github.com/machinebox/remoto/generator/definition)
 
 ### Dealing with repsonse files
 

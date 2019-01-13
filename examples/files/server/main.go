@@ -8,8 +8,8 @@ import (
 	"os"
 
 	"github.com/disintegration/imaging"
-	"github.com/matryer/remoto/examples/files/server/files"
-	"github.com/matryer/remoto/remototypes"
+	"github.com/machinebox/remoto/examples/files/server/files"
+	"github.com/machinebox/remoto/remototypes"
 	"github.com/pkg/errors"
 )
 

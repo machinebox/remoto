@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/matryer/remoto/go/remotohttp/remototypes"
+	"github.com/machinebox/remoto/go/remotohttp/remototypes"
 )
 
 // Server is an HTTP server for serving Remoto requests.

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/matryer/remoto/examples/greeter/server/greeter"
+	"github.com/machinebox/remoto/examples/greeter/server/greeter"
 )
 
 func main() {

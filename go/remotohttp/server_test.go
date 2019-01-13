@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/machinebox/remoto/go/remotohttp"
 	"github.com/matryer/is"
-	"github.com/matryer/remoto/go/remotohttp"
 )
 
 func TestServerServeHTTP(t *testing.T) {

@@ -3,8 +3,8 @@ package generator
 import (
 	"testing"
 
+	"github.com/machinebox/remoto/generator/definition"
 	"github.com/matryer/is"
-	"github.com/matryer/remoto/generator/definition"
 )
 
 type testSetter map[string]interface{}

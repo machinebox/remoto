@@ -12,7 +12,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/matryer/remoto/generator/definition"
+	"github.com/machinebox/remoto/generator/definition"
 	"github.com/pkg/errors"
 )
 
@@ -355,7 +355,7 @@ func commentForType(docs *doc.Package, typename string) (*doc.Type, string) {
 // allowedImports is a list of the only packages that are allowed to
 // be imported into definition files.
 var allowedImports = []string{
-	"github.com/matryer/remoto/remototypes",
+	"github.com/machinebox/remoto/remototypes",
 }
 
 // tips are simple error string matches (keys) which if found,

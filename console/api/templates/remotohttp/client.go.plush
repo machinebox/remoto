@@ -17,7 +17,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/matryer/remoto/remototypes"
+	"github.com/machinebox/remoto/remototypes"
 	"github.com/oxtoacart/bpool"
 	"github.com/pkg/errors"
 )

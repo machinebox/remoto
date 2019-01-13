@@ -1,7 +1,7 @@
 package greeter
 
 import (
-	"github.com/matryer/remoto/remototypes"
+	"github.com/machinebox/remoto/remototypes"
 )
 
 // Greeter provides greeting services.

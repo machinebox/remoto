@@ -27,7 +27,7 @@ The following `cat.remoto.go` file demonstrates how to both upload and download 
 package cats
 
 import (
-	"github.com/matryer/remoto/remototypes"
+	"github.com/machinebox/remoto/remototypes"
 )
 
 // CatService provides cat picture services.

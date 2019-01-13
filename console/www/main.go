@@ -12,7 +12,7 @@ import (
 	"sync"
 
 	"github.com/gobuffalo/plush"
-	"github.com/matryer/remoto/generator"
+	"github.com/machinebox/remoto/generator"
 	"github.com/oxtoacart/bpool"
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/datastore"

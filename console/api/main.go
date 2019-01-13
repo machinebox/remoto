@@ -12,8 +12,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/matryer/remoto/generator"
-	"github.com/matryer/remoto/generator/definition"
+	"github.com/machinebox/remoto/generator"
+	"github.com/machinebox/remoto/generator/definition"
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/log"
 )
