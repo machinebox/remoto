@@ -19,10 +19,16 @@ type Server struct {
 	// OnErr is called when there has been a system level error,
 	// like encoding/decoding.
 	OnErr func(w http.ResponseWriter, r *http.Request, err error)
+}
 
-	// NewClient gets a new http.Client. By default,
-	// returns http.DefaultClient.
-	NewClient func() *http.Client
+// NewServer makes a new Server.
+func NewServer(client *http.Client) *Server {
+	return &Server{
+		NotFound: http.NotFoundHandler(),
+		OnErr: func(w http.ResponseWriter, r *http.Request, err error) {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		},
+	}
 }
 
 // Register registers the path with the http.Handler.
@@ -73,7 +79,7 @@ func (srv *Server) Describe(w io.Writer) error {
 	return err
 }
 
-// Error is an error wrapper for repsonses.
+// Error is an error wrapper for responses.
 type Error struct {
 	Err error `json:"error"`
 }
