@@ -22,7 +22,7 @@ type Server struct {
 }
 
 // NewServer makes a new Server.
-func NewServer(client *http.Client) *Server {
+func NewServer() *Server {
 	return &Server{
 		NotFound: http.NotFoundHandler(),
 		OnErr: func(w http.ResponseWriter, r *http.Request, err error) {
