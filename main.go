@@ -18,8 +18,6 @@ var rootCmd = &cobra.Command{
 	Use:   "remoto",
 	Short: "Remoto is a complete RPC solution with a very simple design.",
 	Long:  `Remoto is a complete RPC solution with a very simple design.`,
-	Run: func(cmd *cobra.Command, args []string) {
-
-	},
-	Args: cobra.MinimumNArgs(1),
+	Run:   func(cmd *cobra.Command, args []string) {},
+	Args:  cobra.MinimumNArgs(1),
 }

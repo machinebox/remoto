@@ -17,6 +17,7 @@ func init() {
 		Use:   "generate definition template",
 		Short: "Generate source code from a template and remoto definition.",
 		Args:  cobra.ExactArgs(2),
+
 		Run: func(cmd *cobra.Command, args []string) {
 			definition := args[0]
 			template := args[1]
