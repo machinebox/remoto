@@ -23,39 +23,54 @@ export class <%= service.Name %>ClientOptions {
 
 <%= print_comment(service.Comment) %>export class <%= service.Name %>Client {
 	constructor(options) {
-		this.options = options
+		this.options = options || new <%= service.Name %>ClientOptions()
 	}
 	<%= for (method) in service.Methods { %>
-	<%= print_comment(method.Comment) %><%= method.Name %>(<%= camelize_down_first(method.RequestStructure.Name) %> = null) {
-		return this.<%= method.Name %>Multi([<%= camelize_down_first(method.RequestStructure.Name) %>]).then(function(responses) {
+	<%= print_comment(method.Comment) %><%= camelize_down_first(method.Name) %>(<%= camelize_down_first(method.RequestStructure.Name) %> = null) {
+		if (<%= camelize_down_first(method.RequestStructure.Name) %> == null) {
+			<%= camelize_down_first(method.RequestStructure.Name) %> = new <%= method.RequestStructure.Name %>() // empty request by default is ok
+		}
+		return this.<%= camelize_down_first(method.Name) %>Multi([<%= camelize_down_first(method.RequestStructure.Name) %>]).then(function(responses) {
 			return responses[0]
 		})
 	}
 
 	// <%= method.Name %>Multi is the batch version of <%= method.Name %>.
-	<%= method.Name %>Multi(<%= camelize_down_first(method.RequestStructure.Name) %>s) {
+	<%= camelize_down_first(method.Name) %>Multi(<%= camelize_down_first(method.RequestStructure.Name) %>s) {
+		if (<%= camelize_down_first(method.RequestStructure.Name) %>s == null) {
+			throw new Error('<%= service.Name %>Client.<%= camelize_down_first(method.Name) %>Multi: <%= camelize_down_first(method.RequestStructure.Name) %>s cannot be empty')
+		}
 		var data = new FormData()
 		<%= camelize_down_first(method.RequestStructure.Name) %>s.forEach(function(request){
 			if (request && !request instanceof <%= method.RequestStructure.Name %>) {
-				throw '<%= service.Name %>Client.<%= method.Name %>: requests must be instances of <%= method.RequestStructure.Name %>'
+				throw '<%= service.Name %>Client.<%= camelize_down_first(method.Name) %>Multi: requests must be instances of <%= method.RequestStructure.Name %>'
 			}
-			let allfiles = request.allFiles()
-			allfiles.forEach(function(fieldname) {
-				data.set(fieldname, allfiles[fieldname])
+			Object.keys(request.allFiles).forEach(function(fieldname) {
+				data.set(fieldname, request.allFiles[fieldname])
 			})
 		})
 		data.set('json', JSON.stringify(<%= camelize_down_first(method.RequestStructure.Name) %>s))
-		return fetch(this.options.endpoint() + '/remoto/<%= service.Name %>.<%= method.Name %>', {
-			method: 'post', body: data,
-			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
+		return fetch(this.options.endpoint + '/remoto/<%= service.Name %>.<%= method.Name %>', {
+			method: 'post', data: data,
+			headers: {
+				'Content-Type': 'multipart/form-data',
+				'Accept':'application/json',
+			}
 		}).then(function(responseData){ // success
-			var responses = []
-			responseData.json().forEach(function(response){
-				responses.push(new <%= method.ResponseStructure.Name %>(response))
-			})
-			return responses
+			return responseData.json().then(
+				json => {
+					var responses = []
+					json.forEach(response => {
+						responses.push(new GetRoutesResponse(response))
+					})
+					return responses
+				},
+				error => {
+					throw error
+				}
+			)
 		}, function(error){ // error
-			throw '<%= service.Name %>Client.<%= method.Name %>: ' + error.message
+			throw new Error('<%= service.Name %>Client.<%= camelize_down_first(method.Name) %>Multi: ' + error.message)
 		})
 	}
 	<% } %>
@@ -84,7 +99,7 @@ export class <%= service.Name %>ClientOptions {
 	get filesCount() { return _filesCount }
 	<% } %>
 	// toJSON gets a JSON string describing this object.
-	toJSON() { return JSON.stringify(this._data) }
+	toJSON() { return this._data }
 <%= for (field) in structure.Fields { %>
 	get <%= camelize_down_first(field.Name) %>() { return this._data.<%= underscore(field.Name) %> }
 	<%= if (field.Type.Name == "remototypes.File") { %>set<%= field.Name %>(request, filename, <%= underscore(field.Name) %>) { this._data.<%= underscore(field.Name) %> = request.addFile(filename, <%= underscore(field.Name) %>) }<% } %>
