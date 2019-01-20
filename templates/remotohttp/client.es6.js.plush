@@ -103,6 +103,13 @@ export class <%= service.Name %>ClientOptions {
 <%= for (field) in structure.Fields { %>
 	get <%= camelize_down_first(field.Name) %>() { return this._data.<%= underscore(field.Name) %> }
 	<%= if (field.Type.Name == "remototypes.File") { %>set<%= field.Name %>(request, filename, <%= underscore(field.Name) %>) { this._data.<%= underscore(field.Name) %> = request.addFile(filename, <%= underscore(field.Name) %>) }<% } %>
-	<%= if (!structure.IsResponseObject && field.Type.Name != "remototypes.File") { %>set <%= camelize_down_first(field.Name) %>(<%= underscore(field.Name) %>) { this._data.<%= underscore(field.Name) %> = <%= underscore(field.Name) %> }<% } %><% } %>
+	<%= if (!structure.IsResponseObject && field.Type.Name != "remototypes.File") { %>set <%= camelize_down_first(field.Name) %>(<%= underscore(field.Name) %>) { 
+		<%= if (field.Type.IsStruct) { %>
+		if (!<%= camelize_down_first(field.Name) %> instanceof <%= field.Type.Name %>) {
+			throw '<%= structure.Name %>: <%= camelize_down_first(field.Name) %> should be of type <%= field.Type.Name %>'
+		}
+		<% } %>
+		this._data.<%= underscore(field.Name) %> = <%= underscore(field.Name) %>
+	}<% } %><% } %>
 }
 <% } %>
