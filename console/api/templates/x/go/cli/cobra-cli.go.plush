@@ -9,8 +9,8 @@ import (
 
 func main() {
 
-	<%= for (service) in def.Services { %><%= for (method) in service.Methods { %><%= camelize_down_first(service.Name) %>Cmd.AddCommand(<%= camelize_down_first(service.Name) %><%= method.Name %>Cmd)
-	<% } %>rootCmd.AddCommand(<%= camelize_down_first(service.Name) %>Cmd)
+	<%= for (service) in def.Services { %><%= for (method) in service.Methods { %><%= camelize_down(service.Name) %>Cmd.AddCommand(<%= camelize_down(service.Name) %><%= method.Name %>Cmd)
+	<% } %>rootCmd.AddCommand(<%= camelize_down(service.Name) %>Cmd)
 	
 	<% } %>
 	if err := rootCmd.Execute(); err != nil {
@@ -30,9 +30,9 @@ var rootCmd = &cobra.Command{
 }
 
 <%= for (service) in def.Services { %>
-// <%= camelize_down_first(service.Name) %>Cmd is the service command for 
+// <%= camelize_down(service.Name) %>Cmd is the service command for 
 // information.
-var <%= camelize_down_first(service.Name) %>Cmd = &cobra.Command{
+var <%= camelize_down(service.Name) %>Cmd = &cobra.Command{
 	Use:   "<%= def.PackageName %> <%= service.Name %> method [data]",
 	Short: "<%= service.Comment %>",
 	Long:  `<%= service.Comment %>`,
@@ -42,8 +42,8 @@ var <%= camelize_down_first(service.Name) %>Cmd = &cobra.Command{
 }
 
 <%= for (method) in service.Methods { %>
-// <%= camelize_down_first(service.Name) %><%= method.Name %>Cmd is the method.
-var <%= camelize_down_first(service.Name) %><%= method.Name %>Cmd = &cobra.Command{
+// <%= camelize_down(service.Name) %><%= method.Name %>Cmd is the method.
+var <%= camelize_down(service.Name) %><%= method.Name %>Cmd = &cobra.Command{
 	Use:   "<%= def.PackageName %> <%= service.Name %> <%= method.Name %> [data]",
 	Short: "<%= method.Comment %>",
 	Long:  `<%= method.Comment %>`,

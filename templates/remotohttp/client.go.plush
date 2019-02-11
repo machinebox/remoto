@@ -163,7 +163,7 @@ func (c *<%= service.Name %>Client) <%= method.Name %>Multi(ctx context.Context,
 <%= for (structure) in unique_structures(def) { %>
 <%= print_comment(structure.Comment) %>type <%= structure.Name %> struct {
 	<%= for (field) in structure.Fields { %>
-	<%= print_comment(field.Comment) %><%= field.Name %> <%= go_type_string(field.Type) %> `json:"<%= camelize_down_first(field.Name) %>"`<% } %>
+	<%= print_comment(field.Comment) %><%= field.Name %> <%= go_type_string(field.Type) %> `json:"<%= camelize_down(field.Name) %>"`<% } %>
 }
 
 <%= for (field) in structure.Fields { %>

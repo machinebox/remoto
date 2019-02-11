@@ -32,10 +32,10 @@ import (
 
 // Run is the simplest way to run the services.
 func Run(addr string,
-<%= for (service) in def.Services { %>	<%= camelize_down_first(service.Name) %> <%= service.Name %>,
+<%= for (service) in def.Services { %>	<%= camelize_down(service.Name) %> <%= service.Name %>,
 <% } %>) error {
 	server := New(
-<%= for (service) in def.Services { %>		<%= camelize_down_first(service.Name) %>,
+<%= for (service) in def.Services { %>		<%= camelize_down(service.Name) %>,
 <% } %>	)
 	if err := server.Describe(os.Stdout); err != nil {
 		return errors.Wrap(err, "describe service")
@@ -49,7 +49,7 @@ func Run(addr string,
 // New makes a new remotohttp.Server with the specified services
 // registered.
 func New(
-<%= for (service) in def.Services { %>	<%= camelize_down_first(service.Name) %> <%= service.Name %>,
+<%= for (service) in def.Services { %>	<%= camelize_down(service.Name) %> <%= service.Name %>,
 <% } %>) *remotohttp.Server {
 	server := &remotohttp.Server{
 		OnErr: func(w http.ResponseWriter, r *http.Request, err error) {
@@ -59,7 +59,7 @@ func New(
 		NotFound: http.NotFoundHandler(),
 	}
 	<%= for (service) in def.Services { %>
-	Register<%= service.Name %>Server(server, <%= camelize_down_first(service.Name) %>)<% } %>
+	Register<%= service.Name %>Server(server, <%= camelize_down(service.Name) %>)<% } %>
 	return server
 }
 

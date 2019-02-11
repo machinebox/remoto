@@ -26,30 +26,30 @@ export class <%= service.Name %>ClientOptions {
 		this.options = options || new <%= service.Name %>ClientOptions()
 	}
 	<%= for (method) in service.Methods { %>
-	<%= print_comment(method.Comment) %><%= camelize_down_first(method.Name) %>(<%= camelize_down_first(method.RequestStructure.Name) %> = null) {
-		if (<%= camelize_down_first(method.RequestStructure.Name) %> == null) {
-			<%= camelize_down_first(method.RequestStructure.Name) %> = new <%= method.RequestStructure.Name %>() // empty request by default is ok
+	<%= print_comment(method.Comment) %><%= camelize_down(method.Name) %>(<%= camelize_down(method.RequestStructure.Name) %> = null) {
+		if (<%= camelize_down(method.RequestStructure.Name) %> == null) {
+			<%= camelize_down(method.RequestStructure.Name) %> = new <%= method.RequestStructure.Name %>() // empty request by default is ok
 		}
-		return this.<%= camelize_down_first(method.Name) %>Multi([<%= camelize_down_first(method.RequestStructure.Name) %>]).then(function(responses) {
+		return this.<%= camelize_down(method.Name) %>Multi([<%= camelize_down(method.RequestStructure.Name) %>]).then(function(responses) {
 			return responses[0]
 		})
 	}
 
 	// <%= method.Name %>Multi is the batch version of <%= method.Name %>.
-	<%= camelize_down_first(method.Name) %>Multi(<%= camelize_down_first(method.RequestStructure.Name) %>s) {
-		if (<%= camelize_down_first(method.RequestStructure.Name) %>s == null) {
-			throw new Error('<%= service.Name %>Client.<%= camelize_down_first(method.Name) %>Multi: <%= camelize_down_first(method.RequestStructure.Name) %>s cannot be empty')
+	<%= camelize_down(method.Name) %>Multi(<%= camelize_down(method.RequestStructure.Name) %>s) {
+		if (<%= camelize_down(method.RequestStructure.Name) %>s == null) {
+			throw new Error('<%= service.Name %>Client.<%= camelize_down(method.Name) %>Multi: <%= camelize_down(method.RequestStructure.Name) %>s cannot be empty')
 		}
 		var data = new FormData()
-		<%= camelize_down_first(method.RequestStructure.Name) %>s.forEach(function(request){
+		<%= camelize_down(method.RequestStructure.Name) %>s.forEach(function(request){
 			if (request && !request instanceof <%= method.RequestStructure.Name %>) {
-				throw '<%= service.Name %>Client.<%= camelize_down_first(method.Name) %>Multi: requests must be instances of <%= method.RequestStructure.Name %>'
+				throw '<%= service.Name %>Client.<%= camelize_down(method.Name) %>Multi: requests must be instances of <%= method.RequestStructure.Name %>'
 			}
 			Object.keys(request.allFiles).forEach(function(fieldname) {
 				data.set(fieldname, request.allFiles[fieldname])
 			})
 		})
-		data.set('json', JSON.stringify(<%= camelize_down_first(method.RequestStructure.Name) %>s))
+		data.set('json', JSON.stringify(<%= camelize_down(method.RequestStructure.Name) %>s))
 		return fetch(this.options.endpoint + '/remoto/<%= service.Name %>.<%= method.Name %>', {
 			method: 'post', data: data,
 			headers: {
@@ -70,7 +70,7 @@ export class <%= service.Name %>ClientOptions {
 				}
 			)
 		}, function(error){ // error
-			throw new Error('<%= service.Name %>Client.<%= camelize_down_first(method.Name) %>Multi: ' + error.message)
+			throw new Error('<%= service.Name %>Client.<%= camelize_down(method.Name) %>Multi: ' + error.message)
 		})
 	}
 	<% } %>
@@ -101,12 +101,12 @@ export class <%= service.Name %>ClientOptions {
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return this._data }
 <%= for (field) in structure.Fields { %>
-	get <%= camelize_down_first(field.Name) %>() { return this._data.<%= underscore(field.Name) %> }
+	get <%= camelize_down(field.Name) %>() { return this._data.<%= underscore(field.Name) %> }
 	<%= if (field.Type.Name == "remototypes.File") { %>set<%= field.Name %>(request, filename, <%= underscore(field.Name) %>) { this._data.<%= underscore(field.Name) %> = request.addFile(filename, <%= underscore(field.Name) %>) }<% } %>
-	<%= if (!structure.IsResponseObject && field.Type.Name != "remototypes.File") { %>set <%= camelize_down_first(field.Name) %>(<%= underscore(field.Name) %>) { 
+	<%= if (!structure.IsResponseObject && field.Type.Name != "remototypes.File") { %>set <%= camelize_down(field.Name) %>(<%= underscore(field.Name) %>) { 
 		<%= if (field.Type.IsStruct) { %>
-		if (!<%= camelize_down_first(field.Name) %> instanceof <%= field.Type.Name %>) {
-			throw '<%= structure.Name %>: <%= camelize_down_first(field.Name) %> should be of type <%= field.Type.Name %>'
+		if (!<%= camelize_down(field.Name) %> instanceof <%= field.Type.Name %>) {
+			throw '<%= structure.Name %>: <%= camelize_down(field.Name) %> should be of type <%= field.Type.Name %>'
 		}
 		<% } %>
 		this._data.<%= underscore(field.Name) %> = <%= underscore(field.Name) %>

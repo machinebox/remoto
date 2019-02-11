@@ -13,8 +13,8 @@
 	}
 	<%= for (method) in service.Methods { %><%= print_comment(method.Comment) %><%= if (method.RequestStructure.HasFields) { %>
 	// Must pass in an instance of $.<%= def.PackageName %>.<%= method.RequestStructure.Name %>.
-	$.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %> = function(<%= camelize_down_first(method.RequestStructure.Name) %>) {
-		return this.<%= method.Name %>Multi([<%= camelize_down_first(method.RequestStructure.Name) %>])
+	$.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %> = function(<%= camelize_down(method.RequestStructure.Name) %>) {
+		return this.<%= method.Name %>Multi([<%= camelize_down(method.RequestStructure.Name) %>])
 			.then(function(responses){
 				return responses[0]
 			})
@@ -23,9 +23,9 @@
 	// $.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %>Multi is a batch
 	// version of $.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %>.
 	// Pass in an array of request objects, and get back an array of response objects.
-	$.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %>Multi = function(<%= camelize_down_first(method.RequestStructure.Name) %>s) {
+	$.<%= def.PackageName %>.<%= service.Name %>Client.prototype.<%= method.Name %>Multi = function(<%= camelize_down(method.RequestStructure.Name) %>s) {
 		<%= if (method.ResponseStructure.Name == "remototypes.FileResponse") { %>
-		if (<%= camelize_down_first(method.RequestStructure.Name) %>s.length > 1) {
+		if (<%= camelize_down(method.RequestStructure.Name) %>s.length > 1) {
 			throw '$.<%= def.PackageName %>.<%= service.Name %>Client.<%= method.Name %>Multi: batch requests are not supported for file responses, use $.<%= def.PackageName %>.<%= service.Name %>Client.<%= method.Name %> instead.'
 		}<% } %>var filesCount = 0
 		var formData = new FormData()
@@ -67,21 +67,21 @@
 	}
 	<% } %>
 	<%= for (field) in structure.Fields { %>
-	// get<%= field.Name %> gets the <%= camelize_down_first(field.Name) %> from this object.
+	// get<%= field.Name %> gets the <%= camelize_down(field.Name) %> from this object.
 	$.<%= def.PackageName %>.<%= structure.Name %>.prototype.get<%= field.Name %> = function() {
-		return this.data.<%= camelize_down_first(field.Name) %>
+		return this.data.<%= camelize_down(field.Name) %>
 	}
 	<%= if (!structure.IsResponseObject) { %>
 	<%= if (field.Type.Name == "remototypes.File") { %>
-	// set<%= field.Name %> sets the <%= camelize_down_first(field.Name) %> on this object.
+	// set<%= field.Name %> sets the <%= camelize_down(field.Name) %> on this object.
 	// The root request must also be provided so it can be informed of the file.
-	$.<%= def.PackageName %>.<%= structure.Name %>.prototype.set<%= field.Name %> = function(request, <%= camelize_down_first(field.Name) %>) {
-		this.data.<%= camelize_down_first(field.Name) %> = request._addFile(<%= camelize_down_first(field.Name) %>)
+	$.<%= def.PackageName %>.<%= structure.Name %>.prototype.set<%= field.Name %> = function(request, <%= camelize_down(field.Name) %>) {
+		this.data.<%= camelize_down(field.Name) %> = request._addFile(<%= camelize_down(field.Name) %>)
 	}
 	<% } else { %>
-	// set<%= field.Name %> sets the <%= camelize_down_first(field.Name) %> on this object.
-	$.<%= def.PackageName %>.<%= structure.Name %>.prototype.set<%= field.Name %> = function(<%= camelize_down_first(field.Name) %>) {
-		this.data.<%= camelize_down_first(field.Name) %> = <%= camelize_down_first(field.Name) %>
+	// set<%= field.Name %> sets the <%= camelize_down(field.Name) %> on this object.
+	$.<%= def.PackageName %>.<%= structure.Name %>.prototype.set<%= field.Name %> = function(<%= camelize_down(field.Name) %>) {
+		this.data.<%= camelize_down(field.Name) %> = <%= camelize_down(field.Name) %>
 	}<% } %><% } %>
 	<% } %><% } %><% } %>
 	// _filesCount keeps track of the number of files being added, and is used

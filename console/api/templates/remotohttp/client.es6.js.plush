@@ -26,16 +26,16 @@ export class <%= service.Name %>ClientOptions {
 		this.options = options
 	}
 	<%= for (method) in service.Methods { %>
-	<%= print_comment(method.Comment) %><%= method.Name %>(<%= camelize_down_first(method.RequestStructure.Name) %> = null) {
-		return this.<%= method.Name %>Multi([<%= camelize_down_first(method.RequestStructure.Name) %>]).then(function(responses) {
+	<%= print_comment(method.Comment) %><%= method.Name %>(<%= camelize_down(method.RequestStructure.Name) %> = null) {
+		return this.<%= method.Name %>Multi([<%= camelize_down(method.RequestStructure.Name) %>]).then(function(responses) {
 			return responses[0]
 		})
 	}
 
 	// <%= method.Name %>Multi is the batch version of <%= method.Name %>.
-	<%= method.Name %>Multi(<%= camelize_down_first(method.RequestStructure.Name) %>s) {
+	<%= method.Name %>Multi(<%= camelize_down(method.RequestStructure.Name) %>s) {
 		var data = new FormData()
-		<%= camelize_down_first(method.RequestStructure.Name) %>s.forEach(function(request){
+		<%= camelize_down(method.RequestStructure.Name) %>s.forEach(function(request){
 			if (request && !request instanceof <%= method.RequestStructure.Name %>) {
 				throw '<%= service.Name %>Client.<%= method.Name %>: requests must be instances of <%= method.RequestStructure.Name %>'
 			}
@@ -44,7 +44,7 @@ export class <%= service.Name %>ClientOptions {
 				data.set(fieldname, allfiles[fieldname])
 			})
 		})
-		data.set('json', JSON.stringify(<%= camelize_down_first(method.RequestStructure.Name) %>s))
+		data.set('json', JSON.stringify(<%= camelize_down(method.RequestStructure.Name) %>s))
 		return fetch(this.options.endpoint() + '/remoto/<%= service.Name %>.<%= method.Name %>', {
 			method: 'post', body: data,
 			headers: {'Content-Type': 'multipart/form-data', 'Accept':'application/json'}
@@ -86,8 +86,8 @@ export class <%= service.Name %>ClientOptions {
 	// toJSON gets a JSON string describing this object.
 	toJSON() { return JSON.stringify(this._data) }
 <%= for (field) in structure.Fields { %>
-	get <%= camelize_down_first(field.Name) %>() { return this._data.<%= underscore(field.Name) %> }
+	get <%= camelize_down(field.Name) %>() { return this._data.<%= underscore(field.Name) %> }
 	<%= if (field.Type.Name == "remototypes.File") { %>set<%= field.Name %>(request, filename, <%= underscore(field.Name) %>) { this._data.<%= underscore(field.Name) %> = request.addFile(filename, <%= underscore(field.Name) %>) }<% } %>
-	<%= if (!structure.IsResponseObject && field.Type.Name != "remototypes.File") { %>set <%= camelize_down_first(field.Name) %>(<%= underscore(field.Name) %>) { this._data.<%= underscore(field.Name) %> = <%= underscore(field.Name) %> }<% } %><% } %>
+	<%= if (!structure.IsResponseObject && field.Type.Name != "remototypes.File") { %>set <%= camelize_down(field.Name) %>(<%= underscore(field.Name) %>) { this._data.<%= underscore(field.Name) %> = <%= underscore(field.Name) %> }<% } %><% } %>
 }
 <% } %>

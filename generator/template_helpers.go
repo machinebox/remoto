@@ -21,7 +21,7 @@ func AddTemplateHelpers(s Setter) {
 	s.Set("print_comment", printComment)
 	s.Set("go_type_string", goTypeString)
 	s.Set("underscore", underscore)
-	s.Set("camelize_down_first", camelizeDownFirst)
+	s.Set("camelize_down", camelizeDownFirst)
 
 	// experimental (undocumented)
 	s.Set("replace", replace)
