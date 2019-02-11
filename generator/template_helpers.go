@@ -8,6 +8,8 @@ import (
 	"github.com/markbates/inflect"
 )
 
+var defaultRuleset = inflect.NewDefaultRuleset()
+
 // Setter may have data set on it, usually a plush context.
 type Setter interface {
 	Set(name string, value interface{})
@@ -28,13 +30,19 @@ func AddTemplateHelpers(s Setter) {
 // underscore converts a type name or other string into an underscored
 // version. For example, "ModelID" becomes "model_id".
 func underscore(s string) string {
-	return inflect.Underscore(s)
+	return defaultRuleset.Underscore(s)
 }
 
 // camelizeDownFirst converts a name or other string into a camel case
 // version with the first letter lowercase. "ModelID" becomes "modelID".
 func camelizeDownFirst(s string) string {
-	return inflect.CamelizeDownFirst(s)
+	if s == "ID" {
+		return "id"
+		// note: not sure why I need this, there's a lot that deals with
+		// accronyms in the dependency packages but they don't seem to behave
+		// as expected in this case.
+	}
+	return defaultRuleset.CamelizeDownFirst(s)
 }
 
 // uniqueStructures gets all unique Structure types from all services.

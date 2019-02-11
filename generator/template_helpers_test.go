@@ -95,6 +95,7 @@ func TestUnderscore(t *testing.T) {
 	is.Equal(underscore("Hello There"), `hello_there`)
 	is.Equal(underscore("SomethingElse"), `something_else`)
 	is.Equal(underscore("ModelID"), `model_id`)
+	is.Equal(underscore("ID"), `id`)
 }
 
 func TestCamelizeDownFirst(t *testing.T) {
@@ -103,6 +104,7 @@ func TestCamelizeDownFirst(t *testing.T) {
 	is.Equal(camelizeDownFirst("Hello There"), `helloThere`)
 	is.Equal(camelizeDownFirst("SomethingElse"), `somethingElse`)
 	is.Equal(camelizeDownFirst("ModelID"), `modelID`)
+	is.Equal(camelizeDownFirst("ID"), `id`)
 }
 
 func TestReplace(t *testing.T) {
