@@ -335,7 +335,7 @@ func parseType(def *definition.Definition, typ types.Type) (definition.Type, err
 		}
 	}
 	switch ty.Name {
-	case "string", "float64", "int", "bool", "io.Reader",
+	case "interface{}", "string", "float64", "int", "bool", "io.Reader",
 		"remototypes.File":
 		return ty, nil
 	}
